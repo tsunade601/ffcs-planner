@@ -174,8 +174,12 @@ const SLOT_MAP = {
 };
 
 const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
-const TIME_SLOTS = ['08:00', '09:00', '10:00', '11:00', '12:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
-const TIME_LABELS = ['8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM'];
+// Theory slots: 5 morning + 1 empty + 5 afternoon = 11 columns after day label
+// Lab slots: 6 morning + 6 afternoon = 12 columns after day label
+const THEORY_TIME_SLOTS = ['08:00', '08:55', '09:50', '10:45', '11:40', 'BREAK', '14:00', '14:55', '15:50', '16:45', '17:40'];
+const THEORY_TIME_LABELS = ['08:00 AM<br>to<br>08:50 AM', '08:55 AM<br>to<br>09:45 AM', '09:50 AM<br>to<br>10:40 AM', '10:45 AM<br>to<br>11:35 AM', '11:40 AM<br>to<br>12:30 PM', '', '02:00 PM<br>to<br>02:50 PM', '02:55 PM<br>to<br>03:45 PM', '03:50 PM<br>to<br>04:40 PM', '04:45 PM<br>to<br>05:35 PM', '05:40 PM<br>to<br>06:30 PM'];
+const LAB_TIME_SLOTS = ['08:00', '08:50', '09:50', '10:40', '11:40', '12:30', '14:00', '14:50', '15:50', '16:40', '17:40', '18:30'];
+const LAB_TIME_LABELS = ['08:00 AM<br>to<br>08:50 AM', '08:50 AM<br>to<br>09:40 AM', '09:50 AM<br>to<br>10:40 AM', '10:40 AM<br>to<br>11:30 AM', '11:40 AM<br>to<br>12:30 PM', '12:30 PM<br>to<br>01:20 PM', '02:00 PM<br>to<br>02:50 PM', '02:50 PM<br>to<br>03:40 PM', '03:50 PM<br>to<br>04:40 PM', '04:40 PM<br>to<br>05:30 PM', '05:40 PM<br>to<br>06:30 PM', '06:30 PM<br>to<br>07:20 PM'];
 
 // Color palette for courses
 const COLORS = [
@@ -281,6 +285,30 @@ function timeToRow(timeStr) {
     return Math.floor((totalMinutes - startMinutes) / 60);
 }
 
+// Convert theory slot time to row index (accounting for BREAK at position 5)
+// THEORY_TIME_SLOTS = ['08:00', '08:55', '09:50', '10:45', '11:40', 'BREAK', '14:00', '14:55', '15:50', '16:45', '17:40']
+// Row indices:          0        1        2        3        4         5       6        7        8        9        10
+function theoryTimeToRow(timeStr) {
+    const [hours, minutes] = timeStr.split(':').map(Number);
+    const totalMinutes = hours * 60 + minutes;
+    
+    // Map specific times to their correct row indices
+    const timeToRowMap = {
+        '08:00': 0,
+        '08:55': 1,
+        '09:50': 2,
+        '10:45': 3,
+        '11:40': 4,
+        '14:00': 6,
+        '14:55': 7,
+        '15:50': 8,
+        '16:45': 9,
+        '17:40': 10
+    };
+    
+    return timeToRowMap[timeStr] !== undefined ? timeToRowMap[timeStr] : -1;
+}
+
 function dayToCol(day) {
     return DAYS.indexOf(day);
 }
@@ -349,18 +377,22 @@ function removeCourse(index) {
 function renderTimetable() {
     const container = document.getElementById('timetable');
 
-    // Build grid: header row + time rows
+    // Build grid: header row + time rows (Theory format matching the provided table)
     let html = '';
 
-    // Header row
+    // Header row - TIME label
     html += `<div class="time-slot p-3 font-mono text-xs font-bold">TIME</div>`;
     DAYS.forEach(day => {
         html += `<div class="day-header p-3 text-center">${day}</div>`;
     });
 
-    // Time rows
-    TIME_SLOTS.forEach((time, i) => {
-        html += `<div class="time-slot p-3 font-mono text-xs">${TIME_LABELS[i]}</div>`;
+    // Theory time slots with proper formatting
+    THEORY_TIME_SLOTS.forEach((time, i) => {
+        if (time === 'BREAK') {
+            // Skip lunch break in the grid but keep alignment
+            return;
+        }
+        html += `<div class="time-slot p-3 font-mono text-xs leading-tight">${THEORY_TIME_LABELS[i]}</div>`;
         DAYS.forEach(day => {
             html += `<div class="cell" data-day="${day}" data-time="${time}"></div>`;
         });
@@ -373,10 +405,15 @@ function renderTimetable() {
         const timings = getSlotTimings(course.slot);
         timings.forEach(timing => {
             const col = dayToCol(timing.day);
-            const row = timeToRow(timing.start);
-            if (col >= 0 && row >= 0 && row < TIME_SLOTS.length) {
+            const row = theoryTimeToRow(timing.start);
+            if (col >= 0 && row >= 0 && row <= 10) { // Valid row range (0-10, excluding BREAK at 5)
                 const cells = container.querySelectorAll('.cell');
-                const cell = cells[row * 5 + col];
+                // Adjust index: rows 6-10 need to account for the skipped BREAK row
+                let adjustedRow = row;
+                if (row > 5) {
+                    adjustedRow = row - 1; // Subtract 1 because BREAK row is not rendered
+                }
+                const cell = cells[adjustedRow * 5 + col];
                 if (cell) {
                     const colorClass = getCourseColor(courseIdx);
                     cell.innerHTML = `

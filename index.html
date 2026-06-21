@@ -14,7 +14,9 @@
 
         .timetable-grid {
             display: grid;
-            grid-template-columns: 70px repeat(5, 1fr);
+            /* 1 column for time labels + 5 columns for days */
+            /* Theory has 10 time slots (5 morning + 5 afternoon) with lunch break between */
+            grid-template-columns: 120px repeat(5, 1fr);
             gap: 3px;
             background: #27272a;
             padding: 4px;
@@ -35,12 +37,13 @@
             background: #18181b;
             color: #71717a;
             padding: 12px 8px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             text-align: right;
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: flex-end;
+            line-height: 1.3;
         }
 
         .cell {
