@@ -1,0 +1,682 @@
+[
+  {
+    "code": "BCSE316L",
+    "title": "Design of Smart cities",
+    "slot": "F1+TF1",
+    "faculty": "SUSEELA S",
+    "credits": 3,
+    "type": "Theory"
+  },
+  {
+    "code": "BCSE316L",
+    "title": "Design of Smart cities",
+    "slot": "F2+TF2",
+    "faculty": "VALLIDEVI K",
+    "credits": 3,
+    "type": "Theory"
+  },
+  {
+    "code": "BCSE316L",
+    "title": "Design of Smart cities",
+    "slot": "F2+TF2",
+    "faculty": "SUSEELA S",
+    "credits": 3,
+    "type": "Theory"
+  },
+  {
+    "code": "BCSE409L",
+    "title": "Natural Language Processing",
+    "slot": "F1+TF1",
+    "faculty": "KRITHIGA R",
+    "credits": 3,
+    "type": "Theory"
+  },
+  {
+    "code": "BCSE409L",
+    "title": "Natural Language Processing",
+    "slot": "F2+TF2",
+    "faculty": "VIJAYAPRABAKARAN K",
+    "credits": 3,
+    "type": "Theory"
+  },
+  {
+    "code": "BCSE409L",
+    "title": "Natural Language Processing",
+    "slot": "F2+TF2",
+    "faculty": "JANAKI MEENA M",
+    "credits": 3,
+    "type": "Theory"
+  },
+  {
+    "code": "BCSE410L",
+    "title": "Cyber Security",
+    "slot": "F1+TF1",
+    "faculty": "JAYASUDHA M",
+    "credits": 3,
+    "type": "Theory"
+  },
+  {
+    "code": "BCSE410L",
+    "title": "Cyber Security",
+    "slot": "F1+TF1",
+    "faculty": "VIJAYAKUMAR K P",
+    "credits": 3,
+    "type": "Theory"
+  },
+  {
+    "code": "BCSE410L",
+    "title": "Cyber Security",
+    "slot": "F2+TF2",
+    "faculty": "SUBBULAKSHMI T",
+    "credits": 3,
+    "type": "Theory"
+  },
+  {
+    "code": "BHSM200L",
+    "title": "HSM Elective",
+    "slot": "F1+TF1",
+    "faculty": "TBA",
+    "credits": 3,
+    "type": "Theory"
+  },
+  {
+    "code": "BHSM200L",
+    "title": "HSM Elective",
+    "slot": "F2+TF2",
+    "faculty": "TBA",
+    "credits": 3,
+    "type": "Theory"
+  },
+  {
+    "code": "BMAT205L",
+    "title": "Discrete Mathematics and Graph Theory",
+    "slot": "C1+TC1+TCC1",
+    "faculty": "TBA",
+    "credits": 3,
+    "type": "Theory"
+  },
+  {
+    "code": "BMAT205L",
+    "title": "Discrete Mathematics and Graph Theory",
+    "slot": "C2+TC2+TCC2",
+    "faculty": "TBA",
+    "credits": 3,
+    "type": "Theory"
+  },
+  {
+    "code": "BCSE204L/P",
+    "title": "Design and Analysis of Algorithm",
+    "slot": "A1+TA1+L11+L12",
+    "faculty": "KALAIPRIYAN",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE204L/P",
+    "title": "Design and Analysis of Algorithm",
+    "slot": "A1+TA1+L11+L12",
+    "faculty": "SAKTHIVEL R",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE204L/P",
+    "title": "Design and Analysis of Algorithm",
+    "slot": "A1+TA1+L11+L12",
+    "faculty": "JEIPRATHA P N",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE204L/P",
+    "title": "Design and Analysis of Algorithm",
+    "slot": "A1+TA1+L11+L12",
+    "faculty": "K UMA MAHESWARI",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE204L/P",
+    "title": "Design and Analysis of Algorithm",
+    "slot": "A1+TA1+L39+L40",
+    "faculty": "JOSHUA SUNDER DAVID REDDIPOGU",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE204L/P",
+    "title": "Design and Analysis of Algorithm",
+    "slot": "A1+TA1+L39+L40",
+    "faculty": "SUDHA C",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE204L/P",
+    "title": "Design and Analysis of Algorithm",
+    "slot": "A2+TA2+L19+L20",
+    "faculty": "JOSHUA SUNDER DAVID REDDIPOGU",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE204L/P",
+    "title": "Design and Analysis of Algorithm",
+    "slot": "A2+TA2+L19+L20",
+    "faculty": "SUDHA C",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE204L/P",
+    "title": "Design and Analysis of Algorithm",
+    "slot": "A2+TA2+L3+L4",
+    "faculty": "KALAIPRIYAN",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE204L/P",
+    "title": "Design and Analysis of Algorithm",
+    "slot": "A2+TA2+L3+L4",
+    "faculty": "JEIPRATHA P N",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE204L/P",
+    "title": "Design and Analysis of Algorithm",
+    "slot": "A2+TA2+L7+L8",
+    "faculty": "SAKTHIVEL R",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE204L/P",
+    "title": "Design and Analysis of Algorithm",
+    "slot": "A2+TA2+L7+L8",
+    "faculty": "K UMA MAHESWARI",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE302L/P",
+    "title": "Database Systems",
+    "slot": "A1+TA1+L11+L12",
+    "faculty": "ROLLA SUBRAHMANYAM",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE302L/P",
+    "title": "Database Systems",
+    "slot": "A1+TA1+L11+L12",
+    "faculty": "SANKAR P",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE302L/P",
+    "title": "Database Systems",
+    "slot": "A1+TA1+L11+L12",
+    "faculty": "HELEN VIJITHA P",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE302L/P",
+    "title": "Database Systems",
+    "slot": "A1+TA1+L11+L12",
+    "faculty": "PARVATHY A K",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE302L/P",
+    "title": "Database Systems",
+    "slot": "A1+TA1+L39+L40",
+    "faculty": "SIVARANJANI N",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE302L/P",
+    "title": "Database Systems",
+    "slot": "A2+TA2+L19+L20",
+    "faculty": "ROLLA SUBRAHMANYAM",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE302L/P",
+    "title": "Database Systems",
+    "slot": "A2+TA2+L19+L20",
+    "faculty": "SANKAR P",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE302L/P",
+    "title": "Database Systems",
+    "slot": "A2+TA2+L7+L8",
+    "faculty": "HELEN VIJITHA P",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE302L/P",
+    "title": "Database Systems",
+    "slot": "A2+TA2+L7+L8",
+    "faculty": "PARVATHY A K",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE302L/P",
+    "title": "Database Systems",
+    "slot": "A2+TA2+L3+L4",
+    "faculty": "SIVARANJANI N",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE302L/P",
+    "title": "Database Systems",
+    "slot": "A2+TA2+L3+L4",
+    "faculty": "GAYATHRI DEVI S",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE301L/P",
+    "title": "Software Engineering",
+    "slot": "B1+TB1+L29+L30",
+    "faculty": "KAVITHA",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE301L/P",
+    "title": "Software Engineering",
+    "slot": "B1+TB1+L29+L30",
+    "faculty": "REVATHI M",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE301L/P",
+    "title": "Software Engineering",
+    "slot": "B1+TB1+L31+L32",
+    "faculty": "A. K ILAVARASI",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE301L/P",
+    "title": "Software Engineering",
+    "slot": "B1+TB1+L45+L46",
+    "faculty": "ILAKIYASELVAN N",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE301L/P",
+    "title": "Software Engineering",
+    "slot": "B1+TB1+L45+L46",
+    "faculty": "PARKAVI K",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE301L/P",
+    "title": "Software Engineering",
+    "slot": "B1+TB1+L45+L46",
+    "faculty": "SUGANESHWARI",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE301L/P",
+    "title": "Software Engineering",
+    "slot": "B2+TB2+L13+L14",
+    "faculty": "A. K ILAVARASI",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE301L/P",
+    "title": "Software Engineering",
+    "slot": "B2+TB2+L15+L16",
+    "faculty": "ILAKIYASELVAN N",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE301L/P",
+    "title": "Software Engineering",
+    "slot": "B2+TB2+L15+L16",
+    "faculty": "SUGANESHWARI",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE301L/P",
+    "title": "Software Engineering",
+    "slot": "B2+TB2+L25+L26",
+    "faculty": "KAVITHA",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE301L/P",
+    "title": "Software Engineering",
+    "slot": "B2+TB2+L25+L26",
+    "faculty": "REVATHI M",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE301L/P",
+    "title": "Software Engineering",
+    "slot": "B2+TB2+L25+L26",
+    "faculty": "PARKAVI K",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE307L/P",
+    "title": "Compiler Design",
+    "slot": "B1+TB1+L29+L30",
+    "faculty": "RATHNA",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE307L/P",
+    "title": "Compiler Design",
+    "slot": "B1+TB1+L29+L30",
+    "faculty": "INDIRA B",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE307L/P",
+    "title": "Compiler Design",
+    "slot": "B1+TB1+L43+L44",
+    "faculty": "PANKAJA LAKSHMI P",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE307L/P",
+    "title": "Compiler Design",
+    "slot": "B1+TB1+L45+L46",
+    "faculty": "ARAVINDKUMAR S",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE307L/P",
+    "title": "Compiler Design",
+    "slot": "B1+TB1+L45+L46",
+    "faculty": "RAJA M",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE307L/P",
+    "title": "Compiler Design",
+    "slot": "B2+TB2+L15+L16",
+    "faculty": "ARAVINDKUMAR S",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE307L/P",
+    "title": "Compiler Design",
+    "slot": "B2+TB2+L15+L16",
+    "faculty": "RAJA M",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE307L/P",
+    "title": "Compiler Design",
+    "slot": "B2+TB2+L25+L26",
+    "faculty": "RATHNA",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE307L/P",
+    "title": "Compiler Design",
+    "slot": "B2+TB2+L25+L26",
+    "faculty": "INDIRA B",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE307L/P",
+    "title": "Compiler Design",
+    "slot": "B2+TB2+L27+L28",
+    "faculty": "MANAS RANJAN PRUSTY",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE307L/P",
+    "title": "Compiler Design",
+    "slot": "B2+TB2+L27+L28",
+    "faculty": "DEEPIKA R",
+    "credits": 4,
+    "type": "Theory+Lab"
+  },
+  {
+    "code": "BCSE305L",
+    "title": "Embedded Systems",
+    "slot": "D1+TD1",
+    "faculty": "TBA",
+    "credits": 3,
+    "type": "Theory"
+  },
+  {
+    "code": "BCSE355L",
+    "title": "Cloud Architecture Design",
+    "slot": "E1+TE1",
+    "faculty": "SELLAM V",
+    "credits": 3,
+    "type": "Theory"
+  },
+  {
+    "code": "BCSE355L",
+    "title": "Cloud Architecture Design",
+    "slot": "E1+TE1",
+    "faculty": "OMANA J",
+    "credits": 3,
+    "type": "Theory"
+  },
+  {
+    "code": "BCSE355L",
+    "title": "Cloud Architecture Design",
+    "slot": "E1+TE1",
+    "faculty": "VIVEKANANDAN M",
+    "credits": 3,
+    "type": "Theory"
+  },
+  {
+    "code": "BCSE355L",
+    "title": "Cloud Architecture Design",
+    "slot": "E1+TE1",
+    "faculty": "POORNIMA S",
+    "credits": 3,
+    "type": "Theory"
+  },
+  {
+    "code": "BCSE355L",
+    "title": "Cloud Architecture Design",
+    "slot": "E1+TE1",
+    "faculty": "S VIGNESHWARI",
+    "credits": 3,
+    "type": "Theory"
+  },
+  {
+    "code": "BCSE355L",
+    "title": "Cloud Architecture Design",
+    "slot": "E1+TE1",
+    "faculty": "PREETHA EVANGELINE D",
+    "credits": 3,
+    "type": "Theory"
+  },
+  {
+    "code": "BCSE355L",
+    "title": "Cloud Architecture Design",
+    "slot": "E1+TE1",
+    "faculty": "MAHESWARI P",
+    "credits": 3,
+    "type": "Theory"
+  },
+  {
+    "code": "BCSE355L",
+    "title": "Cloud Architecture Design",
+    "slot": "E1+TE1",
+    "faculty": "PREMANAND V",
+    "credits": 3,
+    "type": "Theory"
+  },
+  {
+    "code": "BCSE355L",
+    "title": "Cloud Architecture Design",
+    "slot": "E1+TE1",
+    "faculty": "VISWANATHAN V",
+    "credits": 3,
+    "type": "Theory"
+  },
+  {
+    "code": "BCSE355L",
+    "title": "Cloud Architecture Design",
+    "slot": "E1+TE1",
+    "faculty": "VIJAYARAJ J",
+    "credits": 3,
+    "type": "Theory"
+  },
+  {
+    "code": "BCSE355L",
+    "title": "Cloud Architecture Design",
+    "slot": "E1+TE1",
+    "faculty": "RAJKUMAR R",
+    "credits": 3,
+    "type": "Theory"
+  },
+  {
+    "code": "BCSE355L",
+    "title": "Cloud Architecture Design",
+    "slot": "E2+TE2",
+    "faculty": "SELLAM V",
+    "credits": 3,
+    "type": "Theory"
+  },
+  {
+    "code": "BCSE355L",
+    "title": "Cloud Architecture Design",
+    "slot": "E2+TE2",
+    "faculty": "OMANA J",
+    "credits": 3,
+    "type": "Theory"
+  },
+  {
+    "code": "BCSE355L",
+    "title": "Cloud Architecture Design",
+    "slot": "E2+TE2",
+    "faculty": "VIVEKANANDAN M",
+    "credits": 3,
+    "type": "Theory"
+  },
+  {
+    "code": "BCSE355L",
+    "title": "Cloud Architecture Design",
+    "slot": "E2+TE2",
+    "faculty": "VIJAYARAJ J",
+    "credits": 3,
+    "type": "Theory"
+  },
+  {
+    "code": "BCSE355L",
+    "title": "Cloud Architecture Design",
+    "slot": "E2+TE2",
+    "faculty": "PREETHA EVANGELINE D",
+    "credits": 3,
+    "type": "Theory"
+  },
+  {
+    "code": "BCSE355L",
+    "title": "Cloud Architecture Design",
+    "slot": "E2+TE2",
+    "faculty": "PREMANAND V",
+    "credits": 3,
+    "type": "Theory"
+  },
+  {
+    "code": "BCSE355L",
+    "title": "Cloud Architecture Design",
+    "slot": "E2+TE2",
+    "faculty": "MAHESWARI P",
+    "credits": 3,
+    "type": "Theory"
+  },
+  {
+    "code": "BCSE355L",
+    "title": "Cloud Architecture Design",
+    "slot": "E2+TE2",
+    "faculty": "RAJKUMAR R",
+    "credits": 3,
+    "type": "Theory"
+  },
+  {
+    "code": "BCSE355L",
+    "title": "Cloud Architecture Design",
+    "slot": "E2+TE2",
+    "faculty": "S VIGNESHWARI",
+    "credits": 3,
+    "type": "Theory"
+  },
+  {
+    "code": "BCSE355L",
+    "title": "Cloud Architecture Design",
+    "slot": "E2+TE2",
+    "faculty": "POORNIMA S",
+    "credits": 3,
+    "type": "Theory"
+  },
+  {
+    "code": "BCSE355L",
+    "title": "Cloud Architecture Design",
+    "slot": "E2+TE2",
+    "faculty": "VISWANATHAN V",
+    "credits": 3,
+    "type": "Theory"
+  },
+  {
+    "code": "BCSE355L",
+    "title": "Cloud Architecture Design",
+    "slot": "E2+TE2",
+    "faculty": "VISWANATHAN V",
+    "credits": 3,
+    "type": "Theory"
+  },
+  {
+    "code": "BSTS301P",
+    "title": "Advanced Competitive Coding \u2013 I",
+    "slot": "G1+TG1",
+    "faculty": "TBA",
+    "credits": 1,
+    "type": "Lab"
+  },
+  {
+    "code": "BSTS301P",
+    "title": "Advanced Competitive Coding \u2013 I",
+    "slot": "G2+TG2",
+    "faculty": "TBA",
+    "credits": 1,
+    "type": "Lab"
+  }
+]
