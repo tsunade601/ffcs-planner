@@ -1,0 +1,4 @@
+[
+  {"code": "CSE1001", "title": "Problem Solving and Programming", "slot": "A1", "faculty": "Dr. ABC", "credits": 4, "type": "Theory"},
+  {"code": "MAT1001", "title": "Calculus for Engineers", "slot": "B1", "faculty": "Dr. XYZ", "credits": 4, "type": "Theory"}
+]
