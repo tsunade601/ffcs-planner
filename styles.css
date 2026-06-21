@@ -1,40 +1,45 @@
-/* Tailwind already included via CDN */
+/* Modern FFCS Planner Styles */
 
 .timetable-grid {
     display: grid;
-    grid-template-columns: 60px repeat(5, 1fr);
-    gap: 1px;
-    background: #e5e7eb;
-    border: 1px solid #e5e7eb;
+    grid-template-columns: 70px repeat(5, 1fr);
+    gap: 3px;
+    background: #27272a;
+    padding: 4px;
+    border-radius: 16px;
 }
 
 .day-header {
-    background: #f3f4f6;
+    background: #18181b;
+    color: #a1a1aa;
     font-weight: 600;
+    padding: 16px 8px;
     text-align: center;
-    padding: 8px;
+    border-radius: 8px;
+    font-size: 0.9rem;
 }
 
 .time-slot {
-    background: white;
-    padding: 4px 8px;
-    font-size: 0.75rem;
+    background: #18181b;
+    color: #71717a;
+    padding: 12px 8px;
+    font-size: 0.8rem;
     text-align: right;
+    border-radius: 8px;
 }
 
 .course-slot {
-    background: #6366f1;
-    color: white;
-    padding: 4px;
-    font-size: 0.8rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-    cursor: pointer;
-    position: relative;
+    min-height: 68px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
 }
 
-.dark .course-slot {
-    background: #4f46e5;
+/* Improve scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-thumb {
+    background: #4b5563;
+    border-radius: 20px;
 }
