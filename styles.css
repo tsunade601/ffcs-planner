@@ -83,7 +83,7 @@
 /* Responsive adjustments */
 @media (max-width: 1024px) {
     .timetable-grid {
-        grid-template-columns: 55px repeat(5, 1fr);
+        grid-template-columns: 100px repeat(5, 1fr);
         gap: 2px;
         padding: 2px;
     }
@@ -95,7 +95,7 @@
 
     .time-slot {
         padding: 8px 4px;
-        font-size: 0.7rem;
+        font-size: 0.65rem;
     }
 
     .cell {
@@ -118,7 +118,7 @@
 
 @media (max-width: 640px) {
     .timetable-grid {
-        grid-template-columns: 45px repeat(5, 1fr);
+        grid-template-columns: 80px repeat(5, 1fr);
         gap: 1px;
         padding: 2px;
     }
@@ -130,7 +130,7 @@
 
     .time-slot {
         padding: 6px 2px;
-        font-size: 0.6rem;
+        font-size: 0.55rem;
     }
 
     .cell {
