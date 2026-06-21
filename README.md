@@ -1,46 +1,52 @@
 # FFCS Planner
 
-**A modern, fresh FFCS timetable builder for VIT students (Vellore / Chennai / AP).**
+**Modern VIT FFCS Timetable Builder**  
+Build clash-free schedules for Vellore, Chennai & AP campuses.
 
-Built from scratch with modern web tech — inspired by the logic of existing tools but completely new implementation.
+![FFCS Planner](https://via.placeholder.com/800x400/4f46e5/ffffff?text=FFCS+Planner+Screenshot)
 
-## ✨ Features
-- 🔍 Smart course search (code, title, faculty)
-- 🕒 Visual weekly timetable grid
-- ⚠️ Real-time clash detection
-- 📱 Fully responsive design + Dark mode
-- 💾 Saves plans in browser (localStorage - coming)
-- 📤 Export timetable as image (planned)
+## ✨ Key Features
+- **Real-time Search** across course code, title & faculty
+- **Visual Timetable** with color-coded slots
+- **Smart Clash Detection** based on VIT slots
+- **Persistent Plans** (saved in browser)
+- **Clean Dark UI** — mobile friendly
+- **No Backend** — works offline
 
 ## 🚀 Quick Start
-1. Open `index.html` directly in your browser (no build needed)
-2. Use the search bar to find courses
-3. Click on a course to add it to your timetable
-4. Resolve any slot clashes shown
+1. Clone the repo
+   ```bash
+   git clone https://github.com/tsunade601/ffcs-planner.git
+   ```
+2. Open `index.html` in your browser
+3. Start searching and adding courses!
 
 ## Project Structure
 ```
 ffcs-planner/
-├── index.html          # Main UI
-├── script.js           # Core logic: search, timetable, clashes
-├── styles.css          # Custom styles + Tailwind
+├── index.html          # Main interface
+├── script.js           # All core logic (search, timetable, clashes)
+├── styles.css          # Modern styling
 ├── data/
-│   └── sample.json     # Sample VIT courses
+│   └── sample.json     # Demo courses (expand with real VIT data)
 └── README.md
 ```
 
-## Data Pipeline (Future)
-Download latest VIT FFCS reports → convert XLSX to JSON → load here.
+## How It Works (Logic Summary)
+- Courses loaded from JSON (converted from VIT XLS reports)
+- Slots like `A1`, `B2`, `L31` used for placement and clash checks
+- Timetable rendered as a 5-day grid with hour slots
+- LocalStorage for saving your plan across sessions
 
-## Tech Stack
-- Vanilla JS + Tailwind CSS (via CDN)
-- No heavy frameworks for simplicity and speed
+Inspired by the solid foundation of [vatz88/FFCSonTheGo](https://github.com/vatz88/FFCSonTheGo) but rebuilt with modern JS, Tailwind, and improved UX.
 
-## Contributing
-- Improve clash detection with full VIT slot timings
-- Add auto-schedule generator
-- Faculty feedback integration
+## Next Steps / Roadmap
+- [ ] Full VIT slot timing database
+- [ ] Export as PNG / PDF
+- [ ] Campus selector (Vellore/Chennai)
+- [ ] Auto timetable generator
+- [ ] Faculty rating integration
 
-**Star the repo if it helps your FFCS registration!** ⭐
+Contributions welcome! Fork → PR.
 
-Inspired by (but independent of) [FFCSonTheGo](https://github.com/vatz88/FFCSonTheGo)
+**Made for VITians by a VITian** ❤️
