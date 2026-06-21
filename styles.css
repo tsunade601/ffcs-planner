@@ -17,6 +17,7 @@
     text-align: center;
     border-radius: 8px;
     font-size: 0.9rem;
+    letter-spacing: 0.05em;
 }
 
 .time-slot {
@@ -26,20 +27,128 @@
     font-size: 0.8rem;
     text-align: right;
     border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.cell {
+    min-height: 68px;
+    background: #1f2937;
+    border-radius: 8px;
+    padding: 2px;
+    transition: background-color 0.2s ease;
+}
+
+.cell:hover {
+    background: #374151;
 }
 
 .course-slot {
-    min-height: 68px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    min-height: 64px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Improve scrollbar */
-::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+.course-slot:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 16px -4px rgb(0 0 0 / 0.4);
+    z-index: 10;
 }
-::-webkit-scrollbar-thumb {
+
+/* Custom scrollbar for course list */
+#courseList::-webkit-scrollbar {
+    width: 6px;
+}
+
+#courseList::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#courseList::-webkit-scrollbar-thumb {
     background: #4b5563;
     border-radius: 20px;
+}
+
+#courseList::-webkit-scrollbar-thumb:hover {
+    background: #6b7280;
+}
+
+/* Toast animation */
+.toast-notification {
+    backdrop-filter: blur(10px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .timetable-grid {
+        grid-template-columns: 55px repeat(5, 1fr);
+        gap: 2px;
+        padding: 2px;
+    }
+
+    .day-header {
+        padding: 10px 4px;
+        font-size: 0.8rem;
+    }
+
+    .time-slot {
+        padding: 8px 4px;
+        font-size: 0.7rem;
+    }
+
+    .cell {
+        min-height: 56px;
+    }
+
+    .course-slot {
+        min-height: 52px;
+        padding: 4px !important;
+    }
+
+    .course-slot .font-bold {
+        font-size: 9px !important;
+    }
+
+    .course-slot .text-10px {
+        font-size: 8px !important;
+    }
+}
+
+@media (max-width: 640px) {
+    .timetable-grid {
+        grid-template-columns: 45px repeat(5, 1fr);
+        gap: 1px;
+        padding: 2px;
+    }
+
+    .day-header {
+        padding: 8px 2px;
+        font-size: 0.7rem;
+    }
+
+    .time-slot {
+        padding: 6px 2px;
+        font-size: 0.6rem;
+    }
+
+    .cell {
+        min-height: 48px;
+        padding: 1px;
+    }
+
+    .course-slot {
+        min-height: 44px;
+        padding: 2px !important;
+        border-radius: 4px;
+    }
+
+    .course-slot .font-bold {
+        font-size: 8px !important;
+    }
+
+    .course-slot .text-10px {
+        font-size: 7px !important;
+    }
 }
