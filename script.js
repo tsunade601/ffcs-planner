@@ -1,171 +1,100 @@
-// FFCS Planner Core Logic - Fresh Implementation inspired by original slot-based system
-
+// FFCS Planner - Modern Timetable Builder
 let allCourses = [];
-let currentTimetable = {}; // key: slot, value: course object
+let selectedTimetable = {}; 
+let currentFilter = '';
 
-// Expanded sample data for better demo
-const sampleCourses = [
-  {"code": "CSE1001", "title": "Problem Solving and Programming", "slot": "A1", "faculty": "Dr. Smith", "credits": 4, "type": "Theory"},
-  {"code": "MAT1001", "title": "Calculus for Engineers", "slot": "B1", "faculty": "Dr. Johnson", "credits": 4, "type": "Theory"},
-  {"code": "PHY1001", "title": "Physics", "slot": "C1", "faculty": "Dr. Brown", "credits": 4, "type": "Theory"},
-  {"code": "EEE1001", "title": "Electrical Sciences", "slot": "D1", "faculty": "Dr. Wilson", "credits": 4, "type": "Theory"},
-  {"code": "CSE1002", "title": "Digital Logic", "slot": "L1", "faculty": "Dr. Davis", "credits": 3, "type": "Lab"}
-];
-
-// VIT-like slot clash logic (simplified)
-function getSlotTime(slot) {
-  const timings = {
-    'A1': {days: [0], time: '8-9 AM'},
-    'B1': {days: [0], time: '9-10 AM'},
-    'C1': {days: [0], time: '10-11 AM'},
-    'D1': {days: [0], time: '11-12 AM'},
-    'L1': {days: [0,2], time: '2-4 PM'}, // example
-  };
-  return timings[slot] || {days: [0], time: 'Unknown'};
-}
-
-function hasClash(newCourse) {
-  const newSlotInfo = getSlotTime(newCourse.slot);
-  for (let slot in currentTimetable) {
-    const existing = currentTimetable[slot];
-    if (existing.slot === newCourse.slot) {
-      return true; // same slot clash
+async function loadCourses() {
+    try {
+        const res = await fetch('data/courses.json');
+        const data = await res.json();
+        allCourses = data.courses || [];
+        renderCourseList();
+    } catch(e) {
+        console.error(e);
+        document.getElementById('courseList').innerHTML = '<p class="text-red-400">Failed to load courses.</p>';
     }
-    // Could extend for overlapping times
-  }
-  return false;
 }
 
-function addCourse(course) {
-  if (hasClash(course)) {
-    alert(`⚠️ Clash detected with existing course in slot ${course.slot}!`);
-    return;
-  }
-  currentTimetable[course.slot] = course;
-  renderTimetable();
-  renderAddedCourses();
-  saveToLocalStorage();
+function filterCourses() {
+    currentFilter = document.getElementById('searchInput').value.toLowerCase().trim();
+    renderCourseList();
 }
 
-function removeCourse(slot) {
-  delete currentTimetable[slot];
-  renderTimetable();
-  renderAddedCourses();
-  saveToLocalStorage();
+function renderCourseList() {
+    const container = document.getElementById('courseList');
+    container.innerHTML = '';
+    const filtered = allCourses.filter(course => {
+        if (!currentFilter) return true;
+        return course.code.toLowerCase().includes(currentFilter) || (course.title || '').toLowerCase().includes(currentFilter);
+    });
+    if (filtered.length === 0) {
+        container.innerHTML = `<p class="text-gray-400 text-center py-8">No matching courses.</p>`;
+        return;
+    }
+    filtered.forEach(course => {
+        const div = document.createElement('div');
+        div.className = 'bg-gray-800 rounded-2xl p-4 hover:bg-gray-700 transition cursor-pointer';
+        div.innerHTML = `<div class="font-mono text-indigo-400 text-sm">${course.code}</div><div class="font-semibold mt-1">${course.title}</div>`;
+        div.onclick = () => showSections(course);
+        container.appendChild(div);
+    });
 }
 
-function renderCourseList(courses) {
-  const container = document.getElementById('courseList');
-  container.innerHTML = '';
-  if (courses.length === 0) {
-    container.innerHTML = '<p class="text-gray-500 p-4">No courses found.</p>';
-    return;
-  }
-  courses.forEach(course => {
-    const el = document.createElement('div');
-    el.className = 'p-4 border border-gray-200 dark:border-gray-600 rounded-xl hover:border-indigo-400 cursor-pointer transition-all';
-    el.innerHTML = `
-      <div class="flex justify-between">
-        <div>
-          <span class="font-bold text-indigo-600">${course.code}</span>
-          <span class="ml-2 text-sm text-gray-500">${course.type}</span>
-        </div>
-        <span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">${course.slot}</span>
-      </div>
-      <div class="mt-1 font-medium">${course.title}</div>
-      <div class="text-sm text-gray-500">${course.faculty} • ${course.credits} Credits</div>
-    `;
-    el.onclick = () => addCourse(course);
-    container.appendChild(el);
-  });
+function showSections(course) {
+    let html = `<div class="fixed inset-0 bg-black/80 flex items-center justify-center z-50" onclick="this.remove()">
+        <div onclick="event.stopImmediatePropagation()" class="bg-gray-900 rounded-3xl p-8 max-w-md w-full mx-4 max-h-[90vh] overflow-auto">
+            <h3 class="text-xl font-bold mb-6">${course.code} - ${course.title}</h3>`;
+    course.sections.forEach((sec, i) => {
+        html += `<div onclick="addCourse('${course.code}', ${i}); this.closest('.fixed').remove()" class="bg-gray-800 hover:bg-violet-900 p-4 rounded-2xl cursor-pointer mb-3 flex justify-between">
+            <div><div>${sec.slot}</div><div class="text-emerald-400 text-sm">${sec.faculty_name}</div></div><i class="fas fa-plus"></i></div>`;
+    });
+    html += `</div></div>`;
+    document.body.insertAdjacentHTML('beforeend', html);
+}
+
+function addCourse(code, sectionIndex) {
+    const course = allCourses.find(c => c.code === code);
+    const section = course.sections[sectionIndex];
+    const key = `${code}-${sectionIndex}`;
+    selectedTimetable[key] = { ...course, selectedSection: section };
+    saveToLocal();
+    renderTimetable();
+    renderSelectedCourses();
+}
+
+function removeCourse(key) {
+    delete selectedTimetable[key];
+    saveToLocal();
+    renderTimetable();
+    renderSelectedCourses();
 }
 
 function renderTimetable() {
-  const container = document.getElementById('timetable');
-  container.innerHTML = `
-    <div class="timetable-grid text-sm">
-      <div class="bg-gray-100 dark:bg-gray-700 p-2 font-semibold"></div>
-      ${['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'].map(d => `<div class="day-header py-3 font-semibold bg-indigo-50 dark:bg-indigo-950 text-center">${d}</div>`).join('')}
-    `;
-
-  // Hours
-  for (let h = 8; h <= 17; h++) {
-    container.innerHTML += `<div class="time-slot text-right pr-2 py-4 border-t">${h}:00</div>`;
-    for (let d = 0; d < 5; d++) {
-      container.innerHTML += `<div class="course-slot border border-gray-100 dark:border-gray-700 min-h-[50px] flex items-center justify-center text-xs p-1" style="background: linear-gradient(135deg, #6366f1, #4f46e5);"></div>`;
-    }
-  }
-  container.innerHTML += '</div>';
-
-  // TODO: Place actual courses in correct positions based on slot timings
+    const container = document.getElementById('timetable');
+    container.innerHTML = `<div class="time-slot p-3">Time</div><div class="day-header p-3 text-center">Mon</div><div class="day-header p-3 text-center">Tue</div><div class="day-header p-3 text-center">Wed</div><div class="day-header p-3 text-center">Thu</div><div class="day-header p-3 text-center">Fri</div>` + Array(8).fill(0).map((_,i) => `<div class="time-slot p-3">${8+i}- ${9+i}</div>` + Array(5).fill('<div class="cell p-2 border border-gray-700 rounded"></div>').join('')).join('');
+    Object.keys(selectedTimetable).forEach((key, idx) => {
+        const cell = container.querySelectorAll('.cell')[idx % 5];
+        if (cell) cell.innerHTML = `<div class="course-card">${selectedTimetable[key].code}</div>`;
+    });
 }
 
-function renderAddedCourses() {
-  const container = document.getElementById('addedCourses');
-  let html = `<h3 class="text-lg font-semibold mb-3 flex items-center gap-2"><span>Selected Courses</span><span class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full">${Object.keys(currentTimetable).length}</span></h3>`;
-  html += '<div class="space-y-3">';
-  Object.entries(currentTimetable).forEach(([slot, course]) => {
-    html += `
-      <div class="flex items-center justify-between p-4 bg-white dark:bg-gray-700 rounded-2xl border">
-        <div>
-          <div class="font-semibold">${course.code} — ${course.title}</div>
-          <div class="text-xs text-gray-500">${course.faculty} | Slot: <span class="font-mono">${slot}</span></div>
-        </div>
-        <button onclick="removeCourse('${slot}')" class="px-4 py-1 text-red-600 hover:bg-red-50 rounded-xl text-sm font-medium">Remove</button>
-      </div>
-    `;
-  });
-  html += '</div>';
-  container.innerHTML = html;
+function renderSelectedCourses() {
+    const container = document.getElementById('selectedCourses');
+    container.innerHTML = Object.keys(selectedTimetable).map(key => `<div class="bg-gray-800 p-4 rounded-2xl flex justify-between"><div>${selectedTimetable[key].code}</div><button onclick="removeCourse('${key}')" class="text-red-400">×</button></div>`).join('') || '<p class="text-gray-500">No courses added yet</p>';
 }
 
-function saveToLocalStorage() {
-  localStorage.setItem('ffcsTimetable', JSON.stringify(currentTimetable));
+function saveToLocal() { localStorage.setItem('ffcs_timetable', JSON.stringify(selectedTimetable)); }
+
+function loadFromLocal() { const s = localStorage.getItem('ffcs_timetable'); if(s) selectedTimetable = JSON.parse(s); }
+
+function clearTimetable() { if(confirm('Clear?')) { selectedTimetable = {}; saveToLocal(); renderTimetable(); renderSelectedCourses(); } }
+
+async function exportTimetable() {
+    const canvas = await html2canvas(document.getElementById('timetable'));
+    const a = document.createElement('a');
+    a.href = canvas.toDataURL();
+    a.download = 'timetable.png';
+    a.click();
 }
 
-function loadFromLocalStorage() {
-  const saved = localStorage.getItem('ffcsTimetable');
-  if (saved) {
-    currentTimetable = JSON.parse(saved);
-  }
-}
-
-function toggleDarkMode() {
-  document.documentElement.classList.toggle('dark');
-}
-
-function resetTimetable() {
-  if (confirm('Clear all selected courses?')) {
-    currentTimetable = {};
-    renderTimetable();
-    renderAddedCourses();
-    localStorage.removeItem('ffcsTimetable');
-  }
-}
-
-// Main init
-document.addEventListener('DOMContentLoaded', function() {
-  // Load data
-  allCourses = sampleCourses;
-  renderCourseList(allCourses);
-
-  loadFromLocalStorage();
-  renderTimetable();
-  renderAddedCourses();
-
-  // Search
-  const searchInput = document.getElementById('searchInput');
-  searchInput.addEventListener('keyup', function() {
-    const query = this.value.toLowerCase().trim();
-    if (!query) {
-      renderCourseList(allCourses);
-      return;
-    }
-    const filtered = allCourses.filter(course => 
-      course.code.toLowerCase().includes(query) ||
-      course.title.toLowerCase().includes(query) ||
-      (course.faculty && course.faculty.toLowerCase().includes(query))
-    );
-    renderCourseList(filtered);
-  });
-});
+window.onload = () => { loadFromLocal(); loadCourses().then(() => { renderTimetable(); renderSelectedCourses(); }); };
