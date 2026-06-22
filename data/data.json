@@ -480,6 +480,14 @@
     "type": "Theory"
   },
   {
+    "code": "BCSE305L",
+    "title": "Embedded Systems",
+    "slot": "D2+TD2",
+    "faculty": "TBA",
+    "credits": 3,
+    "type": "Theory"
+  },
+  {
     "code": "BCSE355L",
     "title": "Cloud Architecture Design",
     "slot": "E1+TE1",

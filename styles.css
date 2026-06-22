@@ -215,17 +215,8 @@ button {
 
 .planner-layout {
     display: grid;
-    grid-template-columns: minmax(330px, 410px) minmax(720px, 1fr);
+    grid-template-columns: 1fr;
     gap: 18px;
-    align-items: start;
-}
-
-.planner-sidebar {
-    display: grid;
-    gap: 16px;
-    position: sticky;
-    top: 86px;
-    max-height: calc(100vh - 104px);
 }
 
 .panel {
@@ -349,20 +340,22 @@ button {
     outline: 0;
 }
 
-.course-list,
-.selected-list {
+.course-list {
     display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 10px;
     overflow: auto;
     padding-right: 3px;
-}
-
-.course-list {
     max-height: min(48vh, 520px);
 }
 
 .selected-list {
-    max-height: min(28vh, 360px);
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 10px;
+    overflow: auto;
+    padding-right: 3px;
+    max-height: min(36vh, 480px);
 }
 
 .course-list::-webkit-scrollbar,
@@ -476,11 +469,6 @@ button {
     min-width: 0;
 }
 
-.density-control .density-toggle {
-    width: 36px;
-    padding: 0;
-}
-
 .timetable-scroll {
     overflow: auto;
     border: 1px solid var(--border);
@@ -488,103 +476,128 @@ button {
     background: #0c1220;
 }
 
-.timetable-grid {
-    min-width: 890px;
-    display: grid;
-    grid-template-columns: 124px repeat(5, minmax(132px, 1fr));
-    gap: 1px;
-    background: var(--border);
+/* ====== Timetable Table ====== */
+.tt-table {
+    width: 100%;
+    min-width: 1100px;
+    border-collapse: collapse;
+    border: 2px solid #2d3a52;
 }
 
-.day-header,
-.time-slot,
-.cell {
-    min-height: 78px;
-    background: #111827;
+.tt-table td {
+    border: 1px solid #2d3a52;
+    text-align: center;
+    vertical-align: middle;
+    padding: 4px 2px;
 }
 
-.day-header {
-    position: sticky;
-    top: 0;
-    z-index: 2;
-    display: grid;
-    place-items: center;
-    min-height: 48px;
+.tt-header-row td {
+    font-size: 0.72rem;
+    font-weight: 800;
+}
+
+.tt-corner {
+    background: #2a3349;
     color: #cbd5e1;
-    font-size: 0.82rem;
-    font-weight: 800;
+    width: 80px;
+    min-height: 80px;
+    font-size: 0.75rem;
+    line-height: 1.3;
 }
 
-.time-slot {
-    position: sticky;
-    left: 0;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding: 10px;
-    color: #aeb9ca;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size: 0.72rem;
-    font-weight: 800;
+.tt-theory-header {
+    background: #1e2a4a;
+    color: #93c5fd;
+    width: 72px;
+    font-size: 0.7rem;
     line-height: 1.35;
-    text-align: right;
 }
 
-.time-corner {
-    z-index: 3;
-    min-height: 48px;
-    color: #f8fafc;
+.tt-lab-header {
+    background: #1a3350;
+    color: #7dd3fc;
+    width: 72px;
+    font-size: 0.7rem;
+    line-height: 1.35;
 }
 
-.cell {
-    min-height: 78px;
-    padding: 5px;
-    transition: background-color 0.16s ease;
+.tt-empty-header {
+    background: #111827;
+    width: 10px;
 }
 
-.cell:hover {
-    background: #172136;
-}
-
-.break-label,
-.break-cell {
-    min-height: 42px;
-    background: #0d1422;
-    color: #728097;
-}
-
-.break-cell {
-    display: grid;
-    place-items: center;
-    padding: 0;
+.tt-lunch {
+    background: #1a1f2e;
+    color: #94a3b8;
+    width: 28px;
     font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    line-height: 1.6;
+}
+
+.tt-day-label {
+    background: #2a3349;
+    color: #e2e8f0;
+    width: 60px;
+    font-size: 0.78rem;
+    font-weight: 800;
+}
+
+.tt-day-row {
+    height: 72px;
+}
+
+.tt-slot {
+    background: #1a2235;
+    padding: 3px;
+    position: relative;
+    transition: background-color 0.15s ease;
+}
+
+.tt-slot:hover {
+    background: #1f2b42;
+}
+
+.tt-slot-label {
+    color: #4a5a75;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.68rem;
     font-weight: 700;
+    pointer-events: none;
+}
+
+.tt-slot .course-slot {
+    position: absolute;
+    inset: 3px;
+}
+
+.tt-slot:has(.course-slot) .tt-slot-label {
+    display: none;
 }
 
 .course-slot {
     width: 100%;
-    min-height: 68px;
     height: 100%;
+    min-height: 54px;
     display: grid;
     align-content: center;
-    gap: 3px;
-    padding: 8px;
-    border-radius: 7px;
+    gap: 2px;
+    padding: 5px;
+    border-radius: 5px;
     color: white;
-    text-align: left;
-    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.26);
-    transition: transform 0.16s ease, box-shadow 0.16s ease;
+    text-align: center;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.22);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .course-slot:hover {
-    transform: scale(1.02);
-    box-shadow: 0 18px 28px rgba(0, 0, 0, 0.34);
+    transform: scale(1.04);
+    box-shadow: 0 14px 24px rgba(0, 0, 0, 0.32);
 }
 
 .slot-code {
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size: 0.82rem;
+    font-size: 0.78rem;
     font-weight: 900;
 }
 
@@ -593,35 +606,11 @@ button {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: 0.72rem;
+    font-size: 0.66rem;
 }
 
 .slot-faculty {
     opacity: 0.82;
-}
-
-.timetable-grid.compact {
-    grid-template-columns: 104px repeat(5, minmax(104px, 1fr));
-}
-
-.timetable-grid.compact .day-header,
-.timetable-grid.compact .time-slot,
-.timetable-grid.compact .cell {
-    min-height: 58px;
-}
-
-.timetable-grid.compact .time-corner,
-.timetable-grid.compact .day-header {
-    min-height: 42px;
-}
-
-.timetable-grid.compact .course-slot {
-    min-height: 48px;
-    padding: 6px;
-}
-
-.timetable-grid.compact .slot-faculty {
-    display: none;
 }
 
 .helper-strip {
@@ -755,16 +744,6 @@ button {
         justify-content: flex-start;
     }
 
-    .planner-layout {
-        grid-template-columns: 1fr;
-    }
-
-    .planner-sidebar {
-        position: static;
-        max-height: none;
-        grid-template-columns: minmax(0, 1fr) minmax(280px, 0.8fr);
-    }
-
     .course-list,
     .selected-list {
         max-height: 360px;
@@ -797,7 +776,8 @@ button {
         font-size: 1.7rem;
     }
 
-    .planner-sidebar {
+    .course-list,
+    .selected-list {
         grid-template-columns: 1fr;
     }
 
@@ -817,8 +797,7 @@ button {
         flex: 1;
     }
 
-    .timetable-grid {
-        min-width: 760px;
-        grid-template-columns: 104px repeat(5, 130px);
+    .tt-table {
+        min-width: 900px;
     }
 }

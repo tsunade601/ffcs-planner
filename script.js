@@ -4,7 +4,6 @@ let selectedCourses = [];
 let currentFilter = "";
 let currentTypeFilter = "all";
 let currentSort = "code";
-let timetableDensity = "comfortable";
 
 const STORAGE_KEY = "ffcs_timetable_v3";
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri"];
@@ -16,70 +15,121 @@ const DAY_LABELS = {
     Fri: "Friday",
 };
 
-const GRID_ROWS = [
-    { start: "08:00", end: "08:50", label: "08:00 AM - 08:50 AM" },
-    { start: "09:00", end: "09:50", label: "09:00 AM - 09:50 AM" },
-    { start: "10:00", end: "10:50", label: "10:00 AM - 10:50 AM" },
-    { start: "11:00", end: "11:50", label: "11:00 AM - 11:50 AM" },
-    { start: "12:00", end: "12:50", label: "12:00 PM - 12:50 PM" },
-    { start: "BREAK", end: "", label: "Lunch Break" },
-    { start: "14:00", end: "14:50", label: "02:00 PM - 02:50 PM" },
-    { start: "15:00", end: "15:50", label: "03:00 PM - 03:50 PM" },
-    { start: "16:00", end: "16:50", label: "04:00 PM - 04:50 PM" },
-    { start: "17:00", end: "17:50", label: "05:00 PM - 05:50 PM" },
-    { start: "18:00", end: "18:50", label: "06:00 PM - 06:50 PM" },
+const THEORY_PERIODS = [
+    { label: "08:00 AM\nto\n08:50 AM" },
+    { label: "08:55 AM\nto\n09:45 AM" },
+    { label: "09:50 AM\nto\n10:40 AM" },
+    { label: "10:45 AM\nto\n11:35 AM" },
+    { label: "11:40 AM\nto\n12:30 PM" },
 ];
+const AFTERNOON_PERIODS = [
+    { label: "02:00 PM\nto\n02:50 PM" },
+    { label: "02:55 PM\nto\n03:45 PM" },
+    { label: "03:50 PM\nto\n04:40 PM" },
+    { label: "04:45 PM\nto\n05:35 PM" },
+    { label: "05:40 PM\nto\n06:30 PM" },
+];
+const LAB_AM_TIMES = ["08:00 AM\nto\n08:50 AM","08:50 AM\nto\n09:40 AM","09:50 AM\nto\n10:40 AM","10:40 AM\nto\n11:30 AM","11:40 AM\nto\n12:30 PM","12:30 PM\nto\n01:20 PM"];
+const LAB_PM_TIMES = ["02:00 PM\nto\n02:50 PM","02:50 PM\nto\n03:40 PM","03:50 PM\nto\n04:40 PM","04:40 PM\nto\n05:30 PM","05:40 PM\nto\n06:30 PM","06:30 PM\nto\n07:20 PM"];
 
 const SLOT_MAP = {
-    A1: [{ day: "Mon", start: "08:00", end: "08:50" }, { day: "Wed", start: "09:00", end: "09:50" }],
-    B1: [{ day: "Tue", start: "08:00", end: "08:50" }, { day: "Thu", start: "09:00", end: "09:50" }],
-    C1: [{ day: "Wed", start: "08:00", end: "08:50" }, { day: "Fri", start: "09:00", end: "09:50" }],
-    D1: [{ day: "Thu", start: "08:00", end: "08:50" }, { day: "Mon", start: "10:00", end: "10:50" }],
-    E1: [{ day: "Fri", start: "08:00", end: "08:50" }, { day: "Tue", start: "10:00", end: "10:50" }],
-    F1: [{ day: "Mon", start: "09:00", end: "09:50" }, { day: "Wed", start: "10:00", end: "10:50" }],
-    G1: [{ day: "Tue", start: "09:00", end: "09:50" }, { day: "Thu", start: "10:00", end: "10:50" }],
-    TA1: [{ day: "Fri", start: "10:00", end: "10:50" }],
-    TB1: [{ day: "Mon", start: "11:00", end: "11:50" }],
-    TC1: [{ day: "Tue", start: "11:00", end: "11:50" }],
-    TD1: [{ day: "Wed", start: "11:00", end: "11:50" }],
-    TE1: [{ day: "Thu", start: "11:00", end: "11:50" }],
-    TF1: [{ day: "Fri", start: "11:00", end: "11:50" }],
-    TG1: [{ day: "Mon", start: "12:00", end: "12:50" }],
-    TAA1: [{ day: "Tue", start: "12:00", end: "12:50" }],
-    TCC1: [{ day: "Thu", start: "12:00", end: "12:50" }],
-
-    A2: [{ day: "Mon", start: "14:00", end: "14:50" }, { day: "Wed", start: "15:00", end: "15:50" }],
-    B2: [{ day: "Tue", start: "14:00", end: "14:50" }, { day: "Thu", start: "15:00", end: "15:50" }],
-    C2: [{ day: "Wed", start: "14:00", end: "14:50" }, { day: "Fri", start: "15:00", end: "15:50" }],
-    D2: [{ day: "Thu", start: "14:00", end: "14:50" }, { day: "Mon", start: "16:00", end: "16:50" }],
-    E2: [{ day: "Fri", start: "14:00", end: "14:50" }, { day: "Tue", start: "16:00", end: "16:50" }],
-    F2: [{ day: "Mon", start: "15:00", end: "15:50" }, { day: "Wed", start: "16:00", end: "16:50" }],
-    G2: [{ day: "Tue", start: "15:00", end: "15:50" }, { day: "Thu", start: "16:00", end: "16:50" }],
-    TA2: [{ day: "Fri", start: "16:00", end: "16:50" }],
-    TB2: [{ day: "Mon", start: "17:00", end: "17:50" }],
-    TC2: [{ day: "Tue", start: "17:00", end: "17:50" }],
-    TD2: [{ day: "Wed", start: "17:00", end: "17:50" }],
-    TE2: [{ day: "Thu", start: "17:00", end: "17:50" }],
-    TF2: [{ day: "Fri", start: "17:00", end: "17:50" }],
-    TG2: [{ day: "Mon", start: "18:00", end: "18:50" }],
-    TAA2: [{ day: "Tue", start: "18:00", end: "18:50" }],
-    TCC2: [{ day: "Thu", start: "18:00", end: "18:50" }],
+    A1: [{ day: "Mon", cell: "l1", start: "08:00", end: "08:50", slotName: "A1" }, { day: "Wed", cell: "l14", start: "08:55", end: "09:45", slotName: "A1" }],
+    B1: [{ day: "Tue", cell: "l7", start: "08:00", end: "08:50", slotName: "B1" }, { day: "Thu", cell: "l20", start: "08:55", end: "09:45", slotName: "B1" }],
+    C1: [{ day: "Wed", cell: "l13", start: "08:00", end: "08:50", slotName: "C1" }, { day: "Fri", cell: "l26", start: "08:55", end: "09:45", slotName: "C1" }],
+    D1: [{ day: "Thu", cell: "l19", start: "08:00", end: "08:50", slotName: "D1" }, { day: "Mon", cell: "l3", start: "09:50", end: "10:40", slotName: "D1" }],
+    E1: [{ day: "Fri", cell: "l25", start: "08:00", end: "08:50", slotName: "E1" }, { day: "Tue", cell: "l9", start: "09:50", end: "10:40", slotName: "E1" }],
+    F1: [{ day: "Mon", cell: "l2", start: "08:55", end: "09:45", slotName: "F1" }, { day: "Wed", cell: "l15", start: "09:50", end: "10:40", slotName: "F1" }],
+    G1: [{ day: "Tue", cell: "l8", start: "08:55", end: "09:45", slotName: "G1" }, { day: "Thu", cell: "l21", start: "09:50", end: "10:40", slotName: "G1" }],
+    TA1: [{ day: "Fri", cell: "l27", start: "09:50", end: "10:40", slotName: "TA1" }],
+    TB1: [{ day: "Mon", cell: "l4", start: "10:45", end: "11:35", slotName: "TB1" }],
+    TC1: [{ day: "Tue", cell: "l10", start: "10:45", end: "11:35", slotName: "TC1" }],
+    TD1: [{ day: "Wed", cell: "l16", start: "10:45", end: "11:35", slotName: "TD1" }],
+    TE1: [{ day: "Thu", cell: "l22", start: "10:45", end: "11:35", slotName: "TE1" }],
+    TF1: [{ day: "Fri", cell: "l28", start: "10:45", end: "11:35", slotName: "TF1" }],
+    TG1: [{ day: "Mon", cell: "l5", start: "11:40", end: "12:30", slotName: "TG1" }],
+    TAA1: [{ day: "Tue", cell: "l11", start: "11:40", end: "12:30", slotName: "TAA1" }],
+    TBB1: [{ day: "Wed", cell: "l17", start: "11:40", end: "12:30", slotName: "TBB1" }],
+    TCC1: [{ day: "Thu", cell: "l23", start: "11:40", end: "12:30", slotName: "TCC1" }],
+    TDD1: [{ day: "Fri", cell: "l29", start: "11:40", end: "12:30", slotName: "TDD1" }],
+    A2: [{ day: "Mon", cell: "l31", start: "14:00", end: "14:50", slotName: "A2" }, { day: "Wed", cell: "l44", start: "14:55", end: "15:45", slotName: "A2" }],
+    B2: [{ day: "Tue", cell: "l37", start: "14:00", end: "14:50", slotName: "B2" }, { day: "Thu", cell: "l50", start: "14:55", end: "15:45", slotName: "B2" }],
+    C2: [{ day: "Wed", cell: "l43", start: "14:00", end: "14:50", slotName: "C2" }, { day: "Fri", cell: "l56", start: "14:55", end: "15:45", slotName: "C2" }],
+    D2: [{ day: "Thu", cell: "l49", start: "14:00", end: "14:50", slotName: "D2" }, { day: "Mon", cell: "l33", start: "15:50", end: "16:40", slotName: "D2" }],
+    E2: [{ day: "Fri", cell: "l55", start: "14:00", end: "14:50", slotName: "E2" }, { day: "Tue", cell: "l39", start: "15:50", end: "16:40", slotName: "E2" }],
+    F2: [{ day: "Mon", cell: "l32", start: "14:55", end: "15:45", slotName: "F2" }, { day: "Wed", cell: "l45", start: "15:50", end: "16:40", slotName: "F2" }],
+    G2: [{ day: "Tue", cell: "l38", start: "14:55", end: "15:45", slotName: "G2" }, { day: "Thu", cell: "l51", start: "15:50", end: "16:40", slotName: "G2" }],
+    TA2: [{ day: "Fri", cell: "l57", start: "15:50", end: "16:40", slotName: "TA2" }],
+    TB2: [{ day: "Mon", cell: "l34", start: "16:45", end: "17:35", slotName: "TB2" }],
+    TC2: [{ day: "Tue", cell: "l40", start: "16:45", end: "17:35", slotName: "TC2" }],
+    TD2: [{ day: "Wed", cell: "l46", start: "16:45", end: "17:35", slotName: "TD2" }],
+    TE2: [{ day: "Thu", cell: "l52", start: "16:45", end: "17:35", slotName: "TE2" }],
+    TF2: [{ day: "Fri", cell: "l58", start: "16:45", end: "17:35", slotName: "TF2" }],
+    TG2: [{ day: "Mon", cell: "l35", start: "17:40", end: "18:30", slotName: "TG2" }],
+    TAA2: [{ day: "Tue", cell: "l41", start: "17:40", end: "18:30", slotName: "TAA2" }],
+    TBB2: [{ day: "Wed", cell: "l47", start: "17:40", end: "18:30", slotName: "TBB2" }],
+    TCC2: [{ day: "Thu", cell: "l53", start: "17:40", end: "18:30", slotName: "TCC2" }],
+    TDD2: [{ day: "Fri", cell: "l59", start: "17:40", end: "18:30", slotName: "TDD2" }],
+    L1: [{ day: "Mon", cell: "l1", start: "08:00", end: "08:50", slotName: "L1" }],
+    L2: [{ day: "Mon", cell: "l2", start: "08:50", end: "09:40", slotName: "L2" }],
+    L3: [{ day: "Mon", cell: "l3", start: "09:50", end: "10:40", slotName: "L3" }],
+    L4: [{ day: "Mon", cell: "l4", start: "10:40", end: "11:30", slotName: "L4" }],
+    L5: [{ day: "Mon", cell: "l5", start: "11:40", end: "12:30", slotName: "L5" }],
+    L6: [{ day: "Mon", cell: "l6", start: "12:30", end: "13:20", slotName: "L6" }],
+    L7: [{ day: "Tue", cell: "l7", start: "08:00", end: "08:50", slotName: "L7" }],
+    L8: [{ day: "Tue", cell: "l8", start: "08:50", end: "09:40", slotName: "L8" }],
+    L9: [{ day: "Tue", cell: "l9", start: "09:50", end: "10:40", slotName: "L9" }],
+    L10: [{ day: "Tue", cell: "l10", start: "10:40", end: "11:30", slotName: "L10" }],
+    L11: [{ day: "Tue", cell: "l11", start: "11:40", end: "12:30", slotName: "L11" }],
+    L12: [{ day: "Tue", cell: "l12", start: "12:30", end: "13:20", slotName: "L12" }],
+    L13: [{ day: "Wed", cell: "l13", start: "08:00", end: "08:50", slotName: "L13" }],
+    L14: [{ day: "Wed", cell: "l14", start: "08:50", end: "09:40", slotName: "L14" }],
+    L15: [{ day: "Wed", cell: "l15", start: "09:50", end: "10:40", slotName: "L15" }],
+    L16: [{ day: "Wed", cell: "l16", start: "10:40", end: "11:30", slotName: "L16" }],
+    L17: [{ day: "Wed", cell: "l17", start: "11:40", end: "12:30", slotName: "L17" }],
+    L18: [{ day: "Wed", cell: "l18", start: "12:30", end: "13:20", slotName: "L18" }],
+    L19: [{ day: "Thu", cell: "l19", start: "08:00", end: "08:50", slotName: "L19" }],
+    L20: [{ day: "Thu", cell: "l20", start: "08:50", end: "09:40", slotName: "L20" }],
+    L21: [{ day: "Thu", cell: "l21", start: "09:50", end: "10:40", slotName: "L21" }],
+    L22: [{ day: "Thu", cell: "l22", start: "10:40", end: "11:30", slotName: "L22" }],
+    L23: [{ day: "Thu", cell: "l23", start: "11:40", end: "12:30", slotName: "L23" }],
+    L24: [{ day: "Thu", cell: "l24", start: "12:30", end: "13:20", slotName: "L24" }],
+    L25: [{ day: "Fri", cell: "l25", start: "08:00", end: "08:50", slotName: "L25" }],
+    L26: [{ day: "Fri", cell: "l26", start: "08:50", end: "09:40", slotName: "L26" }],
+    L27: [{ day: "Fri", cell: "l27", start: "09:50", end: "10:40", slotName: "L27" }],
+    L28: [{ day: "Fri", cell: "l28", start: "10:40", end: "11:30", slotName: "L28" }],
+    L29: [{ day: "Fri", cell: "l29", start: "11:40", end: "12:30", slotName: "L29" }],
+    L30: [{ day: "Fri", cell: "l30", start: "12:30", end: "13:20", slotName: "L30" }],
+    L31: [{ day: "Mon", cell: "l31", start: "14:00", end: "14:50", slotName: "L31" }],
+    L32: [{ day: "Mon", cell: "l32", start: "14:50", end: "15:40", slotName: "L32" }],
+    L33: [{ day: "Mon", cell: "l33", start: "15:50", end: "16:40", slotName: "L33" }],
+    L34: [{ day: "Mon", cell: "l34", start: "16:40", end: "17:30", slotName: "L34" }],
+    L35: [{ day: "Mon", cell: "l35", start: "17:40", end: "18:30", slotName: "L35" }],
+    L36: [{ day: "Mon", cell: "l36", start: "18:30", end: "19:20", slotName: "L36" }],
+    L37: [{ day: "Tue", cell: "l37", start: "14:00", end: "14:50", slotName: "L37" }],
+    L38: [{ day: "Tue", cell: "l38", start: "14:50", end: "15:40", slotName: "L38" }],
+    L39: [{ day: "Tue", cell: "l39", start: "15:50", end: "16:40", slotName: "L39" }],
+    L40: [{ day: "Tue", cell: "l40", start: "16:40", end: "17:30", slotName: "L40" }],
+    L41: [{ day: "Tue", cell: "l41", start: "17:40", end: "18:30", slotName: "L41" }],
+    L42: [{ day: "Tue", cell: "l42", start: "18:30", end: "19:20", slotName: "L42" }],
+    L43: [{ day: "Wed", cell: "l43", start: "14:00", end: "14:50", slotName: "L43" }],
+    L44: [{ day: "Wed", cell: "l44", start: "14:50", end: "15:40", slotName: "L44" }],
+    L45: [{ day: "Wed", cell: "l45", start: "15:50", end: "16:40", slotName: "L45" }],
+    L46: [{ day: "Wed", cell: "l46", start: "16:40", end: "17:30", slotName: "L46" }],
+    L47: [{ day: "Wed", cell: "l47", start: "17:40", end: "18:30", slotName: "L47" }],
+    L48: [{ day: "Wed", cell: "l48", start: "18:30", end: "19:20", slotName: "L48" }],
+    L49: [{ day: "Thu", cell: "l49", start: "14:00", end: "14:50", slotName: "L49" }],
+    L50: [{ day: "Thu", cell: "l50", start: "14:50", end: "15:40", slotName: "L50" }],
+    L51: [{ day: "Thu", cell: "l51", start: "15:50", end: "16:40", slotName: "L51" }],
+    L52: [{ day: "Thu", cell: "l52", start: "16:40", end: "17:30", slotName: "L52" }],
+    L53: [{ day: "Thu", cell: "l53", start: "17:40", end: "18:30", slotName: "L53" }],
+    L54: [{ day: "Thu", cell: "l54", start: "18:30", end: "19:20", slotName: "L54" }],
+    L55: [{ day: "Fri", cell: "l55", start: "14:00", end: "14:50", slotName: "L55" }],
+    L56: [{ day: "Fri", cell: "l56", start: "14:50", end: "15:40", slotName: "L56" }],
+    L57: [{ day: "Fri", cell: "l57", start: "15:50", end: "16:40", slotName: "L57" }],
+    L58: [{ day: "Fri", cell: "l58", start: "16:40", end: "17:30", slotName: "L58" }],
+    L59: [{ day: "Fri", cell: "l59", start: "17:40", end: "18:30", slotName: "L59" }],
+    L60: [{ day: "Fri", cell: "l60", start: "18:30", end: "19:20", slotName: "L60" }],
 };
-
-["08:00", "09:00", "10:00", "11:00", "12:00"].forEach((start) => {
-    DAYS.forEach((day) => {
-        const dayOffset = DAYS.indexOf(day) * 5;
-        const slotNumber = dayOffset + Number(start.slice(0, 2)) - 7;
-        SLOT_MAP[`L${slotNumber}`] = [{ day, start, end: `${start.slice(0, 2)}:50` }];
-    });
-});
-["14:00", "15:00", "16:00", "17:00", "18:00"].forEach((start) => {
-    DAYS.forEach((day) => {
-        const dayOffset = DAYS.indexOf(day) * 5;
-        const slotNumber = 26 + dayOffset + Number(start.slice(0, 2)) - 14;
-        SLOT_MAP[`L${slotNumber}`] = [{ day, start, end: `${start.slice(0, 2)}:50` }];
-    });
-});
 
 const COLORS = [
     "from-indigo-500 to-sky-600",
@@ -141,7 +191,7 @@ function toMinutes(time) {
 }
 
 function timesOverlap(a, b) {
-    return a.day === b.day && toMinutes(a.start) < toMinutes(b.end) && toMinutes(b.start) < toMinutes(a.end);
+    return a.cell === b.cell;
 }
 
 function formatCourseTime(timing) {
@@ -209,16 +259,6 @@ function filterByType(type) {
 function sortCourses() {
     currentSort = document.getElementById("sortSelect").value;
     renderCourseList();
-}
-
-function setDensity(density) {
-    timetableDensity = density;
-    document.getElementById("timetable").classList.toggle("compact", density === "compact");
-    document.querySelectorAll(".density-toggle").forEach((button) => {
-        const active = button.dataset.density === density;
-        button.classList.toggle("active", active);
-        button.setAttribute("aria-pressed", String(active));
-    });
 }
 
 function renderCourseList() {
@@ -328,38 +368,72 @@ function removeCourse(index) {
 
 function renderTimetable() {
     const container = document.getElementById("timetable");
-    container.classList.toggle("compact", timetableDensity === "compact");
+    const daySlots = {
+        Mon: ["l1","l2","l3","l4","l5","l6","l31","l32","l33","l34","l35","l36"],
+        Tue: ["l7","l8","l9","l10","l11","l12","l37","l38","l39","l40","l41","l42"],
+        Wed: ["l13","l14","l15","l16","l17","l18","l43","l44","l45","l46","l47","l48"],
+        Thu: ["l19","l20","l21","l22","l23","l24","l49","l50","l51","l52","l53","l54"],
+        Fri: ["l25","l26","l27","l28","l29","l30","l55","l56","l57","l58","l59","l60"],
+    };
+    const theoryLabels = ["A1","F1","D1","TB1","TG1","A2","F2","D2","TB2","TG2"];
+    const labLabels = ["L1","L2","L3","L4","L5","L6","L31","L32","L33","L34","L35","L36"];
+    const slotLabels = {
+        Mon: ["A1/L1","F1/L2","D1/L3","TB1/L4","TG1/L5","L6","A2/L31","F2/L32","D2/L33","TB2/L34","TG2/L35","L36"],
+        Tue: ["B1/L7","G1/L8","E1/L9","TC1/L10","TAA1/L11","L12","B2/L37","G2/L38","E2/L39","TC2/L40","TAA2/L41","L42"],
+        Wed: ["C1/L13","A1/L14","F1/L15","TD1/L16","TBB1/L17","L18","C2/L43","A2/L44","F2/L45","TD2/L46","TBB2/L47","L48"],
+        Thu: ["D1/L19","B1/L20","G1/L21","TE1/L22","TCC1/L23","L24","D2/L49","B2/L50","G2/L51","TE2/L52","TCC2/L53","L54"],
+        Fri: ["E1/L25","C1/L26","TA1/L27","TF1/L28","TDD1/L29","L30","E2/L55","C2/L56","TA2/L57","TF2/L58","TDD2/L59","L60"],
+    };
 
-    let html = `<div class="time-slot time-corner">Time</div>`;
-    DAYS.forEach((day) => {
-        html += `<div class="day-header">${DAY_LABELS[day]}</div>`;
+    let html = '<table class="tt-table" cellspacing="0" cellpadding="2">';
+    // Theory hours header
+    html += '<tr class="tt-header-row">';
+    html += '<td class="tt-corner"><b>THEORY<br>HOURS</b></td>';
+    THEORY_PERIODS.forEach(p => {
+        html += `<td class="tt-theory-header">${p.label.replace(/\n/g, '<br>')}</td>`;
     });
+    html += '<td class="tt-empty-header"></td>';
+    html += '<td class="tt-lunch" rowspan="7"><b>L<br>U<br>N<br>C<br>H</b></td>';
+    AFTERNOON_PERIODS.forEach(p => {
+        html += `<td class="tt-theory-header">${p.label.replace(/\n/g, '<br>')}</td>`;
+    });
+    html += '<td class="tt-empty-header"></td>';
+    html += '</tr>';
 
-    GRID_ROWS.forEach((row) => {
-        if (row.start === "BREAK") {
-            html += `<div class="time-slot break-label">${row.label}</div>`;
-            DAYS.forEach(() => {
-                html += `<div class="cell break-cell"><span>No classes</span></div>`;
-            });
-            return;
-        }
+    // Lab hours header
+    html += '<tr class="tt-header-row">';
+    html += '<td class="tt-corner"><b>LAB<br>HOURS</b></td>';
+    LAB_AM_TIMES.forEach(t => {
+        html += `<td class="tt-lab-header">${t.replace(/\n/g, '<br>')}</td>`;
+    });
+    LAB_PM_TIMES.forEach(t => {
+        html += `<td class="tt-lab-header">${t.replace(/\n/g, '<br>')}</td>`;
+    });
+    html += '</tr>';
 
-        html += `<div class="time-slot">${row.label.replace(" - ", "<br>")}</div>`;
-        DAYS.forEach((day) => {
-            html += `<div class="cell" data-cell="${day}-${row.start}"></div>`;
+    // Day rows
+    DAYS.forEach(day => {
+        html += `<tr class="tt-day-row">`;
+        html += `<td class="tt-day-label"><b>${day.toUpperCase()}</b></td>`;
+        daySlots[day].forEach((cellId, i) => {
+            const label = slotLabels[day][i];
+            html += `<td class="tt-slot" id="${cellId}" data-cell="${cellId}"><span class="tt-slot-label">${label}</span></td>`;
         });
+        html += '</tr>';
     });
 
+    html += '</table>';
     container.innerHTML = html;
 
+    // Fill in selected courses
     selectedCourses.forEach((course, courseIndex) => {
         getSlotTimings(course.slot).forEach((timing) => {
-            const cell = container.querySelector(`[data-cell="${timing.day}-${timing.start}"]`);
+            const cell = container.querySelector(`[data-cell="${timing.cell}"]`);
             if (!cell) return;
 
             const colorClass = getCourseColor(courseIndex);
             cell.innerHTML = `
-                <button class="course-slot bg-gradient-to-br ${colorClass}" onclick="focusSelectedCourse(${courseIndex})" title="${escapeHTML(course.title || "")} | ${escapeHTML(course.faculty || "TBA")} | ${escapeHTML(formatCourseTime(timing))}">
+                <button class="course-slot bg-gradient-to-br ${colorClass}" onclick="focusSelectedCourse(${courseIndex})" title="${escapeHTML(course.title || "")} | ${escapeHTML(course.faculty || "TBA")} | ${escapeHTML(timing.slotName)}">
                     <span class="slot-code">${escapeHTML(course.code)}</span>
                     <span class="slot-name">${escapeHTML(timing.slotName)}</span>
                     <span class="slot-faculty">${escapeHTML(course.faculty || "TBA")}</span>
@@ -529,6 +603,5 @@ window.addEventListener("DOMContentLoaded", () => {
     renderTimetable();
     renderSelectedCourses();
     updateStats();
-    setDensity(timetableDensity);
     loadCourses();
 });

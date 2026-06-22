@@ -46,55 +46,42 @@
         </section>
 
         <section class="planner-layout">
-            <aside class="planner-sidebar">
-                <section class="panel search-panel">
-                    <div class="panel-heading">
-                        <div>
-                            <h3>Courses</h3>
-                            <p>Search by code, faculty, title, or slot.</p>
-                        </div>
-                        <span id="courseCount" class="count-pill">0 courses</span>
+            <section class="panel search-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h3>Courses</h3>
+                        <p>Search by code, faculty, title, or slot.</p>
                     </div>
+                    <span id="courseCount" class="count-pill">0 courses</span>
+                </div>
 
-                    <div class="search-box">
-                        <i class="fas fa-search"></i>
-                        <input id="searchInput" oninput="filterCourses()" type="text" placeholder="Try BCSE, A1, or faculty name">
-                        <button class="icon-button" onclick="clearSearch()" title="Clear search">
-                            <i class="fas fa-xmark"></i>
-                        </button>
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input id="searchInput" oninput="filterCourses()" type="text" placeholder="Try BCSE, A1, or faculty name">
+                    <button class="icon-button" onclick="clearSearch()" title="Clear search">
+                        <i class="fas fa-xmark"></i>
+                    </button>
+                </div>
+
+                <div class="control-row">
+                    <div class="segmented-control" aria-label="Course type filter">
+                        <button onclick="filterByType('all')" class="filter-tag active" data-filter="all" aria-pressed="true">All</button>
+                        <button onclick="filterByType('Theory')" class="filter-tag" data-filter="Theory" aria-pressed="false">Theory</button>
+                        <button onclick="filterByType('Lab')" class="filter-tag" data-filter="Lab" aria-pressed="false">Lab</button>
                     </div>
+                    <label class="select-label">
+                        <span>Sort</span>
+                        <select id="sortSelect" onchange="sortCourses()">
+                            <option value="code">Code</option>
+                            <option value="slot">Slot</option>
+                            <option value="faculty">Faculty</option>
+                            <option value="credits">Credits</option>
+                        </select>
+                    </label>
+                </div>
 
-                    <div class="control-row">
-                        <div class="segmented-control" aria-label="Course type filter">
-                            <button onclick="filterByType('all')" class="filter-tag active" data-filter="all" aria-pressed="true">All</button>
-                            <button onclick="filterByType('Theory')" class="filter-tag" data-filter="Theory" aria-pressed="false">Theory</button>
-                            <button onclick="filterByType('Lab')" class="filter-tag" data-filter="Lab" aria-pressed="false">Lab</button>
-                        </div>
-                        <label class="select-label">
-                            <span>Sort</span>
-                            <select id="sortSelect" onchange="sortCourses()">
-                                <option value="code">Code</option>
-                                <option value="slot">Slot</option>
-                                <option value="faculty">Faculty</option>
-                                <option value="credits">Credits</option>
-                            </select>
-                        </label>
-                    </div>
-
-                    <div id="courseList" class="course-list" aria-live="polite"></div>
-                </section>
-
-                <section class="panel selected-panel">
-                    <div class="panel-heading">
-                        <div>
-                            <h3>Selected</h3>
-                            <p><span id="selectedCount">0</span> courses, <span id="totalCredits">0</span> credits</p>
-                        </div>
-                        <i class="fas fa-list-check panel-icon"></i>
-                    </div>
-                    <div id="selectedCourses" class="selected-list"></div>
-                </section>
-            </aside>
+                <div id="courseList" class="course-list" aria-live="polite"></div>
+            </section>
 
             <section class="panel timetable-panel">
                 <div class="timetable-toolbar">
@@ -102,18 +89,10 @@
                         <h3>Your Timetable</h3>
                         <p>Click a filled slot to jump to its selected course.</p>
                     </div>
-                    <div class="segmented-control density-control" aria-label="Timetable density">
-                        <button class="density-toggle active" data-density="comfortable" onclick="setDensity('comfortable')" aria-pressed="true" title="Comfortable view">
-                            <i class="fas fa-table-cells-large"></i>
-                        </button>
-                        <button class="density-toggle" data-density="compact" onclick="setDensity('compact')" aria-pressed="false" title="Compact view">
-                            <i class="fas fa-table-cells"></i>
-                        </button>
-                    </div>
                 </div>
 
                 <div class="timetable-scroll">
-                    <div id="timetable" class="timetable-grid"></div>
+                    <div id="timetable"></div>
                 </div>
 
                 <div class="helper-strip">
@@ -121,6 +100,17 @@
                     <span><i class="fas fa-keyboard"></i> Ctrl+F focuses search.</span>
                     <span><i class="fas fa-floppy-disk"></i> Selections autosave locally.</span>
                 </div>
+            </section>
+
+            <section class="panel selected-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h3>Selected</h3>
+                        <p><span id="selectedCount">0</span> courses, <span id="totalCredits">0</span> credits</p>
+                    </div>
+                    <i class="fas fa-list-check panel-icon"></i>
+                </div>
+                <div id="selectedCourses" class="selected-list"></div>
             </section>
         </section>
     </main>
