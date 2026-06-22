@@ -2,6 +2,7 @@
 let allCourses = [];
 let selectedCourses = [];
 let currentFilter = '';
+let currentTypeFilter = 'all';
 
 // VIT FFCS Slot Timings (based on official VIT slot chart)
 // Format: each slot maps to array of {day, start, end} occurrences
@@ -223,18 +224,42 @@ function filterCourses() {
     renderCourseList();
 }
 
+function filterByType(type) {
+    currentTypeFilter = type;
+    
+    // Update button styles
+    document.querySelectorAll('.filter-tag').forEach(btn => {
+        if (btn.dataset.filter === type) {
+            btn.classList.add('active', 'bg-indigo-500/20', 'text-indigo-300', 'border-indigo-500/30');
+            btn.classList.remove('bg-gray-800', 'text-gray-400', 'border-gray-700');
+        } else {
+            btn.classList.remove('active', 'bg-indigo-500/20', 'text-indigo-300', 'border-indigo-500/30');
+            btn.classList.add('bg-gray-800', 'text-gray-400', 'border-gray-700');
+        }
+    });
+    
+    renderCourseList();
+}
+
 function renderCourseList() {
     const container = document.getElementById('courseList');
     container.innerHTML = '';
 
     const filtered = allCourses.filter(course => {
-        if (!currentFilter) return true;
+        if (!currentFilter && currentTypeFilter === 'all') return true;
+        
         const searchText = `${course.code} ${course.title || ''} ${course.faculty || ''} ${course.slot || ''}`.toLowerCase();
-        return searchText.includes(currentFilter);
+        const matchesSearch = !currentFilter || searchText.includes(currentFilter);
+        const matchesType = currentTypeFilter === 'all' || (course.type || '').toLowerCase().includes(currentTypeFilter.toLowerCase());
+        
+        return matchesSearch && matchesType;
     });
 
+    // Update course count
+    document.getElementById('courseCount').textContent = `${filtered.length} courses`;
+
     if (filtered.length === 0) {
-        container.innerHTML = `<p class="text-gray-400 text-center py-8">No matching courses found.</p>`;
+        container.innerHTML = `<p class="text-gray-400 text-center py-8"><i class="fas fa-search text-2xl mb-2 block"></i>No matching courses found.</p>`;
         return;
     }
 
@@ -438,6 +463,10 @@ function renderSelectedCourses() {
                 <p>No courses added yet.</p>
                 <p class="text-sm mt-1">Search and click on a course to add it to your timetable.</p>
             </div>`;
+        
+        // Update counts
+        document.getElementById('selectedCount').textContent = '0';
+        document.getElementById('totalCredits').textContent = '0';
         return;
     }
 
@@ -447,7 +476,7 @@ function renderSelectedCourses() {
         const daysList = [...new Set(timings.map(t => t.day))].join(', ');
 
         return `
-            <div class="bg-gray-800 rounded-2xl p-4 flex justify-between items-center border border-gray-700 hover:border-gray-600 transition group">
+            <div class="bg-gray-800 rounded-2xl p-4 flex justify-between items-center border border-gray-700 hover:border-gray-600 transition group animate-fade-in">
                 <div class="flex items-center gap-3 min-w-0">
                     <div class="w-3 h-12 rounded-full bg-gradient-to-b ${colorClass} shrink-0"></div>
                     <div class="min-w-0">
@@ -461,7 +490,7 @@ function renderSelectedCourses() {
                         </div>
                     </div>
                 </div>
-                <button onclick="removeCourse(${idx})" 
+                <button onclick="removeCourse(${idx})"
                         class="w-8 h-8 rounded-full bg-gray-700 hover:bg-red-500 hover:text-white text-gray-400 flex items-center justify-center transition shrink-0 ml-2"
                         title="Remove course">
                     <i class="fas fa-times"></i>
@@ -469,9 +498,12 @@ function renderSelectedCourses() {
             </div>
         `;
     }).join('');
+    
+    // Update counts
+    document.getElementById('selectedCount').textContent = selectedCourses.length;
+    const totalCredits = selectedCourses.reduce((sum, c) => sum + (parseInt(c.credits) || 0), 0);
+    document.getElementById('totalCredits').textContent = totalCredits;
 }
-
-function updateStats() {
     const totalCredits = selectedCourses.reduce((sum, c) => sum + (parseInt(c.credits) || 0), 0);
     const theoryCount = selectedCourses.filter(c => (c.type || '').toLowerCase().includes('theory')).length;
     const labCount = selectedCourses.filter(c => (c.type || '').toLowerCase().includes('lab')).length;
