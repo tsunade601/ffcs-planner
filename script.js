@@ -150,10 +150,74 @@ function getCourseColor(index) {
     return COLORS[index % COLORS.length];
 }
 
+/**
+ * Transform raw course data from data.json into flat course entries.
+ * Each slot option becomes a separate selectable course entry.
+ */
+function transformCourseData(rawCourses) {
+    const transformed = [];
+    
+    for (const raw of rawCourses) {
+        const courseCode = raw.course_code || raw.code || "";
+        const courseTitle = raw.course_title || raw.title || "Untitled";
+        const credits = raw.credits || 0;
+        const category = raw.category || "";
+        const slots = raw.slots || [];
+        
+        // Determine course type based on category or title
+        let courseType = "Theory";
+        const titleLower = courseTitle.toLowerCase();
+        const catLower = category.toLowerCase();
+        if (catLower.includes("lab") || titleLower.includes("lab")) {
+            courseType = "Lab";
+        } else if (catLower.includes("project") || titleLower.includes("project")) {
+            courseType = "Project";
+        }
+        
+        // If no slots defined, create a placeholder
+        if (slots.length === 0) {
+            transformed.push({
+                code: courseCode,
+                title: courseTitle,
+                credits: credits,
+                category: category,
+                slot: "",
+                faculty: "TBA",
+                venue: "TBA",
+                type: courseType,
+            });
+            continue;
+        }
+        
+        // Create one entry per slot option
+        for (const slotOption of slots) {
+            const slotStr = slotOption.slot || "";
+            const faculty = slotOption.faculty || "TBA";
+            const venue = slotOption.venue || "TBA";
+            
+            transformed.push({
+                code: courseCode,
+                title: courseTitle,
+                credits: credits,
+                category: category,
+                slot: slotStr,
+                faculty: faculty,
+                venue: venue,
+                type: courseType,
+            });
+        }
+    }
+    
+    return transformed;
+}
+
 function getCourseId(course) {
     return [course.code, course.slot, course.faculty, course.title].map((part) => part || "").join("|");
 }
 
+/**
+ * Check if any section of a course (by code) is already selected.
+ */
 function isCourseCodeSelected(course) {
     return selectedCourses.some((selected) => selected.code === course.code);
 }
@@ -220,8 +284,9 @@ async function loadCourses() {
     try {
         const response = await fetch("data/data.json");
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const data = await response.json();
-        allCourses = Array.isArray(data) ? data : (data.courses || []);
+        const rawData = await response.json();
+        // Transform the raw data from data.json format to flat course entries
+        allCourses = Array.isArray(rawData) ? transformCourseData(rawData) : transformCourseData(rawData.courses || []);
         renderCourseList();
     } catch (error) {
         console.error("Failed to load courses:", error);
