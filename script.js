@@ -1,639 +1,534 @@
-// FFCS Planner - Complete Working Version
+// FFCS Planner
 let allCourses = [];
 let selectedCourses = [];
-let currentFilter = '';
-let currentTypeFilter = 'all';
+let currentFilter = "";
+let currentTypeFilter = "all";
+let currentSort = "code";
+let timetableDensity = "comfortable";
 
-// VIT FFCS Slot Timings (based on official VIT slot chart)
-// Format: each slot maps to array of {day, start, end} occurrences
-const SLOT_MAP = {
-    // ===== THEORY SLOTS (Morning) =====
-    'A1': [
-        {day: 'Mon', start: '08:00', end: '08:50'},
-        {day: 'Wed', start: '09:00', end: '09:50'}
-    ],
-    'B1': [
-        {day: 'Tue', start: '08:00', end: '08:50'},
-        {day: 'Thu', start: '09:00', end: '09:50'}
-    ],
-    'C1': [
-        {day: 'Wed', start: '08:00', end: '08:50'},
-        {day: 'Fri', start: '09:00', end: '09:50'}
-    ],
-    'D1': [
-        {day: 'Thu', start: '08:00', end: '08:50'},
-        {day: 'Mon', start: '10:00', end: '10:50'}
-    ],
-    'E1': [
-        {day: 'Fri', start: '08:00', end: '08:50'},
-        {day: 'Tue', start: '10:00', end: '10:50'}
-    ],
-    'F1': [
-        {day: 'Mon', start: '09:00', end: '09:50'},
-        {day: 'Wed', start: '10:00', end: '10:50'}
-    ],
-    'G1': [
-        {day: 'Tue', start: '09:00', end: '09:50'},
-        {day: 'Thu', start: '10:00', end: '10:50'}
-    ],
-
-    // ===== THEORY SLOTS (Afternoon) =====
-    'A2': [
-        {day: 'Mon', start: '14:00', end: '14:50'},
-        {day: 'Wed', start: '15:00', end: '15:50'}
-    ],
-    'B2': [
-        {day: 'Tue', start: '14:00', end: '14:50'},
-        {day: 'Thu', start: '15:00', end: '15:50'}
-    ],
-    'C2': [
-        {day: 'Wed', start: '14:00', end: '14:50'},
-        {day: 'Fri', start: '15:00', end: '15:50'}
-    ],
-    'D2': [
-        {day: 'Thu', start: '14:00', end: '14:50'},
-        {day: 'Mon', start: '16:00', end: '16:50'}
-    ],
-    'E2': [
-        {day: 'Fri', start: '14:00', end: '14:50'},
-        {day: 'Tue', start: '16:00', end: '16:50'}
-    ],
-    'F2': [
-        {day: 'Mon', start: '15:00', end: '15:50'},
-        {day: 'Wed', start: '16:00', end: '16:50'}
-    ],
-    'G2': [
-        {day: 'Tue', start: '15:00', end: '15:50'},
-        {day: 'Thu', start: '16:00', end: '16:50'}
-    ],
-
-    // ===== TUTORIAL SLOTS (Morning) =====
-    'TA1': [
-        {day: 'Fri', start: '10:00', end: '10:50'}
-    ],
-    'TB1': [
-        {day: 'Mon', start: '11:00', end: '11:50'}
-    ],
-    'TC1': [
-        {day: 'Tue', start: '11:00', end: '11:50'}
-    ],
-    'TD1': [
-        {day: 'Wed', start: '11:00', end: '11:50'}
-    ],
-    'TE1': [
-        {day: 'Thu', start: '11:00', end: '11:50'}
-    ],
-    'TF1': [
-        {day: 'Fri', start: '11:00', end: '11:50'}
-    ],
-    'TG1': [
-        {day: 'Mon', start: '12:00', end: '12:50'}
-    ],
-    'TAA1': [
-        {day: 'Tue', start: '12:00', end: '12:50'}
-    ],
-
-    // ===== TUTORIAL SLOTS (Afternoon) =====
-    'TA2': [
-        {day: 'Fri', start: '16:00', end: '16:50'}
-    ],
-    'TB2': [
-        {day: 'Mon', start: '17:00', end: '17:50'}
-    ],
-    'TC2': [
-        {day: 'Tue', start: '17:00', end: '17:50'}
-    ],
-    'TD2': [
-        {day: 'Wed', start: '17:00', end: '17:50'}
-    ],
-    'TE2': [
-        {day: 'Thu', start: '17:00', end: '17:50'}
-    ],
-    'TF2': [
-        {day: 'Fri', start: '17:00', end: '17:50'}
-    ],
-    'TG2': [
-        {day: 'Mon', start: '18:00', end: '18:50'}
-    ],
-    'TAA2': [
-        {day: 'Tue', start: '18:00', end: '18:50'}
-    ],
-
-    // ===== LAB SLOTS (Morning) =====
-    'L1':  [{day: 'Mon', start: '08:00', end: '08:50'}],
-    'L2':  [{day: 'Mon', start: '09:00', end: '09:50'}],
-    'L3':  [{day: 'Mon', start: '10:00', end: '10:50'}],
-    'L4':  [{day: 'Mon', start: '11:00', end: '11:50'}],
-    'L5':  [{day: 'Mon', start: '12:00', end: '12:50'}],
-    'L6':  [{day: 'Tue', start: '08:00', end: '08:50'}],
-    'L7':  [{day: 'Tue', start: '09:00', end: '09:50'}],
-    'L8':  [{day: 'Tue', start: '10:00', end: '10:50'}],
-    'L9':  [{day: 'Tue', start: '11:00', end: '11:50'}],
-    'L10': [{day: 'Tue', start: '12:00', end: '12:50'}],
-    'L11': [{day: 'Wed', start: '08:00', end: '08:50'}],
-    'L12': [{day: 'Wed', start: '09:00', end: '09:50'}],
-    'L13': [{day: 'Wed', start: '10:00', end: '10:50'}],
-    'L14': [{day: 'Wed', start: '11:00', end: '11:50'}],
-    'L15': [{day: 'Wed', start: '12:00', end: '12:50'}],
-    'L16': [{day: 'Thu', start: '08:00', end: '08:50'}],
-    'L17': [{day: 'Thu', start: '09:00', end: '09:50'}],
-    'L18': [{day: 'Thu', start: '10:00', end: '10:50'}],
-    'L19': [{day: 'Thu', start: '11:00', end: '11:50'}],
-    'L20': [{day: 'Thu', start: '12:00', end: '12:50'}],
-    'L21': [{day: 'Fri', start: '08:00', end: '08:50'}],
-    'L22': [{day: 'Fri', start: '09:00', end: '09:50'}],
-    'L23': [{day: 'Fri', start: '10:00', end: '10:50'}],
-    'L24': [{day: 'Fri', start: '11:00', end: '11:50'}],
-    'L25': [{day: 'Fri', start: '12:00', end: '12:50'}],
-
-    // ===== LAB SLOTS (Afternoon) =====
-    'L26': [{day: 'Mon', start: '14:00', end: '14:50'}],
-    'L27': [{day: 'Mon', start: '15:00', end: '15:50'}],
-    'L28': [{day: 'Mon', start: '16:00', end: '16:50'}],
-    'L29': [{day: 'Mon', start: '17:00', end: '17:50'}],
-    'L30': [{day: 'Mon', start: '18:00', end: '18:50'}],
-    'L31': [{day: 'Tue', start: '14:00', end: '14:50'}],
-    'L32': [{day: 'Tue', start: '15:00', end: '15:50'}],
-    'L33': [{day: 'Tue', start: '16:00', end: '16:50'}],
-    'L34': [{day: 'Tue', start: '17:00', end: '17:50'}],
-    'L35': [{day: 'Tue', start: '18:00', end: '18:50'}],
-    'L36': [{day: 'Wed', start: '14:00', end: '14:50'}],
-    'L37': [{day: 'Wed', start: '15:00', end: '15:50'}],
-    'L38': [{day: 'Wed', start: '16:00', end: '16:50'}],
-    'L39': [{day: 'Wed', start: '17:00', end: '17:50'}],
-    'L40': [{day: 'Wed', start: '18:00', end: '18:50'}],
-    'L41': [{day: 'Thu', start: '14:00', end: '14:50'}],
-    'L42': [{day: 'Thu', start: '15:00', end: '15:50'}],
-    'L43': [{day: 'Thu', start: '16:00', end: '16:50'}],
-    'L44': [{day: 'Thu', start: '17:00', end: '17:50'}],
-    'L45': [{day: 'Thu', start: '18:00', end: '18:50'}],
-    'L46': [{day: 'Fri', start: '14:00', end: '14:50'}],
-    'L47': [{day: 'Fri', start: '15:00', end: '15:50'}],
-    'L48': [{day: 'Fri', start: '16:00', end: '16:50'}],
-    'L49': [{day: 'Fri', start: '17:00', end: '17:50'}],
-    'L50': [{day: 'Fri', start: '18:00', end: '18:50'}],
+const STORAGE_KEY = "ffcs_timetable_v3";
+const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+const DAY_LABELS = {
+    Mon: "Monday",
+    Tue: "Tuesday",
+    Wed: "Wednesday",
+    Thu: "Thursday",
+    Fri: "Friday",
 };
 
-const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
-// Theory slots: 5 morning + 1 empty + 5 afternoon = 11 columns after day label
-// Lab slots: 6 morning + 6 afternoon = 12 columns after day label
-const THEORY_TIME_SLOTS = ['08:00', '08:55', '09:50', '10:45', '11:40', 'BREAK', '14:00', '14:55', '15:50', '16:45', '17:40'];
-const THEORY_TIME_LABELS = ['08:00 AM<br>to<br>08:50 AM', '08:55 AM<br>to<br>09:45 AM', '09:50 AM<br>to<br>10:40 AM', '10:45 AM<br>to<br>11:35 AM', '11:40 AM<br>to<br>12:30 PM', '', '02:00 PM<br>to<br>02:50 PM', '02:55 PM<br>to<br>03:45 PM', '03:50 PM<br>to<br>04:40 PM', '04:45 PM<br>to<br>05:35 PM', '05:40 PM<br>to<br>06:30 PM'];
-const LAB_TIME_SLOTS = ['08:00', '08:50', '09:50', '10:40', '11:40', '12:30', '14:00', '14:50', '15:50', '16:40', '17:40', '18:30'];
-const LAB_TIME_LABELS = ['08:00 AM<br>to<br>08:50 AM', '08:50 AM<br>to<br>09:40 AM', '09:50 AM<br>to<br>10:40 AM', '10:40 AM<br>to<br>11:30 AM', '11:40 AM<br>to<br>12:30 PM', '12:30 PM<br>to<br>01:20 PM', '02:00 PM<br>to<br>02:50 PM', '02:50 PM<br>to<br>03:40 PM', '03:50 PM<br>to<br>04:40 PM', '04:40 PM<br>to<br>05:30 PM', '05:40 PM<br>to<br>06:30 PM', '06:30 PM<br>to<br>07:20 PM'];
+const GRID_ROWS = [
+    { start: "08:00", end: "08:50", label: "08:00 AM - 08:50 AM" },
+    { start: "09:00", end: "09:50", label: "09:00 AM - 09:50 AM" },
+    { start: "10:00", end: "10:50", label: "10:00 AM - 10:50 AM" },
+    { start: "11:00", end: "11:50", label: "11:00 AM - 11:50 AM" },
+    { start: "12:00", end: "12:50", label: "12:00 PM - 12:50 PM" },
+    { start: "BREAK", end: "", label: "Lunch Break" },
+    { start: "14:00", end: "14:50", label: "02:00 PM - 02:50 PM" },
+    { start: "15:00", end: "15:50", label: "03:00 PM - 03:50 PM" },
+    { start: "16:00", end: "16:50", label: "04:00 PM - 04:50 PM" },
+    { start: "17:00", end: "17:50", label: "05:00 PM - 05:50 PM" },
+    { start: "18:00", end: "18:50", label: "06:00 PM - 06:50 PM" },
+];
 
-// Color palette for courses
+const SLOT_MAP = {
+    A1: [{ day: "Mon", start: "08:00", end: "08:50" }, { day: "Wed", start: "09:00", end: "09:50" }],
+    B1: [{ day: "Tue", start: "08:00", end: "08:50" }, { day: "Thu", start: "09:00", end: "09:50" }],
+    C1: [{ day: "Wed", start: "08:00", end: "08:50" }, { day: "Fri", start: "09:00", end: "09:50" }],
+    D1: [{ day: "Thu", start: "08:00", end: "08:50" }, { day: "Mon", start: "10:00", end: "10:50" }],
+    E1: [{ day: "Fri", start: "08:00", end: "08:50" }, { day: "Tue", start: "10:00", end: "10:50" }],
+    F1: [{ day: "Mon", start: "09:00", end: "09:50" }, { day: "Wed", start: "10:00", end: "10:50" }],
+    G1: [{ day: "Tue", start: "09:00", end: "09:50" }, { day: "Thu", start: "10:00", end: "10:50" }],
+    TA1: [{ day: "Fri", start: "10:00", end: "10:50" }],
+    TB1: [{ day: "Mon", start: "11:00", end: "11:50" }],
+    TC1: [{ day: "Tue", start: "11:00", end: "11:50" }],
+    TD1: [{ day: "Wed", start: "11:00", end: "11:50" }],
+    TE1: [{ day: "Thu", start: "11:00", end: "11:50" }],
+    TF1: [{ day: "Fri", start: "11:00", end: "11:50" }],
+    TG1: [{ day: "Mon", start: "12:00", end: "12:50" }],
+    TAA1: [{ day: "Tue", start: "12:00", end: "12:50" }],
+    TCC1: [{ day: "Thu", start: "12:00", end: "12:50" }],
+
+    A2: [{ day: "Mon", start: "14:00", end: "14:50" }, { day: "Wed", start: "15:00", end: "15:50" }],
+    B2: [{ day: "Tue", start: "14:00", end: "14:50" }, { day: "Thu", start: "15:00", end: "15:50" }],
+    C2: [{ day: "Wed", start: "14:00", end: "14:50" }, { day: "Fri", start: "15:00", end: "15:50" }],
+    D2: [{ day: "Thu", start: "14:00", end: "14:50" }, { day: "Mon", start: "16:00", end: "16:50" }],
+    E2: [{ day: "Fri", start: "14:00", end: "14:50" }, { day: "Tue", start: "16:00", end: "16:50" }],
+    F2: [{ day: "Mon", start: "15:00", end: "15:50" }, { day: "Wed", start: "16:00", end: "16:50" }],
+    G2: [{ day: "Tue", start: "15:00", end: "15:50" }, { day: "Thu", start: "16:00", end: "16:50" }],
+    TA2: [{ day: "Fri", start: "16:00", end: "16:50" }],
+    TB2: [{ day: "Mon", start: "17:00", end: "17:50" }],
+    TC2: [{ day: "Tue", start: "17:00", end: "17:50" }],
+    TD2: [{ day: "Wed", start: "17:00", end: "17:50" }],
+    TE2: [{ day: "Thu", start: "17:00", end: "17:50" }],
+    TF2: [{ day: "Fri", start: "17:00", end: "17:50" }],
+    TG2: [{ day: "Mon", start: "18:00", end: "18:50" }],
+    TAA2: [{ day: "Tue", start: "18:00", end: "18:50" }],
+    TCC2: [{ day: "Thu", start: "18:00", end: "18:50" }],
+};
+
+["08:00", "09:00", "10:00", "11:00", "12:00"].forEach((start) => {
+    DAYS.forEach((day) => {
+        const dayOffset = DAYS.indexOf(day) * 5;
+        const slotNumber = dayOffset + Number(start.slice(0, 2)) - 7;
+        SLOT_MAP[`L${slotNumber}`] = [{ day, start, end: `${start.slice(0, 2)}:50` }];
+    });
+});
+["14:00", "15:00", "16:00", "17:00", "18:00"].forEach((start) => {
+    DAYS.forEach((day) => {
+        const dayOffset = DAYS.indexOf(day) * 5;
+        const slotNumber = 26 + dayOffset + Number(start.slice(0, 2)) - 14;
+        SLOT_MAP[`L${slotNumber}`] = [{ day, start, end: `${start.slice(0, 2)}:50` }];
+    });
+});
+
 const COLORS = [
-    'from-indigo-500 to-purple-600',
-    'from-emerald-500 to-teal-600',
-    'from-rose-500 to-pink-600',
-    'from-amber-500 to-orange-600',
-    'from-cyan-500 to-blue-600',
-    'from-fuchsia-500 to-violet-600',
-    'from-lime-500 to-green-600',
-    'from-red-500 to-orange-600',
-    'from-sky-500 to-indigo-600',
-    'from-yellow-500 to-amber-600',
-    'from-violet-500 to-purple-600',
-    'from-teal-500 to-cyan-600',
+    "from-indigo-500 to-sky-600",
+    "from-emerald-500 to-teal-600",
+    "from-rose-500 to-pink-600",
+    "from-amber-500 to-orange-600",
+    "from-cyan-500 to-blue-600",
+    "from-fuchsia-500 to-violet-600",
+    "from-lime-500 to-green-600",
+    "from-red-500 to-orange-600",
+    "from-slate-500 to-gray-600",
+    "from-yellow-500 to-amber-600",
+    "from-violet-500 to-purple-600",
+    "from-teal-500 to-cyan-600",
 ];
 
 function getCourseColor(index) {
     return COLORS[index % COLORS.length];
 }
 
+function getCourseId(course) {
+    return [course.code, course.slot, course.faculty, course.title].map((part) => part || "").join("|");
+}
+
+function isCourseCodeSelected(course) {
+    return selectedCourses.some((selected) => selected.code === course.code);
+}
+
+function escapeHTML(value = "") {
+    return String(value).replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;",
+    }[char]));
+}
+
+function parseSlots(slotString) {
+    return String(slotString || "")
+        .split("+")
+        .map((slot) => slot.trim().toUpperCase())
+        .filter(Boolean);
+}
+
+function getUnknownSlots(slotString) {
+    return parseSlots(slotString).filter((slot) => !SLOT_MAP[slot]);
+}
+
+function getSlotTimings(slotString) {
+    return parseSlots(slotString).flatMap((slot) => (
+        SLOT_MAP[slot] || []
+    ).map((timing) => ({ ...timing, slotName: slot })));
+}
+
+function toMinutes(time) {
+    const [hours, minutes] = time.split(":").map(Number);
+    return hours * 60 + minutes;
+}
+
+function timesOverlap(a, b) {
+    return a.day === b.day && toMinutes(a.start) < toMinutes(b.end) && toMinutes(b.start) < toMinutes(a.end);
+}
+
+function formatCourseTime(timing) {
+    return `${DAY_LABELS[timing.day] || timing.day}, ${timing.start}-${timing.end}`;
+}
+
+function getFilteredCourses() {
+    const term = currentFilter.toLowerCase();
+    const filtered = allCourses.filter((course) => {
+        const searchText = `${course.code} ${course.title || ""} ${course.faculty || ""} ${course.slot || ""} ${course.type || ""}`.toLowerCase();
+        const matchesSearch = !term || searchText.includes(term);
+        const type = String(course.type || "").toLowerCase();
+        const matchesType = currentTypeFilter === "all" || type.includes(currentTypeFilter.toLowerCase());
+        return matchesSearch && matchesType;
+    });
+
+    return filtered.sort((a, b) => {
+        if (currentSort === "faculty") return String(a.faculty || "").localeCompare(String(b.faculty || ""));
+        if (currentSort === "credits") return Number(b.credits || 0) - Number(a.credits || 0);
+        if (currentSort === "slot") return String(a.slot || "").localeCompare(String(b.slot || ""));
+        return String(a.code || "").localeCompare(String(b.code || ""));
+    });
+}
+
 async function loadCourses() {
     try {
-        const res = await fetch('data/data.json');
-        const data = await res.json();
+        const response = await fetch("data/data.json");
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
         allCourses = Array.isArray(data) ? data : (data.courses || []);
         renderCourseList();
-    } catch(e) {
-        console.error('Failed to load courses:', e);
-        document.getElementById('courseList').innerHTML = `
-            <div class="text-red-400 text-center py-8">
-                <i class="fas fa-exclamation-triangle text-2xl mb-2 block"></i>
+    } catch (error) {
+        console.error("Failed to load courses:", error);
+        document.getElementById("courseList").innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-triangle-exclamation"></i>
                 <p>Failed to load courses.</p>
-                <p class="text-sm text-gray-500 mt-1">Make sure data/data.json exists</p>
+                <span>Run this through a local server so the data file can be fetched.</span>
             </div>`;
     }
 }
 
 function filterCourses() {
-    currentFilter = document.getElementById('searchInput').value.toLowerCase().trim();
+    currentFilter = document.getElementById("searchInput").value.trim();
     renderCourseList();
+}
+
+function clearSearch() {
+    document.getElementById("searchInput").value = "";
+    currentFilter = "";
+    renderCourseList();
+    document.getElementById("searchInput").focus();
 }
 
 function filterByType(type) {
     currentTypeFilter = type;
-    
-    // Update button styles
-    document.querySelectorAll('.filter-tag').forEach(btn => {
-        if (btn.dataset.filter === type) {
-            btn.classList.add('active', 'bg-indigo-500/20', 'text-indigo-300', 'border-indigo-500/30');
-            btn.classList.remove('bg-gray-800', 'text-gray-400', 'border-gray-700');
-        } else {
-            btn.classList.remove('active', 'bg-indigo-500/20', 'text-indigo-300', 'border-indigo-500/30');
-            btn.classList.add('bg-gray-800', 'text-gray-400', 'border-gray-700');
-        }
+    document.querySelectorAll(".filter-tag").forEach((button) => {
+        const active = button.dataset.filter === type;
+        button.classList.toggle("active", active);
+        button.setAttribute("aria-pressed", String(active));
     });
-    
     renderCourseList();
 }
 
-function renderCourseList() {
-    const container = document.getElementById('courseList');
-    container.innerHTML = '';
+function sortCourses() {
+    currentSort = document.getElementById("sortSelect").value;
+    renderCourseList();
+}
 
-    const filtered = allCourses.filter(course => {
-        if (!currentFilter && currentTypeFilter === 'all') return true;
-        
-        const searchText = `${course.code} ${course.title || ''} ${course.faculty || ''} ${course.slot || ''}`.toLowerCase();
-        const matchesSearch = !currentFilter || searchText.includes(currentFilter);
-        const matchesType = currentTypeFilter === 'all' || (course.type || '').toLowerCase().includes(currentTypeFilter.toLowerCase());
-        
-        return matchesSearch && matchesType;
+function setDensity(density) {
+    timetableDensity = density;
+    document.getElementById("timetable").classList.toggle("compact", density === "compact");
+    document.querySelectorAll(".density-toggle").forEach((button) => {
+        const active = button.dataset.density === density;
+        button.classList.toggle("active", active);
+        button.setAttribute("aria-pressed", String(active));
     });
+}
 
-    // Update course count
-    document.getElementById('courseCount').textContent = `${filtered.length} courses`;
+function renderCourseList() {
+    const container = document.getElementById("courseList");
+    const filtered = getFilteredCourses();
+    const selectedIds = new Set(selectedCourses.map(getCourseId));
 
-    if (filtered.length === 0) {
-        container.innerHTML = `<p class="text-gray-400 text-center py-8"><i class="fas fa-search text-2xl mb-2 block"></i>No matching courses found.</p>`;
+    document.getElementById("courseCount").textContent = `${filtered.length} courses`;
+
+    if (!filtered.length) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-magnifying-glass"></i>
+                <p>No matching courses found.</p>
+                <span>Try a code, faculty name, or slot like A1.</span>
+            </div>`;
         return;
     }
 
-    filtered.forEach(course => {
-        const isAdded = selectedCourses.some(c => c.code === course.code);
-        const div = document.createElement('div');
-        div.className = `bg-gray-800 rounded-2xl p-4 transition cursor-pointer border border-transparent hover:border-indigo-500/50 ${isAdded ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-700'}`;
-        div.innerHTML = `
-            <div class="flex justify-between items-start">
-                <div class="font-mono text-indigo-400 text-sm font-bold">${course.code}</div>
-                <span class="text-xs bg-gray-700 px-2.5 py-1 rounded-lg text-gray-300 font-mono">${course.slot || 'N/A'}</span>
-            </div>
-            <div class="font-semibold mt-1 text-sm text-gray-100">${course.title || 'Untitled'}</div>
-            <div class="flex justify-between items-center mt-2.5 text-xs text-gray-400">
-                <span><i class="fas fa-user-tie mr-1.5 text-gray-500"></i>${course.faculty || 'TBA'}</span>
-                <span class="text-emerald-400 font-mono font-semibold">${course.credits || 0} cr</span>
-            </div>
-            ${isAdded ? '<div class="mt-2 text-xs text-amber-400"><i class="fas fa-check-circle mr-1"></i>Already added</div>' : ''}
-        `;
-        if (!isAdded) {
-            div.onclick = () => addCourse(course);
-        }
-        container.appendChild(div);
-    });
+    container.innerHTML = filtered.map((course) => {
+        const courseId = getCourseId(course);
+        const isAdded = selectedIds.has(courseId);
+        const sameCodeSelected = !isAdded && isCourseCodeSelected(course);
+        const conflict = !isAdded ? checkConflict(course) : null;
+        const unknownSlots = getUnknownSlots(course.slot);
+        const encodedCourseId = encodeURIComponent(courseId);
+        const statusClass = isAdded || sameCodeSelected ? "is-added" : conflict ? "has-conflict" : "";
+        const statusText = isAdded
+            ? "Added"
+            : sameCodeSelected
+                ? "Course selected"
+            : conflict
+                ? `Conflicts with ${escapeHTML(conflict.course.code)}`
+                : "Add";
+
+        return `
+            <button class="course-card ${statusClass}" onclick="addCourseById('${encodedCourseId}')" ${isAdded || sameCodeSelected ? "disabled" : ""}>
+                <span class="course-card-top">
+                    <span class="course-code">${escapeHTML(course.code)}</span>
+                    <span class="course-slot-label">${escapeHTML(course.slot || "N/A")}</span>
+                </span>
+                <span class="course-title">${escapeHTML(course.title || "Untitled")}</span>
+                <span class="course-meta">
+                    <span><i class="fas fa-user-tie"></i>${escapeHTML(course.faculty || "TBA")}</span>
+                    <span><i class="fas fa-award"></i>${escapeHTML(course.credits || 0)} cr</span>
+                </span>
+                ${unknownSlots.length ? `<span class="course-warning"><i class="fas fa-circle-exclamation"></i> Unmapped: ${escapeHTML(unknownSlots.join(", "))}</span>` : ""}
+                <span class="course-action">${statusText}</span>
+            </button>`;
+    }).join("");
 }
 
-function parseSlots(slotString) {
-    if (!slotString) return [];
-    // Handle combined slots like "A1+TA1", "L1+L2", "A1+TA1+L1"
-    return slotString.split(/[+]/).map(s => s.trim()).filter(s => s);
-}
-
-function getSlotTimings(slotString) {
-    const slots = parseSlots(slotString);
-    const timings = [];
-    slots.forEach(slot => {
-        if (SLOT_MAP[slot]) {
-            SLOT_MAP[slot].forEach(t => timings.push({...t, slotName: slot}));
-        }
-    });
-    return timings;
-}
-
-function timeToRow(timeStr) {
-    const [hours, minutes] = timeStr.split(':').map(Number);
-    const totalMinutes = hours * 60 + minutes;
-    const startMinutes = 8 * 60; // 08:00 = row 0
-    return Math.floor((totalMinutes - startMinutes) / 60);
-}
-
-// Convert theory slot time to row index (accounting for BREAK at position 5)
-// THEORY_TIME_SLOTS = ['08:00', '08:55', '09:50', '10:45', '11:40', 'BREAK', '14:00', '14:55', '15:50', '16:45', '17:40']
-// Row indices:          0        1        2        3        4         5       6        7        8        9        10
-function theoryTimeToRow(timeStr) {
-    const [hours, minutes] = timeStr.split(':').map(Number);
-    const totalMinutes = hours * 60 + minutes;
-    
-    // Map specific times to their correct row indices
-    const timeToRowMap = {
-        '08:00': 0,
-        '08:55': 1,
-        '09:50': 2,
-        '10:45': 3,
-        '11:40': 4,
-        '14:00': 6,
-        '14:55': 7,
-        '15:50': 8,
-        '16:45': 9,
-        '17:40': 10
-    };
-    
-    return timeToRowMap[timeStr] !== undefined ? timeToRowMap[timeStr] : -1;
-}
-
-function dayToCol(day) {
-    return DAYS.indexOf(day);
+function addCourseById(encodedCourseId) {
+    const courseId = decodeURIComponent(encodedCourseId);
+    const course = allCourses.find((item) => getCourseId(item) === courseId);
+    if (course) addCourse(course);
 }
 
 function checkConflict(course) {
     const newTimings = getSlotTimings(course.slot);
-    if (newTimings.length === 0) return null;
+    if (!newTimings.length) return null;
 
     for (const selected of selectedCourses) {
         const existingTimings = getSlotTimings(selected.slot);
-        for (const newT of newTimings) {
-            for (const existT of existingTimings) {
-                if (newT.day === existT.day && newT.start === existT.start) {
+        for (const incoming of newTimings) {
+            for (const existing of existingTimings) {
+                if (timesOverlap(incoming, existing)) {
                     return {
                         course: selected,
-                        day: newT.day,
-                        time: newT.start,
-                        slot: newT.slotName
+                        day: incoming.day,
+                        time: `${incoming.start}-${incoming.end}`,
+                        slot: incoming.slotName,
                     };
                 }
             }
         }
     }
+
     return null;
 }
 
 function addCourse(course) {
-    // Check if already added
-    if (selectedCourses.some(c => c.code === course.code)) {
-        showToast('Course already added!', 'warning');
+    if (isCourseCodeSelected(course)) {
+        showToast(`${course.code} is already selected. Remove it before choosing another section.`, "warning");
         return;
     }
 
-    // Check for slot conflicts
     const conflict = checkConflict(course);
     if (conflict) {
-        showToast(
-            `Conflict: ${course.code} (${conflict.slot}) clashes with ${conflict.course.code} on ${conflict.day} at ${conflict.time}`,
-            'error',
-            5000
-        );
+        showToast(`${course.code} ${conflict.slot} clashes with ${conflict.course.code} on ${conflict.day} ${conflict.time}.`, "error", 5200);
         return;
     }
 
-    selectedCourses.push({...course, colorIndex: selectedCourses.length});
-    saveToLocal();
-    renderTimetable();
-    renderSelectedCourses();
-    renderCourseList();
-    updateStats();
-    showToast(`${course.code} added successfully!`, 'success');
+    selectedCourses.push({ ...course, colorIndex: selectedCourses.length });
+    syncUI();
+    showToast(`${course.code} added to your timetable.`, "success");
 }
 
 function removeCourse(index) {
     const removed = selectedCourses.splice(index, 1)[0];
-    // Reassign colors
-    selectedCourses.forEach((c, i) => c.colorIndex = i);
-    saveToLocal();
-    renderTimetable();
-    renderSelectedCourses();
-    renderCourseList();
-    updateStats();
-    showToast(`${removed.code} removed`, 'info');
+    selectedCourses.forEach((course, courseIndex) => {
+        course.colorIndex = courseIndex;
+    });
+    syncUI();
+    showToast(`${removed.code} removed.`, "info");
 }
 
 function renderTimetable() {
-    const container = document.getElementById('timetable');
+    const container = document.getElementById("timetable");
+    container.classList.toggle("compact", timetableDensity === "compact");
 
-    // Build grid: header row + time rows (Theory format matching the provided table)
-    let html = '';
-
-    // Header row - TIME label
-    html += `<div class="time-slot p-3 font-mono text-xs font-bold">TIME</div>`;
-    DAYS.forEach(day => {
-        html += `<div class="day-header p-3 text-center">${day}</div>`;
+    let html = `<div class="time-slot time-corner">Time</div>`;
+    DAYS.forEach((day) => {
+        html += `<div class="day-header">${DAY_LABELS[day]}</div>`;
     });
 
-    // Theory time slots with proper formatting
-    THEORY_TIME_SLOTS.forEach((time, i) => {
-        if (time === 'BREAK') {
-            // Skip lunch break in the grid but keep alignment
+    GRID_ROWS.forEach((row) => {
+        if (row.start === "BREAK") {
+            html += `<div class="time-slot break-label">${row.label}</div>`;
+            DAYS.forEach(() => {
+                html += `<div class="cell break-cell"><span>No classes</span></div>`;
+            });
             return;
         }
-        html += `<div class="time-slot p-3 font-mono text-xs leading-tight">${THEORY_TIME_LABELS[i]}</div>`;
-        DAYS.forEach(day => {
-            html += `<div class="cell" data-day="${day}" data-time="${time}"></div>`;
+
+        html += `<div class="time-slot">${row.label.replace(" - ", "<br>")}</div>`;
+        DAYS.forEach((day) => {
+            html += `<div class="cell" data-cell="${day}-${row.start}"></div>`;
         });
     });
 
     container.innerHTML = html;
 
-    // Place courses in correct cells
-    selectedCourses.forEach((course, courseIdx) => {
-        const timings = getSlotTimings(course.slot);
-        timings.forEach(timing => {
-            const col = dayToCol(timing.day);
-            const row = theoryTimeToRow(timing.start);
-            if (col >= 0 && row >= 0 && row <= 10) { // Valid row range (0-10, excluding BREAK at 5)
-                const cells = container.querySelectorAll('.cell');
-                // Adjust index: rows 6-10 need to account for the skipped BREAK row
-                let adjustedRow = row;
-                if (row > 5) {
-                    adjustedRow = row - 1; // Subtract 1 because BREAK row is not rendered
-                }
-                const cell = cells[adjustedRow * 5 + col];
-                if (cell) {
-                    const colorClass = getCourseColor(courseIdx);
-                    cell.innerHTML = `
-                        <div class="course-slot bg-gradient-to-br ${colorClass} text-white p-2 text-xs rounded-lg h-full flex flex-col justify-center cursor-pointer group" title="${course.title}\nFaculty: ${course.faculty}\nSlot: ${course.slot}\nCredits: ${course.credits}">
-                            <div class="font-bold truncate text-11px">${course.code}</div>
-                            <div class="text-10px opacity-80 truncate">${timing.slotName}</div>
-                            <div class="text-9px opacity-60 truncate mt-0.5 hidden group-hover:block">${course.faculty}</div>
-                        </div>
-                    `;
-                }
-            }
+    selectedCourses.forEach((course, courseIndex) => {
+        getSlotTimings(course.slot).forEach((timing) => {
+            const cell = container.querySelector(`[data-cell="${timing.day}-${timing.start}"]`);
+            if (!cell) return;
+
+            const colorClass = getCourseColor(courseIndex);
+            cell.innerHTML = `
+                <button class="course-slot bg-gradient-to-br ${colorClass}" onclick="focusSelectedCourse(${courseIndex})" title="${escapeHTML(course.title || "")} | ${escapeHTML(course.faculty || "TBA")} | ${escapeHTML(formatCourseTime(timing))}">
+                    <span class="slot-code">${escapeHTML(course.code)}</span>
+                    <span class="slot-name">${escapeHTML(timing.slotName)}</span>
+                    <span class="slot-faculty">${escapeHTML(course.faculty || "TBA")}</span>
+                </button>`;
         });
     });
+}
+
+function focusSelectedCourse(index) {
+    const card = document.querySelector(`[data-selected-index="${index}"]`);
+    if (!card) return;
+    card.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    card.classList.add("pulse-once");
+    setTimeout(() => card.classList.remove("pulse-once"), 700);
 }
 
 function renderSelectedCourses() {
-    const container = document.getElementById('selectedCourses');
-    if (selectedCourses.length === 0) {
+    const container = document.getElementById("selectedCourses");
+    if (!selectedCourses.length) {
         container.innerHTML = `
-            <div class="col-span-full text-center py-8 text-gray-500">
-                <i class="fas fa-search text-3xl mb-3 text-gray-700"></i>
+            <div class="empty-state compact-empty">
+                <i class="fas fa-calendar-plus"></i>
                 <p>No courses added yet.</p>
-                <p class="text-sm mt-1">Search and click on a course to add it to your timetable.</p>
+                <span>Pick from the list above to build your timetable.</span>
             </div>`;
-        
-        // Update counts
-        document.getElementById('selectedCount').textContent = '0';
-        document.getElementById('totalCredits').textContent = '0';
         return;
     }
 
-    container.innerHTML = selectedCourses.map((course, idx) => {
-        const colorClass = getCourseColor(idx);
+    container.innerHTML = selectedCourses.map((course, index) => {
+        const colorClass = getCourseColor(index);
         const timings = getSlotTimings(course.slot);
-        const daysList = [...new Set(timings.map(t => t.day))].join(', ');
+        const meetingText = timings.map(formatCourseTime).join(", ") || "No mapped timings";
 
         return `
-            <div class="bg-gray-800 rounded-2xl p-4 flex justify-between items-center border border-gray-700 hover:border-gray-600 transition group animate-fade-in">
-                <div class="flex items-center gap-3 min-w-0">
-                    <div class="w-3 h-12 rounded-full bg-gradient-to-b ${colorClass} shrink-0"></div>
-                    <div class="min-w-0">
-                        <div class="font-mono text-indigo-400 text-sm font-bold">${course.code}</div>
-                        <div class="font-semibold text-sm text-gray-100 truncate">${course.title || 'Untitled'}</div>
-                        <div class="text-xs text-gray-400 mt-1.5 flex flex-wrap gap-x-3 gap-y-1">
-                            <span><i class="fas fa-user-tie mr-1 text-gray-500"></i>${course.faculty || 'TBA'}</span>
-                            <span><i class="fas fa-clock mr-1 text-gray-500"></i>${course.slot || 'N/A'}</span>
-                            <span><i class="fas fa-calendar mr-1 text-gray-500"></i>${daysList || 'N/A'}</span>
-                            <span class="text-emerald-400 font-mono font-semibold">${course.credits || 0} cr</span>
-                        </div>
+            <div class="selected-card" data-selected-index="${index}">
+                <div class="selected-accent bg-gradient-to-b ${colorClass}"></div>
+                <div class="selected-content">
+                    <div class="selected-title-row">
+                        <span class="course-code">${escapeHTML(course.code)}</span>
+                        <span class="course-slot-label">${escapeHTML(course.slot || "N/A")}</span>
                     </div>
+                    <div class="selected-title">${escapeHTML(course.title || "Untitled")}</div>
+                    <div class="selected-meta">${escapeHTML(course.faculty || "TBA")} | ${escapeHTML(course.credits || 0)} credits</div>
+                    <div class="selected-time">${escapeHTML(meetingText)}</div>
                 </div>
-                <button onclick="removeCourse(${idx})"
-                        class="w-8 h-8 rounded-full bg-gray-700 hover:bg-red-500 hover:text-white text-gray-400 flex items-center justify-center transition shrink-0 ml-2"
-                        title="Remove course">
-                    <i class="fas fa-times"></i>
+                <button class="icon-button danger" onclick="removeCourse(${index})" title="Remove ${escapeHTML(course.code)}">
+                    <i class="fas fa-xmark"></i>
                 </button>
-            </div>
-        `;
-    }).join('');
-    
-    // Update counts
-    document.getElementById('selectedCount').textContent = selectedCourses.length;
-    const totalCredits = selectedCourses.reduce((sum, c) => sum + (parseInt(c.credits) || 0), 0);
-    document.getElementById('totalCredits').textContent = totalCredits;
+            </div>`;
+    }).join("");
 }
-    const totalCredits = selectedCourses.reduce((sum, c) => sum + (parseInt(c.credits) || 0), 0);
-    const theoryCount = selectedCourses.filter(c => (c.type || '').toLowerCase().includes('theory')).length;
-    const labCount = selectedCourses.filter(c => (c.type || '').toLowerCase().includes('lab')).length;
-    const otherCount = selectedCourses.length - theoryCount - labCount;
 
-    let html = `
-        <span class="bg-indigo-500/20 text-indigo-300 px-3 py-1.5 rounded-full text-xs font-medium border border-indigo-500/30">
-            <i class="fas fa-book mr-1"></i>${selectedCourses.length} Courses
-        </span>
-        <span class="bg-emerald-500/20 text-emerald-300 px-3 py-1.5 rounded-full text-xs font-medium border border-emerald-500/30">
-            <i class="fas fa-award mr-1"></i>${totalCredits} Credits
-        </span>
-    `;
+function updateStats() {
+    const totalCredits = selectedCourses.reduce((sum, course) => sum + (Number(course.credits) || 0), 0);
+    const busyCells = selectedCourses.reduce((sum, course) => sum + getSlotTimings(course.slot).length, 0);
+    const labCount = selectedCourses.filter((course) => String(course.type || "").toLowerCase().includes("lab")).length;
+    const theoryCount = selectedCourses.filter((course) => String(course.type || "").toLowerCase().includes("theory")).length;
 
-    if (theoryCount > 0) {
-        html += `<span class="bg-gray-700 text-gray-300 px-3 py-1.5 rounded-full text-xs font-medium">${theoryCount} Theory</span>`;
-    }
-    if (labCount > 0) {
-        html += `<span class="bg-gray-700 text-gray-300 px-3 py-1.5 rounded-full text-xs font-medium">${labCount} Lab</span>`;
-    }
-    if (otherCount > 0) {
-        html += `<span class="bg-gray-700 text-gray-300 px-3 py-1.5 rounded-full text-xs font-medium">${otherCount} Other</span>`;
-    }
-
-    document.getElementById('stats').innerHTML = html;
+    document.getElementById("selectedCount").textContent = selectedCourses.length;
+    document.getElementById("totalCredits").textContent = totalCredits;
+    document.getElementById("stats").innerHTML = `
+        <span><i class="fas fa-book-open"></i>${selectedCourses.length} Courses</span>
+        <span><i class="fas fa-award"></i>${totalCredits} Credits</span>
+        <span><i class="fas fa-clock"></i>${busyCells} Slots</span>
+        <span><i class="fas fa-layer-group"></i>${theoryCount}/${labCount} T/L</span>`;
 }
 
 function saveToLocal() {
-    localStorage.setItem('ffcs_timetable_v2', JSON.stringify(selectedCourses));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(selectedCourses));
 }
 
 function loadFromLocal() {
-    const saved = localStorage.getItem('ffcs_timetable_v2');
-    if (saved) {
-        try {
-            selectedCourses = JSON.parse(saved);
-            selectedCourses.forEach((c, i) => c.colorIndex = i);
-        } catch(e) {
-            selectedCourses = [];
-        }
+    const saved = localStorage.getItem(STORAGE_KEY) || localStorage.getItem("ffcs_timetable_v2");
+    if (!saved) return;
+
+    try {
+        selectedCourses = JSON.parse(saved).map((course, index) => ({ ...course, colorIndex: index }));
+    } catch (error) {
+        selectedCourses = [];
     }
+}
+
+function syncUI() {
+    saveToLocal();
+    renderTimetable();
+    renderSelectedCourses();
+    renderCourseList();
+    updateStats();
 }
 
 function clearTimetable() {
-    if (selectedCourses.length === 0) return;
-    if (confirm('Are you sure you want to clear all courses from your timetable?')) {
-        selectedCourses = [];
-        saveToLocal();
-        renderTimetable();
-        renderSelectedCourses();
-        renderCourseList();
-        updateStats();
-        showToast('Timetable cleared', 'info');
+    if (!selectedCourses.length) {
+        showToast("Your timetable is already empty.", "info");
+        return;
     }
+
+    if (!confirm("Clear all selected courses from your timetable?")) return;
+    selectedCourses = [];
+    syncUI();
+    showToast("Timetable cleared.", "info");
 }
 
 async function exportTimetable() {
-    const timetableEl = document.getElementById('timetable');
+    const timetableEl = document.getElementById("timetable");
 
     try {
         const canvas = await html2canvas(timetableEl, {
-            backgroundColor: '#27272a',
+            backgroundColor: "#111827",
             scale: 2,
             useCORS: true,
-            logging: false
+            logging: false,
         });
 
-        const link = document.createElement('a');
-        link.download = `FFCS_Timetable_${new Date().toISOString().split('T')[0]}.png`;
-        link.href = canvas.toDataURL('image/png');
+        const link = document.createElement("a");
+        link.download = `FFCS_Timetable_${new Date().toISOString().split("T")[0]}.png`;
+        link.href = canvas.toDataURL("image/png");
         link.click();
-        showToast('Timetable exported as PNG!', 'success');
-    } catch(e) {
-        console.error('Export failed:', e);
-        showToast('Export failed. Please try again.', 'error');
+        showToast("Timetable exported as PNG.", "success");
+    } catch (error) {
+        console.error("Export failed:", error);
+        showToast("Export failed. Please try again.", "error");
     }
 }
 
-function showToast(message, type = 'info', duration = 3000) {
+function showToast(message, type = "info", duration = 3000) {
     const colors = {
-        success: 'bg-emerald-500',
-        error: 'bg-red-500',
-        warning: 'bg-amber-500',
-        info: 'bg-indigo-500'
+        success: "bg-emerald-500",
+        error: "bg-red-500",
+        warning: "bg-amber-500",
+        info: "bg-indigo-500",
     };
     const icons = {
-        success: 'check-circle',
-        error: 'exclamation-circle',
-        warning: 'exclamation-triangle',
-        info: 'info-circle'
+        success: "check-circle",
+        error: "circle-exclamation",
+        warning: "triangle-exclamation",
+        info: "circle-info",
     };
 
-    // Remove existing toasts
-    document.querySelectorAll('.toast-notification').forEach(t => t.remove());
+    document.querySelectorAll(".toast-notification").forEach((toast) => toast.remove());
 
-    const toast = document.createElement('div');
-    toast.className = `toast-notification fixed bottom-6 right-6 ${colors[type]} text-white px-6 py-3.5 rounded-2xl shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center gap-3 font-medium`;
-    toast.innerHTML = `
-        <i class="fas fa-${icons[type]}"></i>
-        <span>${message}</span>
-    `;
+    const toast = document.createElement("div");
+    toast.className = `toast-notification ${colors[type] || colors.info}`;
+    toast.innerHTML = `<i class="fas fa-${icons[type] || icons.info}"></i><span>${escapeHTML(message)}</span>`;
     document.body.appendChild(toast);
 
-    requestAnimationFrame(() => {
-        toast.classList.remove('translate-y-20', 'opacity-0');
-    });
+    requestAnimationFrame(() => toast.classList.add("show"));
 
     setTimeout(() => {
-        toast.classList.add('translate-y-20', 'opacity-0');
+        toast.classList.remove("show");
         setTimeout(() => toast.remove(), 300);
     }, duration);
 }
 
-// Keyboard shortcuts
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-        document.querySelectorAll('.toast-notification').forEach(t => t.remove());
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+        document.querySelectorAll(".toast-notification").forEach((toast) => toast.remove());
     }
-    if (e.ctrlKey && e.key === 'f') {
-        e.preventDefault();
-        document.getElementById('searchInput').focus();
+
+    if (event.ctrlKey && event.key.toLowerCase() === "f") {
+        event.preventDefault();
+        document.getElementById("searchInput").focus();
     }
 });
 
-// Initialize
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener("DOMContentLoaded", () => {
     loadFromLocal();
-    loadCourses().then(() => {
-        renderTimetable();
-        renderSelectedCourses();
-        updateStats();
-    });
+    renderTimetable();
+    renderSelectedCourses();
+    updateStats();
+    setDensity(timetableDensity);
+    loadCourses();
 });

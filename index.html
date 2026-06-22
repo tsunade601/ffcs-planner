@@ -4,264 +4,126 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FFCS Planner - VIT Timetable Builder</title>
-    <meta name="description" content="Build your VIT timetable effortlessly with real-time conflict detection and modern UI">
+    <meta name="description" content="Build a VIT FFCS timetable with course search, conflict detection, autosave, and PNG export.">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-        body { font-family: 'Inter', system-ui, sans-serif; }
-
-        .timetable-grid {
-            display: grid;
-            grid-template-columns: 110px repeat(5, 1fr);
-            gap: 3px;
-            background: #27272a;
-            padding: 4px;
-            border-radius: 16px;
-        }
-
-        .day-header {
-            background: #18181b;
-            color: #a1a1aa;
-            font-weight: 600;
-            padding: 16px 8px;
-            text-align: center;
-            border-radius: 8px;
-            font-size: 0.9rem;
-        }
-
-        .time-slot {
-            background: #18181b;
-            color: #71717a;
-            padding: 12px 8px;
-            font-size: 0.7rem;
-            text-align: right;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            line-height: 1.3;
-        }
-
-        .cell {
-            min-height: 68px;
-            background: #1f2937;
-            border-radius: 8px;
-            padding: 2px;
-            transition: background 0.2s;
-        }
-
-        .cell:hover {
-            background: #374151;
-        }
-
-        .course-slot {
-            min-height: 64px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.3);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .course-slot:hover {
-            transform: scale(1.02);
-            box-shadow: 0 8px 16px -4px rgb(0 0 0 / 0.4);
-            z-index: 10;
-        }
-
-        #courseList::-webkit-scrollbar,
-        .scrollbar-thin::-webkit-scrollbar {
-            width: 6px;
-        }
-        #courseList::-webkit-scrollbar-track,
-        .scrollbar-thin::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        #courseList::-webkit-scrollbar-thumb,
-        .scrollbar-thin::-webkit-scrollbar-thumb {
-            background: #4b5563;
-            border-radius: 20px;
-        }
-        #courseList::-webkit-scrollbar-thumb:hover,
-        .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-            background: #6b7280;
-        }
-
-        #searchInput:focus {
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
-        }
-
-        .transition-all {
-            transition-property: all;
-            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-            transition-duration: 200ms;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in {
-            animation: fadeIn 0.3s ease-out forwards;
-        }
-
-        .gradient-text {
-            background: linear-gradient(135deg, #818cf8, #c084fc, #a855f7);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .glass {
-            background: rgba(17, 24, 39, 0.7);
-            backdrop-filter: blur(10px);
-        }
-
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        @keyframes slideOut {
-            from { transform: translateX(0); opacity: 1; }
-            to { transform: translateX(100%); opacity: 0; }
-        }
-        .toast-enter {
-            animation: slideIn 0.3s ease-out forwards;
-        }
-        .toast-exit {
-            animation: slideOut 0.3s ease-in forwards;
-        }
-    </style>
-<base target="_blank">
 </head>
-<body class="bg-gray-950 text-gray-100 min-h-screen">
-    <nav class="border-b border-gray-800 bg-gray-900/50 backdrop-blur-sm sticky top-0 z-40">
-        <div class="max-w-7xl mx-auto px-4 lg:px-6">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
-                        <i class="fas fa-calendar-check text-white text-lg"></i>
-                    </div>
-                    <div>
-                        <h1 class="text-xl font-bold gradient-text">FFCS Planner</h1>
-                        <p class="text-xs text-gray-500">VIT Timetable Builder</p>
-                    </div>
+<body>
+    <nav class="app-nav">
+        <div class="nav-inner">
+            <div class="brand">
+                <div class="brand-icon">
+                    <i class="fas fa-calendar-check"></i>
                 </div>
-                <div class="flex items-center gap-2">
-                    <button onclick="exportTimetable()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-xl flex items-center gap-2 transition text-sm font-medium shadow-lg shadow-indigo-500/20" title="Export as PNG">
-                        <i class="fas fa-download"></i>
-                        <span class="hidden sm:inline">Export</span>
-                    </button>
-                    <button onclick="clearTimetable()" class="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-300 hover:text-red-200 rounded-xl flex items-center gap-2 transition text-sm font-medium border border-red-500/30" title="Clear all courses">
-                        <i class="fas fa-trash-alt"></i>
-                        <span class="hidden sm:inline">Clear</span>
-                    </button>
+                <div>
+                    <h1>FFCS Planner</h1>
+                    <p>VIT Timetable Builder</p>
                 </div>
+            </div>
+
+            <div class="nav-actions">
+                <button class="primary-action" onclick="exportTimetable()" title="Export timetable as PNG">
+                    <i class="fas fa-download"></i>
+                    <span>Export</span>
+                </button>
+                <button class="danger-action" onclick="clearTimetable()" title="Clear all selected courses">
+                    <i class="fas fa-trash-alt"></i>
+                    <span>Clear</span>
+                </button>
             </div>
         </div>
     </nav>
 
-    <div class="max-w-7xl mx-auto p-4 lg:p-6">
-        <div class="mb-8 text-center">
-            <h2 class="text-3xl lg:text-4xl font-bold mb-2">Plan Smarter, Register Faster</h2>
-            <p class="text-gray-400 text-sm max-w-2xl mx-auto">Build your perfect timetable with real-time conflict detection. Add courses, visualize your schedule, and export with ease.</p>
-        </div>
+    <main class="app-shell">
+        <section class="workspace-header">
+            <div>
+                <p class="eyebrow">Interactive planner</p>
+                <h2>Build a conflict-free timetable you can actually read.</h2>
+            </div>
+            <div id="stats" class="stats-strip" aria-live="polite"></div>
+        </section>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            <div class="lg:col-span-4 space-y-4">
-                <div class="bg-gray-900 rounded-3xl p-5 border border-gray-800">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-lg font-semibold flex items-center gap-2">
-                            <i class="fas fa-search text-indigo-400"></i>
-                            Browse Courses
-                        </h3>
-                        <span id="courseCount" class="text-xs bg-gray-800 text-gray-400 px-2.5 py-1 rounded-full">0 courses</span>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <div class="relative">
-                            <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"></i>
-                            <input id="searchInput" 
-                                   onkeyup="filterCourses()" 
-                                   type="text" 
-                                   placeholder="Search by code, title, faculty, or slot..." 
-                                   class="w-full bg-gray-800 border border-gray-700 rounded-2xl pl-11 pr-5 py-3.5 text-sm focus:outline-none focus:border-indigo-500 transition placeholder-gray-600">
+        <section class="planner-layout">
+            <aside class="planner-sidebar">
+                <section class="panel search-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Courses</h3>
+                            <p>Search by code, faculty, title, or slot.</p>
                         </div>
-                        <div class="mt-2 flex items-center gap-2 text-xs text-gray-500">
-                            <i class="fas fa-keyboard"></i>
-                            <span>Press <kbd class="bg-gray-800 px-1.5 py-0.5 rounded">Ctrl+F</kbd> to quick search</span>
+                        <span id="courseCount" class="count-pill">0 courses</span>
+                    </div>
+
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input id="searchInput" oninput="filterCourses()" type="text" placeholder="Try BCSE, A1, or faculty name">
+                        <button class="icon-button" onclick="clearSearch()" title="Clear search">
+                            <i class="fas fa-xmark"></i>
+                        </button>
+                    </div>
+
+                    <div class="control-row">
+                        <div class="segmented-control" aria-label="Course type filter">
+                            <button onclick="filterByType('all')" class="filter-tag active" data-filter="all" aria-pressed="true">All</button>
+                            <button onclick="filterByType('Theory')" class="filter-tag" data-filter="Theory" aria-pressed="false">Theory</button>
+                            <button onclick="filterByType('Lab')" class="filter-tag" data-filter="Lab" aria-pressed="false">Lab</button>
                         </div>
+                        <label class="select-label">
+                            <span>Sort</span>
+                            <select id="sortSelect" onchange="sortCourses()">
+                                <option value="code">Code</option>
+                                <option value="slot">Slot</option>
+                                <option value="faculty">Faculty</option>
+                                <option value="credits">Credits</option>
+                            </select>
+                        </label>
                     </div>
 
-                    <div class="mb-4 flex flex-wrap gap-2">
-                        <button onclick="filterByType('all')" class="filter-tag active px-3 py-1.5 text-xs rounded-lg bg-indigo-500/20 text-indigo-300 border border-indigo-500/30" data-filter="all">All</button>
-                        <button onclick="filterByType('Theory')" class="filter-tag px-3 py-1.5 text-xs rounded-lg bg-gray-800 text-gray-400 border border-gray-700 hover:border-gray-600" data-filter="Theory">Theory</button>
-                        <button onclick="filterByType('Lab')" class="filter-tag px-3 py-1.5 text-xs rounded-lg bg-gray-800 text-gray-400 border border-gray-700 hover:border-gray-600" data-filter="Lab">Lab</button>
+                    <div id="courseList" class="course-list" aria-live="polite"></div>
+                </section>
+
+                <section class="panel selected-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Selected</h3>
+                            <p><span id="selectedCount">0</span> courses, <span id="totalCredits">0</span> credits</p>
+                        </div>
+                        <i class="fas fa-list-check panel-icon"></i>
                     </div>
-                    
-                    <div id="courseList" class="max-h-[calc(100vh-420px)] overflow-auto space-y-2.5 pr-1 scrollbar-thin"></div>
-                </div>
-            </div>
+                    <div id="selectedCourses" class="selected-list"></div>
+                </section>
+            </aside>
 
-            <div class="lg:col-span-8 space-y-4">
-                <div class="bg-gray-900 rounded-3xl p-5 border border-gray-800">
-                    <div class="flex justify-between items-center mb-5">
-                        <h2 class="text-xl font-semibold flex items-center gap-2">
-                            <i class="fas fa-calendar-alt text-indigo-400"></i> Your Timetable
-                        </h2>
-                        <div id="stats" class="flex items-center gap-2"></div>
+            <section class="panel timetable-panel">
+                <div class="timetable-toolbar">
+                    <div>
+                        <h3>Your Timetable</h3>
+                        <p>Click a filled slot to jump to its selected course.</p>
                     </div>
-
-                    <div id="timetable" class="timetable-grid rounded-2xl overflow-hidden"></div>
-
-                    <div class="mt-4 pt-4 border-t border-gray-800 flex flex-wrap gap-4 text-xs text-gray-500">
-                        <span class="flex items-center gap-1.5"><i class="fas fa-info-circle text-indigo-400"></i>Click a course to add</span>
-                        <span class="flex items-center gap-1.5"><i class="fas fa-shield-alt text-emerald-400"></i>Auto conflict detection</span>
-                        <span class="flex items-center gap-1.5"><i class="fas fa-mouse-pointer text-purple-400"></i>Hover to preview</span>
+                    <div class="segmented-control density-control" aria-label="Timetable density">
+                        <button class="density-toggle active" data-density="comfortable" onclick="setDensity('comfortable')" aria-pressed="true" title="Comfortable view">
+                            <i class="fas fa-table-cells-large"></i>
+                        </button>
+                        <button class="density-toggle" data-density="compact" onclick="setDensity('compact')" aria-pressed="false" title="Compact view">
+                            <i class="fas fa-table-cells"></i>
+                        </button>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="mt-6 bg-gray-900 rounded-3xl p-5 border border-gray-800">
-            <div class="flex items-center justify-between mb-4">
-                <h3 class="text-lg font-semibold flex items-center gap-2">
-                    <i class="fas fa-list-check text-indigo-400"></i> Added Courses
-                    <span id="selectedCount" class="text-xs bg-indigo-500/20 text-indigo-300 px-2.5 py-1 rounded-full">0</span>
-                </h3>
-                <div class="flex items-center gap-2 text-xs text-gray-500">
-                    <i class="fas fa-circle text-emerald-500"></i>
-                    <span>Total Credits: <span id="totalCredits" class="text-gray-300 font-semibold">0</span></span>
+                <div class="timetable-scroll">
+                    <div id="timetable" class="timetable-grid"></div>
                 </div>
-            </div>
-            <div id="selectedCourses" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
-        </div>
 
-        <div class="mt-6 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-3xl p-5 border border-indigo-500/20">
-            <h3 class="text-sm font-semibold text-indigo-300 mb-3 flex items-center gap-2">
-                <i class="fas fa-lightbulb"></i> Quick Tips
-            </h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs text-gray-400">
-                <div class="flex items-start gap-2">
-                    <i class="fas fa-check text-emerald-400 mt-0.5"></i>
-                    <span>Courses with conflicting slots are automatically detected</span>
+                <div class="helper-strip">
+                    <span><i class="fas fa-shield-alt"></i> Conflicts are blocked before adding.</span>
+                    <span><i class="fas fa-keyboard"></i> Ctrl+F focuses search.</span>
+                    <span><i class="fas fa-floppy-disk"></i> Selections autosave locally.</span>
                 </div>
-                <div class="flex items-start gap-2">
-                    <i class="fas fa-check text-emerald-400 mt-0.5"></i>
-                    <span>Use the search bar to quickly find courses by code or faculty</span>
-                </div>
-                <div class="flex items-start gap-2">
-                    <i class="fas fa-check text-emerald-400 mt-0.5"></i>
-                    <span>Export your timetable as PNG for easy sharing</span>
-                </div>
-                <div class="flex items-start gap-2">
-                    <i class="fas fa-check text-emerald-400 mt-0.5"></i>
-                    <span>Your selections are saved automatically in browser storage</span>
-                </div>
-            </div>
-        </div>
-    </div>
+            </section>
+        </section>
+    </main>
 
     <script src="script.js"></script>
 </body>
