@@ -150,10 +150,97 @@ function getCourseColor(index) {
     return COLORS[index % COLORS.length];
 }
 
+/**
+ * Transform raw course data from data.json into flat course entries.
+ * Each slot option becomes a separate selectable course entry.
+ */
+function transformCourseData(rawCourses) {
+    const transformed = [];
+    
+    for (const raw of rawCourses) {
+        const courseCode = raw.course_code || raw.code || "";
+        const courseTitle = raw.course_title || raw.title || "Untitled";
+        const credits = raw.credits || 0;
+        const category = raw.category || "";
+        const slots = raw.slots || [];
+        
+        for (const slotOption of slots) {
+            const slotStr = slotOption.slot || "";
+            const slotStrLower = slotStr.toLowerCase();
+            const venueStr = slotOption.venue || "";
+            const facultyStr = slotOption.faculty || "";
+            
+            // Skip metadata/header slots
+            if (slotStrLower.includes("theory only") || 
+                slotStrLower.includes("lab only") || 
+                slotStrLower.includes("online course") ||
+                facultyStr.toLowerCase().includes("theory only") ||
+                facultyStr.toLowerCase().includes("lab only") ||
+                facultyStr.toLowerCase().includes("online course")) {
+                continue;
+            }
+            
+            if (/^\d+\s+\d+\s+\d+\s+\d+\s+\d+(\.\d+)?$/.test(venueStr.trim()) || 
+                /^\d+\s+\d+\s+\d+\s+\d+\s+\d+(\.\d+)?\n/.test(venueStr.trim()) || 
+                /^\d+\s+\d+\s+\d+\s+\d+\s+\d+(\.\d+)?\r?\n/.test(venueStr.trim())) {
+                continue;
+            }
+            
+            const faculty = slotOption.faculty || "TBA";
+            const venue = slotOption.venue || "TBA";
+            
+            // Check if slot name indicates it is a Lab slot (starts with L, e.g., L25+L26)
+            const slotsList = slotStr.split("+").map(s => s.trim().toUpperCase());
+            const isLabSlot = slotsList.length > 0 && slotsList.every(s => s.startsWith("L") && s !== "LUNCH");
+            
+            let finalCode = courseCode;
+            let finalTitle = courseTitle;
+            let finalType = "Theory";
+            let finalCredits = credits;
+            
+            if (isLabSlot) {
+                // If it is a lab slot, transform code to end with P if it currently ends with L
+                if (courseCode.endsWith("L")) {
+                    finalCode = courseCode.slice(0, -1) + "P";
+                }
+                finalTitle = courseTitle.toLowerCase().includes("lab") ? courseTitle : courseTitle + " Lab";
+                finalType = "Lab";
+                // Labs are typically 1 credit if the parent is a mixed course
+                if (courseCode.endsWith("L")) {
+                    finalCredits = 1;
+                }
+            } else {
+                // For non-lab slots
+                if (category.toLowerCase().includes("project") || courseTitle.toLowerCase().includes("project")) {
+                    finalType = "Project";
+                } else {
+                    finalType = "Theory";
+                }
+            }
+            
+            transformed.push({
+                code: finalCode,
+                title: finalTitle,
+                credits: finalCredits,
+                category: category,
+                slot: slotStr,
+                faculty: faculty,
+                venue: venue,
+                type: finalType,
+            });
+        }
+    }
+    
+    return transformed;
+}
+
 function getCourseId(course) {
     return [course.code, course.slot, course.faculty, course.title].map((part) => part || "").join("|");
 }
 
+/**
+ * Check if any section of a course (by code) is already selected.
+ */
 function isCourseCodeSelected(course) {
     return selectedCourses.some((selected) => selected.code === course.code);
 }
@@ -176,7 +263,7 @@ function parseSlots(slotString) {
 }
 
 function getUnknownSlots(slotString) {
-    return parseSlots(slotString).filter((slot) => !SLOT_MAP[slot]);
+    return parseSlots(slotString).filter((slot) => slot !== "NIL" && !SLOT_MAP[slot]);
 }
 
 function getSlotTimings(slotString) {
@@ -220,8 +307,9 @@ async function loadCourses() {
     try {
         const response = await fetch("data/data.json");
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const data = await response.json();
-        allCourses = Array.isArray(data) ? data : (data.courses || []);
+        const rawData = await response.json();
+        // Transform the raw data from data.json format to flat course entries
+        allCourses = Array.isArray(rawData) ? transformCourseData(rawData) : transformCourseData(rawData.courses || []);
         renderCourseList();
     } catch (error) {
         console.error("Failed to load courses:", error);

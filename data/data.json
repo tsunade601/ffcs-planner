@@ -1,690 +1,1449 @@
 [
-  {
-    "code": "BCSE316L",
-    "title": "Design of Smart cities",
-    "slot": "F1+TF1",
-    "faculty": "SUSEELA S",
-    "credits": 3,
-    "type": "Theory"
-  },
-  {
-    "code": "BCSE316L",
-    "title": "Design of Smart cities",
-    "slot": "F2+TF2",
-    "faculty": "VALLIDEVI K",
-    "credits": 3,
-    "type": "Theory"
-  },
-  {
-    "code": "BCSE316L",
-    "title": "Design of Smart cities",
-    "slot": "F2+TF2",
-    "faculty": "SUSEELA S",
-    "credits": 3,
-    "type": "Theory"
-  },
-  {
-    "code": "BCSE409L",
-    "title": "Natural Language Processing",
-    "slot": "F1+TF1",
-    "faculty": "KRITHIGA R",
-    "credits": 3,
-    "type": "Theory"
-  },
-  {
-    "code": "BCSE409L",
-    "title": "Natural Language Processing",
-    "slot": "F2+TF2",
-    "faculty": "VIJAYAPRABAKARAN K",
-    "credits": 3,
-    "type": "Theory"
-  },
-  {
-    "code": "BCSE409L",
-    "title": "Natural Language Processing",
-    "slot": "F2+TF2",
-    "faculty": "JANAKI MEENA M",
-    "credits": 3,
-    "type": "Theory"
-  },
-  {
-    "code": "BCSE410L",
-    "title": "Cyber Security",
-    "slot": "F1+TF1",
-    "faculty": "JAYASUDHA M",
-    "credits": 3,
-    "type": "Theory"
-  },
-  {
-    "code": "BCSE410L",
-    "title": "Cyber Security",
-    "slot": "F1+TF1",
-    "faculty": "VIJAYAKUMAR K P",
-    "credits": 3,
-    "type": "Theory"
-  },
-  {
-    "code": "BCSE410L",
-    "title": "Cyber Security",
-    "slot": "F2+TF2",
-    "faculty": "SUBBULAKSHMI T",
-    "credits": 3,
-    "type": "Theory"
-  },
-  {
-    "code": "BHSM200L",
-    "title": "HSM Elective",
-    "slot": "F1+TF1",
-    "faculty": "TBA",
-    "credits": 3,
-    "type": "Theory"
-  },
-  {
-    "code": "BHSM200L",
-    "title": "HSM Elective",
-    "slot": "F2+TF2",
-    "faculty": "TBA",
-    "credits": 3,
-    "type": "Theory"
-  },
-  {
-    "code": "BMAT205L",
-    "title": "Discrete Mathematics and Graph Theory",
-    "slot": "C1+TC1+TCC1",
-    "faculty": "TBA",
-    "credits": 3,
-    "type": "Theory"
-  },
-  {
-    "code": "BMAT205L",
-    "title": "Discrete Mathematics and Graph Theory",
-    "slot": "C2+TC2+TCC2",
-    "faculty": "TBA",
-    "credits": 3,
-    "type": "Theory"
-  },
-  {
-    "code": "BCSE204L/P",
-    "title": "Design and Analysis of Algorithm",
-    "slot": "A1+TA1+L11+L12",
-    "faculty": "KALAIPRIYAN",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE204L/P",
-    "title": "Design and Analysis of Algorithm",
-    "slot": "A1+TA1+L11+L12",
-    "faculty": "SAKTHIVEL R",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE204L/P",
-    "title": "Design and Analysis of Algorithm",
-    "slot": "A1+TA1+L11+L12",
-    "faculty": "JEIPRATHA P N",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE204L/P",
-    "title": "Design and Analysis of Algorithm",
-    "slot": "A1+TA1+L11+L12",
-    "faculty": "K UMA MAHESWARI",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE204L/P",
-    "title": "Design and Analysis of Algorithm",
-    "slot": "A1+TA1+L39+L40",
-    "faculty": "JOSHUA SUNDER DAVID REDDIPOGU",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE204L/P",
-    "title": "Design and Analysis of Algorithm",
-    "slot": "A1+TA1+L39+L40",
-    "faculty": "SUDHA C",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE204L/P",
-    "title": "Design and Analysis of Algorithm",
-    "slot": "A2+TA2+L19+L20",
-    "faculty": "JOSHUA SUNDER DAVID REDDIPOGU",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE204L/P",
-    "title": "Design and Analysis of Algorithm",
-    "slot": "A2+TA2+L19+L20",
-    "faculty": "SUDHA C",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE204L/P",
-    "title": "Design and Analysis of Algorithm",
-    "slot": "A2+TA2+L3+L4",
-    "faculty": "KALAIPRIYAN",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE204L/P",
-    "title": "Design and Analysis of Algorithm",
-    "slot": "A2+TA2+L3+L4",
-    "faculty": "JEIPRATHA P N",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE204L/P",
-    "title": "Design and Analysis of Algorithm",
-    "slot": "A2+TA2+L7+L8",
-    "faculty": "SAKTHIVEL R",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE204L/P",
-    "title": "Design and Analysis of Algorithm",
-    "slot": "A2+TA2+L7+L8",
-    "faculty": "K UMA MAHESWARI",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE302L/P",
-    "title": "Database Systems",
-    "slot": "A1+TA1+L11+L12",
-    "faculty": "ROLLA SUBRAHMANYAM",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE302L/P",
-    "title": "Database Systems",
-    "slot": "A1+TA1+L11+L12",
-    "faculty": "SANKAR P",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE302L/P",
-    "title": "Database Systems",
-    "slot": "A1+TA1+L11+L12",
-    "faculty": "HELEN VIJITHA P",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE302L/P",
-    "title": "Database Systems",
-    "slot": "A1+TA1+L11+L12",
-    "faculty": "PARVATHY A K",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE302L/P",
-    "title": "Database Systems",
-    "slot": "A1+TA1+L39+L40",
-    "faculty": "SIVARANJANI N",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE302L/P",
-    "title": "Database Systems",
-    "slot": "A2+TA2+L19+L20",
-    "faculty": "ROLLA SUBRAHMANYAM",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE302L/P",
-    "title": "Database Systems",
-    "slot": "A2+TA2+L19+L20",
-    "faculty": "SANKAR P",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE302L/P",
-    "title": "Database Systems",
-    "slot": "A2+TA2+L7+L8",
-    "faculty": "HELEN VIJITHA P",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE302L/P",
-    "title": "Database Systems",
-    "slot": "A2+TA2+L7+L8",
-    "faculty": "PARVATHY A K",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE302L/P",
-    "title": "Database Systems",
-    "slot": "A2+TA2+L3+L4",
-    "faculty": "SIVARANJANI N",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE302L/P",
-    "title": "Database Systems",
-    "slot": "A2+TA2+L3+L4",
-    "faculty": "GAYATHRI DEVI S",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE301L/P",
-    "title": "Software Engineering",
-    "slot": "B1+TB1+L29+L30",
-    "faculty": "KAVITHA",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE301L/P",
-    "title": "Software Engineering",
-    "slot": "B1+TB1+L29+L30",
-    "faculty": "REVATHI M",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE301L/P",
-    "title": "Software Engineering",
-    "slot": "B1+TB1+L31+L32",
-    "faculty": "A. K ILAVARASI",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE301L/P",
-    "title": "Software Engineering",
-    "slot": "B1+TB1+L45+L46",
-    "faculty": "ILAKIYASELVAN N",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE301L/P",
-    "title": "Software Engineering",
-    "slot": "B1+TB1+L45+L46",
-    "faculty": "PARKAVI K",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE301L/P",
-    "title": "Software Engineering",
-    "slot": "B1+TB1+L45+L46",
-    "faculty": "SUGANESHWARI",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE301L/P",
-    "title": "Software Engineering",
-    "slot": "B2+TB2+L13+L14",
-    "faculty": "A. K ILAVARASI",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE301L/P",
-    "title": "Software Engineering",
-    "slot": "B2+TB2+L15+L16",
-    "faculty": "ILAKIYASELVAN N",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE301L/P",
-    "title": "Software Engineering",
-    "slot": "B2+TB2+L15+L16",
-    "faculty": "SUGANESHWARI",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE301L/P",
-    "title": "Software Engineering",
-    "slot": "B2+TB2+L25+L26",
-    "faculty": "KAVITHA",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE301L/P",
-    "title": "Software Engineering",
-    "slot": "B2+TB2+L25+L26",
-    "faculty": "REVATHI M",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE301L/P",
-    "title": "Software Engineering",
-    "slot": "B2+TB2+L25+L26",
-    "faculty": "PARKAVI K",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE307L/P",
-    "title": "Compiler Design",
-    "slot": "B1+TB1+L29+L30",
-    "faculty": "RATHNA",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE307L/P",
-    "title": "Compiler Design",
-    "slot": "B1+TB1+L29+L30",
-    "faculty": "INDIRA B",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE307L/P",
-    "title": "Compiler Design",
-    "slot": "B1+TB1+L43+L44",
-    "faculty": "PANKAJA LAKSHMI P",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE307L/P",
-    "title": "Compiler Design",
-    "slot": "B1+TB1+L45+L46",
-    "faculty": "ARAVINDKUMAR S",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE307L/P",
-    "title": "Compiler Design",
-    "slot": "B1+TB1+L45+L46",
-    "faculty": "RAJA M",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE307L/P",
-    "title": "Compiler Design",
-    "slot": "B2+TB2+L15+L16",
-    "faculty": "ARAVINDKUMAR S",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE307L/P",
-    "title": "Compiler Design",
-    "slot": "B2+TB2+L15+L16",
-    "faculty": "RAJA M",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE307L/P",
-    "title": "Compiler Design",
-    "slot": "B2+TB2+L25+L26",
-    "faculty": "RATHNA",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE307L/P",
-    "title": "Compiler Design",
-    "slot": "B2+TB2+L25+L26",
-    "faculty": "INDIRA B",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE307L/P",
-    "title": "Compiler Design",
-    "slot": "B2+TB2+L27+L28",
-    "faculty": "MANAS RANJAN PRUSTY",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE307L/P",
-    "title": "Compiler Design",
-    "slot": "B2+TB2+L27+L28",
-    "faculty": "DEEPIKA R",
-    "credits": 4,
-    "type": "Theory+Lab"
-  },
-  {
-    "code": "BCSE305L",
-    "title": "Embedded Systems",
-    "slot": "D1+TD1",
-    "faculty": "TBA",
-    "credits": 3,
-    "type": "Theory"
-  },
-  {
-    "code": "BCSE305L",
-    "title": "Embedded Systems",
-    "slot": "D2+TD2",
-    "faculty": "TBA",
-    "credits": 3,
-    "type": "Theory"
-  },
-  {
-    "code": "BCSE355L",
-    "title": "Cloud Architecture Design",
-    "slot": "E1+TE1",
-    "faculty": "SELLAM V",
-    "credits": 3,
-    "type": "Theory"
-  },
-  {
-    "code": "BCSE355L",
-    "title": "Cloud Architecture Design",
-    "slot": "E1+TE1",
-    "faculty": "OMANA J",
-    "credits": 3,
-    "type": "Theory"
-  },
-  {
-    "code": "BCSE355L",
-    "title": "Cloud Architecture Design",
-    "slot": "E1+TE1",
-    "faculty": "VIVEKANANDAN M",
-    "credits": 3,
-    "type": "Theory"
-  },
-  {
-    "code": "BCSE355L",
-    "title": "Cloud Architecture Design",
-    "slot": "E1+TE1",
-    "faculty": "POORNIMA S",
-    "credits": 3,
-    "type": "Theory"
-  },
-  {
-    "code": "BCSE355L",
-    "title": "Cloud Architecture Design",
-    "slot": "E1+TE1",
-    "faculty": "S VIGNESHWARI",
-    "credits": 3,
-    "type": "Theory"
-  },
-  {
-    "code": "BCSE355L",
-    "title": "Cloud Architecture Design",
-    "slot": "E1+TE1",
-    "faculty": "PREETHA EVANGELINE D",
-    "credits": 3,
-    "type": "Theory"
-  },
-  {
-    "code": "BCSE355L",
-    "title": "Cloud Architecture Design",
-    "slot": "E1+TE1",
-    "faculty": "MAHESWARI P",
-    "credits": 3,
-    "type": "Theory"
-  },
-  {
-    "code": "BCSE355L",
-    "title": "Cloud Architecture Design",
-    "slot": "E1+TE1",
-    "faculty": "PREMANAND V",
-    "credits": 3,
-    "type": "Theory"
-  },
-  {
-    "code": "BCSE355L",
-    "title": "Cloud Architecture Design",
-    "slot": "E1+TE1",
-    "faculty": "VISWANATHAN V",
-    "credits": 3,
-    "type": "Theory"
-  },
-  {
-    "code": "BCSE355L",
-    "title": "Cloud Architecture Design",
-    "slot": "E1+TE1",
-    "faculty": "VIJAYARAJ J",
-    "credits": 3,
-    "type": "Theory"
-  },
-  {
-    "code": "BCSE355L",
-    "title": "Cloud Architecture Design",
-    "slot": "E1+TE1",
-    "faculty": "RAJKUMAR R",
-    "credits": 3,
-    "type": "Theory"
-  },
-  {
-    "code": "BCSE355L",
-    "title": "Cloud Architecture Design",
-    "slot": "E2+TE2",
-    "faculty": "SELLAM V",
-    "credits": 3,
-    "type": "Theory"
-  },
-  {
-    "code": "BCSE355L",
-    "title": "Cloud Architecture Design",
-    "slot": "E2+TE2",
-    "faculty": "OMANA J",
-    "credits": 3,
-    "type": "Theory"
-  },
-  {
-    "code": "BCSE355L",
-    "title": "Cloud Architecture Design",
-    "slot": "E2+TE2",
-    "faculty": "VIVEKANANDAN M",
-    "credits": 3,
-    "type": "Theory"
-  },
-  {
-    "code": "BCSE355L",
-    "title": "Cloud Architecture Design",
-    "slot": "E2+TE2",
-    "faculty": "VIJAYARAJ J",
-    "credits": 3,
-    "type": "Theory"
-  },
-  {
-    "code": "BCSE355L",
-    "title": "Cloud Architecture Design",
-    "slot": "E2+TE2",
-    "faculty": "PREETHA EVANGELINE D",
-    "credits": 3,
-    "type": "Theory"
-  },
-  {
-    "code": "BCSE355L",
-    "title": "Cloud Architecture Design",
-    "slot": "E2+TE2",
-    "faculty": "PREMANAND V",
-    "credits": 3,
-    "type": "Theory"
-  },
-  {
-    "code": "BCSE355L",
-    "title": "Cloud Architecture Design",
-    "slot": "E2+TE2",
-    "faculty": "MAHESWARI P",
-    "credits": 3,
-    "type": "Theory"
-  },
-  {
-    "code": "BCSE355L",
-    "title": "Cloud Architecture Design",
-    "slot": "E2+TE2",
-    "faculty": "RAJKUMAR R",
-    "credits": 3,
-    "type": "Theory"
-  },
-  {
-    "code": "BCSE355L",
-    "title": "Cloud Architecture Design",
-    "slot": "E2+TE2",
-    "faculty": "S VIGNESHWARI",
-    "credits": 3,
-    "type": "Theory"
-  },
-  {
-    "code": "BCSE355L",
-    "title": "Cloud Architecture Design",
-    "slot": "E2+TE2",
-    "faculty": "POORNIMA S",
-    "credits": 3,
-    "type": "Theory"
-  },
-  {
-    "code": "BCSE355L",
-    "title": "Cloud Architecture Design",
-    "slot": "E2+TE2",
-    "faculty": "VISWANATHAN V",
-    "credits": 3,
-    "type": "Theory"
-  },
-  {
-    "code": "BCSE355L",
-    "title": "Cloud Architecture Design",
-    "slot": "E2+TE2",
-    "faculty": "VISWANATHAN V",
-    "credits": 3,
-    "type": "Theory"
-  },
-  {
-    "code": "BSTS301P",
-    "title": "Advanced Competitive Coding \u2013 I",
-    "slot": "G1+TG1",
-    "faculty": "TBA",
-    "credits": 1,
-    "type": "Lab"
-  },
-  {
-    "code": "BSTS301P",
-    "title": "Advanced Competitive Coding \u2013 I",
-    "slot": "G2+TG2",
-    "faculty": "TBA",
-    "credits": 1,
-    "type": "Lab"
-  }
+{
+  "course_code": "BSTS301P",
+  "course_title": "Advanced Competitive Coding - I - Soft Skill",
+  "credits": 3,
+  "category": "OE",
+  "slots": [
+    {
+      "slot": "G2+TG2",
+      "venue": "AB3-505",
+      "faculty": "FACE (APT)"
+    },
+    {
+      "slot": "G2+TG2",
+      "venue": "AB3-409",
+      "faculty": "FACE (APT)"
+    },
+    {
+      "slot": "G1+TG1",
+      "venue": "AB3-405",
+      "faculty": "FACE (APT)"
+    },
+    {
+      "slot": "G1+TG1",
+      "venue": "AB3-406",
+      "faculty": "ETHNUS (APT)"
+    },
+    {
+      "slot": "G1+TG1",
+      "venue": "AB3-407",
+      "faculty": "FACE (APT)"
+    },
+    {
+      "slot": "G1+TG1",
+      "venue": "AB3-409",
+      "faculty": "ETHNUS (APT)"
+    },
+    {
+      "slot": "G1+TG1",
+      "venue": "AB3-413",
+      "faculty": "FACE (APT)"
+    },
+    {
+      "slot": "G1+TG1",
+      "venue": "AB3-503",
+      "faculty": "ETHNUS (APT)"
+    },
+    {
+      "slot": "G1+TG1",
+      "venue": "AB3-504",
+      "faculty": "FACE (APT)"
+    },
+    {
+      "slot": "G1+TG1",
+      "venue": "AB3-505",
+      "faculty": "ETHNUS (APT)"
+    },
+    {
+      "slot": "G1+TG1",
+      "venue": "AB3-506",
+      "faculty": "FACE (APT)"
+    },
+    {
+      "slot": "G1+TG1",
+      "venue": "AB3-507",
+      "faculty": "ETHNUS (APT)"
+    },
+    {
+      "slot": "G2+TG2",
+      "venue": "AB3-403",
+      "faculty": "FACE (APT)"
+    },
+    {
+      "slot": "G2+TG2",
+      "venue": "AB3-404",
+      "faculty": "ETHNUS (APT)"
+    },
+    {
+      "slot": "G2+TG2",
+      "venue": "AB3-405",
+      "faculty": "FACE (APT)"
+    },
+    {
+      "slot": "G2+TG2",
+      "venue": "AB3-406",
+      "faculty": "ETHNUS (APT)"
+    },
+    {
+      "slot": "G2+TG2",
+      "venue": "AB3-407",
+      "faculty": "FACE (APT)"
+    },
+    {
+      "slot": "G2+TG2",
+      "venue": "AB3-408",
+      "faculty": "ETHNUS (APT)"
+    },
+    {
+      "slot": "G2+TG2",
+      "venue": "AB3-413",
+      "faculty": "ETHNUS (APT)"
+    },
+    {
+      "slot": "G2+TG2",
+      "venue": "AB3-503",
+      "faculty": "FACE (APT)"
+    },
+    {
+      "slot": "G2+TG2",
+      "venue": "AB3-504",
+      "faculty": "ETHNUS (APT)"
+    },
+    {
+      "slot": "G2+TG2",
+      "venue": "AB3-506",
+      "faculty": "ETHNUS (APT)"
+    }
+  ]
+},
+{
+  "course_code": "BCSE355L",
+  "course_title": "Cloud Architecture Design",
+  "credits": 3,
+  "category": "OE",
+  "slots": [
+    {
+      "slot": "E2+TE2",
+      "venue": "AB3-413",
+      "faculty": "VISWANATHAN V"
+    },
+    {
+      "slot": "E2+TE2",
+      "venue": "AB3-504",
+      "faculty": "VISWANATHAN V"
+    },
+    {
+      "slot": "E2+TE2",
+      "venue": "AB3-406",
+      "faculty": "VIJAYARAJ J"
+    },
+    {
+      "slot": "E1+TE1",
+      "venue": "AB3-405",
+      "faculty": "SELLAM V"
+    },
+    {
+      "slot": "E1+TE1",
+      "venue": "AB3-406",
+      "faculty": "OMANA J"
+    },
+    {
+      "slot": "E1+TE1",
+      "venue": "AB3-407",
+      "faculty": "VIVEKANANDAN M"
+    },
+    {
+      "slot": "E1+TE1",
+      "venue": "AB3-408",
+      "faculty": "POORNIMA S"
+    },
+    {
+      "slot": "E1+TE1",
+      "venue": "AB3-409",
+      "faculty": "S VIGNESHWARI"
+    },
+    {
+      "slot": "E1+TE1",
+      "venue": "AB3-413",
+      "faculty": "PREETHA EVANGELINE D"
+    },
+    {
+      "slot": "E1+TE1",
+      "venue": "AB3-503",
+      "faculty": "MAHESWARI P"
+    },
+    {
+      "slot": "E1+TE1",
+      "venue": "AB3-504",
+      "faculty": "PREMANAND V"
+    },
+    {
+      "slot": "E1+TE1",
+      "venue": "AB3-505",
+      "faculty": "VISWANATHAN V"
+    },
+    {
+      "slot": "E1+TE1",
+      "venue": "AB3-506",
+      "faculty": "VIJAYARAJ J"
+    },
+    {
+      "slot": "E1+TE1",
+      "venue": "AB3-507",
+      "faculty": "RAJKUMAR R"
+    },
+    {
+      "slot": "E2+TE2",
+      "venue": "AB3-403",
+      "faculty": "SELLAM V"
+    },
+    {
+      "slot": "E2+TE2",
+      "venue": "AB3-404",
+      "faculty": "OMANA J"
+    },
+    {
+      "slot": "E2+TE2",
+      "venue": "AB3-405",
+      "faculty": "VIVEKANANDAN M"
+    },
+    {
+      "slot": "E2+TE2",
+      "venue": "AB3-407",
+      "faculty": "PREETHA EVANGELINE D"
+    },
+    {
+      "slot": "E2+TE2",
+      "venue": "AB3-408",
+      "faculty": "PREMANAND V"
+    },
+    {
+      "slot": "E2+TE2",
+      "venue": "AB3-409",
+      "faculty": "MAHESWARI P"
+    },
+    {
+      "slot": "E2+TE2",
+      "venue": "AB3-503",
+      "faculty": "RAJKUMAR R"
+    },
+    {
+      "slot": "E2+TE2",
+      "venue": "AB3-505",
+      "faculty": "S VIGNESHWARI"
+    },
+    {
+      "slot": "E2+TE2",
+      "venue": "AB3-506",
+      "faculty": "POORNIMA S"
+    }
+  ]
+},
+{
+  "course_code": "BCLE214L",
+  "course_title": "Global Warming",
+  "credits": 3,
+  "category": "FCHSSM",
+  "slots": [
+    {
+      "slot": "BCLE214L - Global Warming - Theory Only",
+      "venue": "3 0 0 0 3.0",
+      "faculty": "Theory Only"
+    },
+    {
+      "slot": "F1+TF1",
+      "venue": "AB1-411",
+      "faculty": "ARUN KUMAR A"
+    },
+    {
+      "slot": "G1+TG1",
+      "venue": "AB2-405",
+      "faculty": "HELEN SANTHI M"
+    },
+    {
+      "slot": "G2+TG2",
+      "venue": "AB3-313",
+      "faculty": "K PALANIVELU"
+    }
+  ]
+},
+{
+  "course_code": "BCLE215L",
+  "course_title": "Waste Management",
+  "credits": 3,
+  "category": "FCHSSM",
+  "slots": [
+    {
+      "slot": "BCLE215L - Waste Management - Theory Only",
+      "venue": "3 0 0 0 3.0",
+      "faculty": "Theory Only"
+    },
+    {
+      "slot": "F2+TF2",
+      "venue": "AB2-405",
+      "faculty": "SENTHILPANDIAN M"
+    },
+    {
+      "slot": "G1+TG1",
+      "venue": "AB3-313",
+      "faculty": "KARTHIYAINI S"
+    },
+    {
+      "slot": "G2+TG2",
+      "venue": "AB1-611",
+      "faculty": "SABUMON P C"
+    }
+  ]
+},
+{
+  "course_code": "BCLE216L",
+  "course_title": "Water Resource Management",
+  "credits": 3,
+  "category": "FCHSSM",
+  "slots": [
+    {
+      "slot": "BCLE216L - Water Resource Management - Theory Only",
+      "venue": "3 0 0 0 3.0",
+      "faculty": "Theory Only"
+    },
+    {
+      "slot": "F2+TF2",
+      "venue": "AB1-411",
+      "faculty": "YAMINI SREEVALLI I"
+    },
+    {
+      "slot": "G1+TG1",
+      "venue": "AB3-513",
+      "faculty": "ELAVENIL S"
+    }
+  ]
+},
+{
+  "course_code": "BHUM103L",
+  "course_title": "Micro Economics",
+  "credits": 3,
+  "category": "FCHSSM",
+  "slots": [
+    {
+      "slot": "BHUM103L - Micro Economics - Theory Only",
+      "venue": "3 0 0 0 3.0",
+      "faculty": "Theory Only"
+    },
+    {
+      "slot": "F1+TF1",
+      "venue": "AB3-406",
+      "faculty": "RAJA RAJESWARI G"
+    }
+  ]
+},
+{
+  "course_code": "BHUM104L",
+  "course_title": "Macro Economics",
+  "credits": 3,
+  "category": "FCHSSM",
+  "slots": [
+    {
+      "slot": "BHUM104L - Macro Economics - Theory Only",
+      "venue": "3 0 0 0 3.0",
+      "faculty": "Theory Only"
+    },
+    {
+      "slot": "F2+TF2",
+      "venue": "AB3-408",
+      "faculty": "MUHAMMED NAJEEB K K"
+    }
+  ]
+},
+{
+  "course_code": "BHUM108L",
+  "course_title": "URBAN COMMUNITY DEVELOPMENT",
+  "credits": 3,
+  "category": "FCHSSM",
+  "slots": [
+    {
+      "slot": "BHUM108L - URBAN COMMUNITY DEVELOPMENT - Theory Only",
+      "venue": "3 0 0 0 3.0",
+      "faculty": "Theory Only"
+    },
+    {
+      "slot": "F2+TF2",
+      "venue": "AB3-409",
+      "faculty": "SWATI"
+    }
+  ]
+},
+{
+  "course_code": "BHUM109L",
+  "course_title": "SOCIAL WORK AND SUSTAINABILITY",
+  "credits": 3,
+  "category": "FCHSSM",
+  "slots": [
+    {
+      "slot": "BHUM109L - SOCIAL WORK AND SUSTAINABILITY - Theory Only",
+      "venue": "3 0 0 0 3.0",
+      "faculty": "Theory Only"
+    },
+    {
+      "slot": "F1+TF1",
+      "venue": "AB3-506",
+      "faculty": "BINU SAHAYAM D"
+    },
+    {
+      "slot": "F2+TF2",
+      "venue": "AB2-404",
+      "faculty": "BINU SAHAYAM D"
+    }
+  ]
+},
+{
+  "course_code": "BHUM110L",
+  "course_title": "Cognitive Psychology",
+  "credits": 3,
+  "category": "FCHSSM",
+  "slots": [
+    {
+      "slot": "BHUM110L - Cognitive Psychology - Theory Only",
+      "venue": "3 0 0 0 3.0",
+      "faculty": "Theory Only"
+    },
+    {
+      "slot": "F1+TF1",
+      "venue": "AB3-507",
+      "faculty": "MAYA RATHNASABAPATHY"
+    }
+  ]
+},
+{
+  "course_code": "BMGT101L",
+  "course_title": "Principles of Management",
+  "credits": 3,
+  "category": "FCHSSM",
+  "slots": [
+    {
+      "slot": "BMGT101L - Principles of Management - Theory Only",
+      "venue": "3 0 0 0 3.0",
+      "faculty": "Theory Only"
+    },
+    {
+      "slot": "F1+TF1",
+      "venue": "AB3-403",
+      "faculty": "RAJKUMAR MURUGESAN"
+    },
+    {
+      "slot": "F1+TF1",
+      "venue": "AB3-404",
+      "faculty": "WASI YAZDANI"
+    },
+    {
+      "slot": "F2+TF2",
+      "venue": "AB3-708",
+      "faculty": "RAJKUMAR MURUGESAN"
+    },
+    {
+      "slot": "F2+TF2",
+      "venue": "AB3-404",
+      "faculty": "WASI YAZDANI"
+    }
+  ]
+},
+{
+  "course_code": "BMGT102L",
+  "course_title": "Human Resource Management",
+  "credits": 3,
+  "category": "FCHSSM",
+  "slots": [
+    {
+      "slot": "BMGT102L - Human Resource Management - Theory Only",
+      "venue": "3 0 0 0 3.0",
+      "faculty": "Theory Only"
+    },
+    {
+      "slot": "F1+TF1",
+      "venue": "AB3-405",
+      "faculty": "NISHA R"
+    },
+    {
+      "slot": "F2+TF2",
+      "venue": "AB3-406",
+      "faculty": "MOHD HAMMAD NAEEM"
+    },
+    {
+      "slot": "F2+TF2",
+      "venue": "AB3-407",
+      "faculty": "MOHD NADEEM BHAT"
+    }
+  ]
+},
+{
+  "course_code": "BMGT104L",
+  "course_title": "Marketing Management",
+  "credits": 3,
+  "category": "FCHSSM",
+  "slots": [
+    {
+      "slot": "BMGT104L - Marketing Management - Theory Only",
+      "venue": "3 0 0 0 3.0",
+      "faculty": "Theory Only"
+    },
+    {
+      "slot": "F2+TF2",
+      "venue": "AB3-405",
+      "faculty": "ARSHIYA FATHIMA M S"
+    },
+    {
+      "slot": "G1+TG1",
+      "venue": "AB3-603",
+      "faculty": "RAJKUMAR MURUGESAN"
+    },
+    {
+      "slot": "G2+TG2",
+      "venue": "AB3-603",
+      "faculty": "SHAMAL S"
+    }
+  ]
+},
+{
+  "course_code": "BMAT205L",
+  "course_title": "Discrete Mathematics and Graph Theory",
+  "credits": 3,
+  "category": "DLES",
+  "slots": [
+    {
+      "slot": "BMAT205L - Discrete Mathematics and Graph Theory - Theory Only",
+      "venue": "3 1 0 0 4.0",
+      "faculty": "Theory Only"
+    },
+    {
+      "slot": "C2+TC2+TCC2",
+      "venue": "AB3-506",
+      "faculty": "P MOHAN"
+    },
+    {
+      "slot": "C2+TC2+TCC2",
+      "venue": "AB3-413",
+      "faculty": "SURATH"
+    },
+    {
+      "slot": "C2+TC2+TCC2",
+      "venue": "AB3-504",
+      "faculty": "SANDIP KUMAR DAS"
+    },
+    {
+      "slot": "C1+TC1+TCC1",
+      "venue": "AB3-507",
+      "faculty": "PULAK KONAR"
+    },
+    {
+      "slot": "C2+TC2+TCC2",
+      "venue": "AB3-407",
+      "faculty": "DHIVYA P"
+    },
+    {
+      "slot": "C1+TC1+TCC1",
+      "venue": "AB3-405",
+      "faculty": "THANGARAJ M"
+    },
+    {
+      "slot": "C1+TC1+TCC1",
+      "venue": "AB3-406",
+      "faculty": "BERIN GREENI A"
+    },
+    {
+      "slot": "C1+TC1+TCC1",
+      "venue": "AB3-407",
+      "faculty": "KALYAN"
+    },
+    {
+      "slot": "C1+TC1+TCC1",
+      "venue": "AB3-408",
+      "faculty": "OM NAMHA SHIVAY"
+    },
+    {
+      "slot": "C1+TC1+TCC1",
+      "venue": "AB3-409",
+      "faculty": "SANDIP"
+    },
+    {
+      "slot": "C1+TC1+TCC1",
+      "venue": "AB3-413",
+      "faculty": "AMIT KUMAR RAHUL"
+    },
+    {
+      "slot": "C1+TC1+TCC1",
+      "venue": "AB3-503",
+      "faculty": "SOUMENDU ROY"
+    },
+    {
+      "slot": "C1+TC1+TCC1",
+      "venue": "AB3-504",
+      "faculty": "KRITI ARYA"
+    },
+    {
+      "slot": "C1+TC1+TCC1",
+      "venue": "AB3-505",
+      "faculty": "JAYAGOPAL R"
+    },
+    {
+      "slot": "C1+TC1+TCC1",
+      "venue": "AB3-506",
+      "faculty": "JAGANATHAN B"
+    },
+    {
+      "slot": "C1+TC1+TCC1",
+      "venue": "AB2-407",
+      "faculty": "PROSENJIT"
+    },
+    {
+      "slot": "C2+TC2+TCC2",
+      "venue": "AB3-406",
+      "faculty": "BERIN GREENI A"
+    },
+    {
+      "slot": "C2+TC2+TCC2",
+      "venue": "AB3-405",
+      "faculty": "PROSENJIT"
+    },
+    {
+      "slot": "C2+TC2+TCC2",
+      "venue": "AB3-408",
+      "faculty": "SAURABH CHANDRA MAURY"
+    },
+    {
+      "slot": "C2+TC2+TCC2",
+      "venue": "AB3-409",
+      "faculty": "ANKIT KUMAR"
+    },
+    {
+      "slot": "C2+TC2+TCC2",
+      "venue": "AB3-503",
+      "faculty": "SANDIP DALUI"
+    },
+    {
+      "slot": "C2+TC2+TCC2",
+      "venue": "AB3-505",
+      "faculty": "SAGITHYA"
+    },
+    {
+      "slot": "C2+TC2+TCC2",
+      "venue": "AB3-403",
+      "faculty": "KOMAL KUMAR"
+    },
+    {
+      "slot": "C2+TC2+TCC2",
+      "venue": "AB3-404",
+      "faculty": "MOHIT KUMAR"
+    }
+  ]
+},
+{
+  "course_code": "BCSE305L",
+  "course_title": "Embedded Systems",
+  "credits": 3,
+  "category": "DC",
+  "slots": [
+    {
+      "slot": "BCSE305L - Embedded Systems - Theory Only",
+      "venue": "3 0 0 0 3.0",
+      "faculty": "Theory Only"
+    },
+    {
+      "slot": "D2+TD2",
+      "venue": "AB3-403",
+      "faculty": "SHARON GIFTSY A L"
+    },
+    {
+      "slot": "D2+TD2",
+      "venue": "AB3-413",
+      "faculty": "MOHAMMED AARIF K O"
+    },
+    {
+      "slot": "D2+TD2",
+      "venue": "AB3-703",
+      "faculty": "BIBHUTI BHUSAN PRADHAN"
+    },
+    {
+      "slot": "D1+TD1",
+      "venue": "AB3-413",
+      "faculty": "MOHAMMED AARIF K O"
+    },
+    {
+      "slot": "D2+TD2",
+      "venue": "AB3-704",
+      "faculty": "MANIGANDAN M"
+    },
+    {
+      "slot": "D2+TD2",
+      "venue": "AB3-407",
+      "faculty": "DHANUSH R"
+    },
+    {
+      "slot": "D1+TD1",
+      "venue": "AB3-603",
+      "faculty": "SINDHUJA M"
+    },
+    {
+      "slot": "D1+TD1",
+      "venue": "AB3-606",
+      "faculty": "BIBHUTI BHUSAN PRADHAN"
+    },
+    {
+      "slot": "D2+TD2",
+      "venue": "AB3-406",
+      "faculty": "CHANTHINI BASKAR"
+    },
+    {
+      "slot": "D1+TD1",
+      "venue": "AB3-407",
+      "faculty": "CHANTHINI BASKAR"
+    },
+    {
+      "slot": "D1+TD1",
+      "venue": "AB3-408",
+      "faculty": "KARTHIKEYAN P R"
+    },
+    {
+      "slot": "D1+TD1",
+      "venue": "AB3-409",
+      "faculty": "KIRAN KUMAR M"
+    },
+    {
+      "slot": "D1+TD1",
+      "venue": "AB3-605",
+      "faculty": "SUHASINI S"
+    },
+    {
+      "slot": "D1+TD1",
+      "venue": "AB3-607",
+      "faculty": "MANIGANDAN M"
+    },
+    {
+      "slot": "D1+TD1",
+      "venue": "AB2-201",
+      "faculty": "REVATHI S"
+    },
+    {
+      "slot": "D1+TD1",
+      "venue": "AB2-202",
+      "faculty": "SRITAMA ROY"
+    },
+    {
+      "slot": "D1+TD1",
+      "venue": "AB2-203",
+      "faculty": "ABHIJIT MISHRA"
+    },
+    {
+      "slot": "D2+TD2",
+      "venue": "AB3-404",
+      "faculty": "BALAKRISHNAN R"
+    },
+    {
+      "slot": "D2+TD2",
+      "venue": "AB3-408",
+      "faculty": "KARTHIKEYAN P R"
+    },
+    {
+      "slot": "D2+TD2",
+      "venue": "AB3-409",
+      "faculty": "KIRAN KUMAR M"
+    },
+    {
+      "slot": "D2+TD2",
+      "venue": "AB3-507",
+      "faculty": "SINDHUJA M"
+    },
+    {
+      "slot": "D2+TD2",
+      "venue": "AB3-613",
+      "faculty": "SUHASINI S"
+    },
+    {
+      "slot": "D2+TD2",
+      "venue": "AB3-705",
+      "faculty": "REVATHI S"
+    }
+  ]
+},
+{
+  "course_code": "BCSE316L",
+  "course_title": "Design of Smart Cities",
+  "credits": 3,
+  "category": "DE",
+  "slots": [
+    {
+      "slot": "BCSE316L - Design of Smart Cities - Theory Only",
+      "venue": "3 0 0 0 3.0",
+      "faculty": "Theory Only"
+    },
+    {
+      "slot": "F1+TF1",
+      "venue": "AB3-409",
+      "faculty": "SUSEELA S"
+    },
+    {
+      "slot": "F2+TF2",
+      "venue": "AB3-413",
+      "faculty": "VALLIDEVI K"
+    },
+    {
+      "slot": "F2+TF2",
+      "venue": "AB3-503",
+      "faculty": "SUSEELA S"
+    }
+  ]
+},
+{
+  "course_code": "BCSE334L",
+  "course_title": "Predictive Analytics",
+  "credits": 3,
+  "category": "DE",
+  "slots": [
+    {
+      "slot": "BCSE334L - Predictive Analytics - Theory Only",
+      "venue": "3 0 0 0 3.0",
+      "faculty": "Theory Only"
+    },
+    {
+      "slot": "B1+TB1",
+      "venue": "MAB3-202",
+      "faculty": "A. NAYEEMULLA KHAN"
+    },
+    {
+      "slot": "B2+TB2",
+      "venue": "MAB3-202",
+      "faculty": "DHANALAKSHMI R"
+    },
+    {
+      "slot": "B2+TB2",
+      "venue": "MAB3-203",
+      "faculty": "TAMILARASI K"
+    },
+    {
+      "slot": "B1+TB1",
+      "venue": "MAB3-203",
+      "faculty": "PATTABIRAMAN V"
+    }
+  ]
+},
+{
+  "course_code": "BCSE335L",
+  "course_title": "Healthcare Data Analytics",
+  "credits": 3,
+  "category": "DE",
+  "slots": [
+    {
+      "slot": "BCSE335L - Healthcare Data Analytics - Theory Only",
+      "venue": "3 0 0 0 3.0",
+      "faculty": "Theory Only"
+    },
+    {
+      "slot": "B2+TB2",
+      "venue": "MAB3-303",
+      "faculty": "VISWANATHAN V"
+    },
+    {
+      "slot": "B1+TB1",
+      "venue": "MAB3-301",
+      "faculty": "PUNITHA K"
+    },
+    {
+      "slot": "B1+TB1",
+      "venue": "MAB3-302",
+      "faculty": "ASWIGA"
+    },
+    {
+      "slot": "B2+TB2",
+      "venue": "MAB3-302",
+      "faculty": "PUNITHA K"
+    }
+  ]
+},
+{
+  "course_code": "BCSE406L",
+  "course_title": "NoSQL Databases",
+  "credits": 3,
+  "category": "DE",
+  "slots": [
+    {
+      "slot": "BCSE406L - NoSQL Databases - Theory Only",
+      "venue": "3 0 0 0 3.0",
+      "faculty": "Theory Only"
+    },
+    {
+      "slot": "D2+TD2",
+      "venue": "MAB3-302",
+      "faculty": "SELLAM V"
+    },
+    {
+      "slot": "D2+TD2",
+      "venue": "MAB3-301",
+      "faculty": "GEETHA S"
+    },
+    {
+      "slot": "D1+TD1",
+      "venue": "MAB3-302",
+      "faculty": "MANJULA V"
+    }
+  ]
+},
+{
+  "course_code": "BCSE408L",
+  "course_title": "Cloud Computing",
+  "credits": 3,
+  "category": "DE",
+  "slots": [
+    {
+      "slot": "BCSE408L - Cloud Computing - Theory Only",
+      "venue": "3 0 0 0 3.0",
+      "faculty": "Theory Only"
+    },
+    {
+      "slot": "D1+TD1",
+      "venue": "MAB3-202",
+      "faculty": "RAJKUMAR R"
+    },
+    {
+      "slot": "D2+TD2",
+      "venue": "MAB3-201",
+      "faculty": "INDRA PRIYADHARSHINI"
+    },
+    {
+      "slot": "D1+TD1",
+      "venue": "MAB3-201",
+      "faculty": "DINAKARAN M"
+    }
+  ]
+},
+{
+  "course_code": "BCSE409L",
+  "course_title": "Natural Language Processing",
+  "credits": 3,
+  "category": "DE",
+  "slots": [
+    {
+      "slot": "BCSE409L - Natural Language Processing - Theory Only",
+      "venue": "3 0 0 0 3.0",
+      "faculty": "Theory Only"
+    },
+    {
+      "slot": "F1+TF1",
+      "venue": "AB3-504",
+      "faculty": "KRITHIGA R"
+    },
+    {
+      "slot": "F2+TF2",
+      "venue": "AB3-504",
+      "faculty": "VIJAYAPRABAKARAN K"
+    },
+    {
+      "slot": "F2+TF2",
+      "venue": "AB3-505",
+      "faculty": "JANAKI MEENA M"
+    }
+  ]
+},
+{
+  "course_code": "BCSE410L",
+  "course_title": "Cyber Security",
+  "credits": 3,
+  "category": "DE",
+  "slots": [
+    {
+      "slot": "BCSE410L - Cyber Security - Theory Only",
+      "venue": "3 0 0 0 3.0",
+      "faculty": "Theory Only"
+    },
+    {
+      "slot": "F1+TF1",
+      "venue": "AB3-407",
+      "faculty": "JAYASUDHA M"
+    },
+    {
+      "slot": "F1+TF1",
+      "venue": "AB3-408",
+      "faculty": "VIJAYAKUMAR K P"
+    },
+    {
+      "slot": "F2+TF2",
+      "venue": "AB3-506",
+      "faculty": "SUBBULAKSHMI T"
+    }
+  ]
+},
+{
+  "course_code": "BCSE415L",
+  "course_title": "Human Computer Interaction",
+  "credits": 3,
+  "category": "DE",
+  "slots": [
+    {
+      "slot": "BCSE415L - Human Computer Interaction - Theory Only",
+      "venue": "3 0 0 0 3.0",
+      "faculty": "Theory Only"
+    },
+    {
+      "slot": "D1+TD1",
+      "venue": "MAB3-203",
+      "faculty": "ANITA CHRISTALINE J"
+    },
+    {
+      "slot": "D1+TD1",
+      "venue": "MAB3-301",
+      "faculty": "KABILAN K"
+    },
+    {
+      "slot": "D2+TD2",
+      "venue": "MAB3-202",
+      "faculty": "ANITA CHRISTALINE J"
+    },
+    {
+      "slot": "D2+TD2",
+      "venue": "MAB3-203",
+      "faculty": "PREMANAND V"
+    }
+  ]
+},
+{
+  "course_code": "BBIT415L",
+  "course_title": "Food, Nutrition and Health",
+  "credits": 3,
+  "category": "OE",
+  "slots": [
+    {
+      "slot": "BBIT415L - Food, Nutrition and Health - Theory Only",
+      "venue": "3 0 0 0 3.0",
+      "faculty": "Theory Only"
+    },
+    {
+      "slot": "F1+TF1",
+      "venue": "AB3-303",
+      "faculty": "YASHAVANTH P R"
+    },
+    {
+      "slot": "G2+TG2",
+      "venue": "AB3-304",
+      "faculty": "YASHAVANTH P R"
+    },
+    {
+      "slot": "G1+TG1",
+      "venue": "AB3-304",
+      "faculty": "YASHAVANTH P R"
+    }
+  ]
+},
+{
+  "course_code": "BHUM215L",
+  "course_title": "International Relations",
+  "credits": 3,
+  "category": "OE",
+  "slots": [
+    {
+      "slot": "BHUM215L - International Relations - Theory Only",
+      "venue": "3 0 0 0 3.0",
+      "faculty": "Theory Only"
+    },
+    {
+      "slot": "F1+TF1",
+      "venue": "AB3-503",
+      "faculty": "JUSTIN JOSEPH"
+    }
+  ]
+},
+{
+  "course_code": "BSSC102N",
+  "course_title": "Indian Constitution",
+  "credits": 3,
+  "category": "NGCR",
+  "slots": [
+    {
+      "slot": "BSSC102N - Indian Constitution - Online Course",
+      "venue": "0 0 0 0 2.0",
+      "faculty": "Online Course"
+    },
+    {
+      "slot": "NIL",
+      "venue": "NIL",
+      "faculty": "JAYA PRIYA S"
+    }
+  ]
+},
+{
+  "course_code": "BCSE301L",
+  "course_title": "Software Engineering",
+  "credits": 3,
+  "category": "DC",
+  "slots": [
+    {
+      "slot": "BCSE301L - Software Engineering - Theory Only\nBCSE301P - Software Engineering Lab - Lab Only",
+      "venue": "3 0 0 0 3.0\n0 0 2 0 1.0",
+      "faculty": "Theory Only / Lab Only"
+    },
+    {
+      "slot": "B2+TB2",
+      "venue": "AB3-407",
+      "faculty": "PARKAVI K"
+    },
+    {
+      "slot": "B1+TB1",
+      "venue": "AB3-405",
+      "faculty": "KAVITHA"
+    },
+    {
+      "slot": "B1+TB1",
+      "venue": "AB3-406",
+      "faculty": "A. K ILAVARASI"
+    },
+    {
+      "slot": "B1+TB1",
+      "venue": "AB3-407",
+      "faculty": "ILAKIYASELVAN N"
+    },
+    {
+      "slot": "B1+TB1",
+      "venue": "AB3-408",
+      "faculty": "PARKAVI K"
+    },
+    {
+      "slot": "B1+TB1",
+      "venue": "AB3-409",
+      "faculty": "SUGANESHWARI"
+    },
+    {
+      "slot": "B1+TB1",
+      "venue": "AB3-413",
+      "faculty": "REVATHI M"
+    },
+    {
+      "slot": "B2+TB2",
+      "venue": "AB3-403",
+      "faculty": "KAVITHA"
+    },
+    {
+      "slot": "B2+TB2",
+      "venue": "AB3-404",
+      "faculty": "ILAKIYASELVAN N"
+    },
+    {
+      "slot": "B2+TB2",
+      "venue": "AB3-405",
+      "faculty": "REVATHI M"
+    },
+    {
+      "slot": "B2+TB2",
+      "venue": "AB3-406",
+      "faculty": "A. K ILAVARASI"
+    },
+    {
+      "slot": "B2+TB2",
+      "venue": "AB3-408",
+      "faculty": "SUGANESHWARI"
+    },
+    {
+      "slot": "L25+L26",
+      "venue": "AB1-311",
+      "faculty": "PARKAVI K"
+    },
+    {
+      "slot": "L15+L16",
+      "venue": "AB3-202",
+      "faculty": "SUGANESHWARI"
+    },
+    {
+      "slot": "L29+L30",
+      "venue": "AB1-313",
+      "faculty": "KAVITHA"
+    },
+    {
+      "slot": "L45+L46",
+      "venue": "AB1-210",
+      "faculty": "ILAKIYASELVAN N"
+    },
+    {
+      "slot": "L13+L14",
+      "venue": "AB1-307",
+      "faculty": "A. K ILAVARASI"
+    },
+    {
+      "slot": "L15+L16",
+      "venue": "AB1-605B",
+      "faculty": "ILAKIYASELVAN N"
+    },
+    {
+      "slot": "L25+L26",
+      "venue": "AB1-605A",
+      "faculty": "KAVITHA"
+    },
+    {
+      "slot": "L25+L26",
+      "venue": "AB3-612",
+      "faculty": "REVATHI M"
+    },
+    {
+      "slot": "L29+L30",
+      "venue": "AB3-202",
+      "faculty": "REVATHI M"
+    },
+    {
+      "slot": "L31+L32",
+      "venue": "AB1-313",
+      "faculty": "A. K ILAVARASI"
+    },
+    {
+      "slot": "L45+L46",
+      "venue": "AB1-311",
+      "faculty": "PARKAVI K"
+    },
+    {
+      "slot": "L45+L46",
+      "venue": "AB1-307",
+      "faculty": "SUGANESHWARI"
+    }
+  ]
+},
+{
+  "course_code": "BCSE302L",
+  "course_title": "Database Systems",
+  "credits": 3,
+  "category": "DC",
+  "slots": [
+    {
+      "slot": "BCSE302L - Database Systems - Theory Only\nBCSE302P - Database Systems Lab - Lab Only",
+      "venue": "3 0 0 0 3.0\n0 0 2 0 1.0",
+      "faculty": "Theory Only / Lab Only"
+    },
+    {
+      "slot": "A2+TA2",
+      "venue": "AB3-504",
+      "faculty": "PARVATHY A K"
+    },
+    {
+      "slot": "A2+TA2",
+      "venue": "AB3-305",
+      "faculty": "SIVARANJANI N"
+    },
+    {
+      "slot": "A1+TA1",
+      "venue": "AB3-507",
+      "faculty": "SIVARANJANI N"
+    },
+    {
+      "slot": "A2+TA2",
+      "venue": "AB3-409",
+      "faculty": "ROLLA SUBRAHMANYAM"
+    },
+    {
+      "slot": "A2+TA2",
+      "venue": "AB3-413",
+      "faculty": "SANKAR P"
+    },
+    {
+      "slot": "A2+TA2",
+      "venue": "AB3-506",
+      "faculty": "GAYATHRI DEVI S"
+    },
+    {
+      "slot": "A1+TA1",
+      "venue": "AB3-503",
+      "faculty": "ROLLA SUBRAHMANYAM"
+    },
+    {
+      "slot": "A1+TA1",
+      "venue": "AB3-504",
+      "faculty": "SANKAR P"
+    },
+    {
+      "slot": "A1+TA1",
+      "venue": "AB3-505",
+      "faculty": "HELEN VIJITHA P"
+    },
+    {
+      "slot": "A1+TA1",
+      "venue": "AB3-506",
+      "faculty": "PARVATHY A K"
+    },
+    {
+      "slot": "A2+TA2",
+      "venue": "AB3-503",
+      "faculty": "HELEN VIJITHA P"
+    },
+    {
+      "slot": "L7+L8",
+      "venue": "AB1-307",
+      "faculty": "PARVATHY A K"
+    },
+    {
+      "slot": "L3+L4",
+      "venue": "AB3-311",
+      "faculty": "SIVARANJANI N"
+    },
+    {
+      "slot": "L39+L40",
+      "venue": "AB1-307",
+      "faculty": "SIVARANJANI N"
+    },
+    {
+      "slot": "L19+L20",
+      "venue": "AB1-605B",
+      "faculty": "ROLLA SUBRAHMANYAM"
+    },
+    {
+      "slot": "L19+L20",
+      "venue": "AB1-506A",
+      "faculty": "SANKAR P"
+    },
+    {
+      "slot": "L3+L4",
+      "venue": "AB1-313",
+      "faculty": "GAYATHRI DEVI S"
+    },
+    {
+      "slot": "L7+L8",
+      "venue": "AB1-209",
+      "faculty": "HELEN VIJITHA P"
+    },
+    {
+      "slot": "L11+L12",
+      "venue": "AB1-209",
+      "faculty": "ROLLA SUBRAHMANYAM"
+    },
+    {
+      "slot": "L11+L12",
+      "venue": "AB3-311",
+      "faculty": "HELEN VIJITHA P"
+    },
+    {
+      "slot": "L11+L12",
+      "venue": "AB1-605B",
+      "faculty": "SANKAR P"
+    },
+    {
+      "slot": "L11+L12",
+      "venue": "AB3-602",
+      "faculty": "PARVATHY A K"
+    }
+  ]
+},
+{
+  "course_code": "BCSE307L",
+  "course_title": "Compiler Design",
+  "credits": 3,
+  "category": "DC",
+  "slots": [
+    {
+      "slot": "BCSE307L - Compiler Design - Theory Only\nBCSE307P - Compiler Design Lab - Lab Only",
+      "venue": "3 0 0 0 3.0\n0 0 2 0 1.0",
+      "faculty": "Theory Only / Lab Only"
+    },
+    {
+      "slot": "B2+TB2",
+      "venue": "AB3-409",
+      "faculty": "RATHNA"
+    },
+    {
+      "slot": "B2+TB2",
+      "venue": "AB3-505",
+      "faculty": "INDIRA B"
+    },
+    {
+      "slot": "B1+TB1",
+      "venue": "AB3-504",
+      "faculty": "ARAVINDKUMAR S"
+    },
+    {
+      "slot": "B2+TB2",
+      "venue": "AB3-503",
+      "faculty": "RAJA M"
+    },
+    {
+      "slot": "B2+TB2",
+      "venue": "AB3-507",
+      "faculty": "DEEPIKA R"
+    },
+    {
+      "slot": "B1+TB1",
+      "venue": "AB3-503",
+      "faculty": "RATHNA"
+    },
+    {
+      "slot": "B1+TB1",
+      "venue": "AB3-505",
+      "faculty": "RAJA M"
+    },
+    {
+      "slot": "B1+TB1",
+      "venue": "AB3-506",
+      "faculty": "INDIRA B"
+    },
+    {
+      "slot": "B1+TB1",
+      "venue": "AB3-507",
+      "faculty": "PANKAJA LAKSHMI P"
+    },
+    {
+      "slot": "B2+TB2",
+      "venue": "AB3-413",
+      "faculty": "ARAVINDKUMAR S"
+    },
+    {
+      "slot": "B2+TB2",
+      "venue": "AB3-506",
+      "faculty": "MANAS RANJAN PRUSTY"
+    },
+    {
+      "slot": "L25+L26",
+      "venue": "AB1-307",
+      "faculty": "INDIRA B"
+    },
+    {
+      "slot": "L25+L26",
+      "venue": "AB1-210",
+      "faculty": "RATHNA"
+    },
+    {
+      "slot": "L15+L16",
+      "venue": "AB1-605A",
+      "faculty": "RAJA M"
+    },
+    {
+      "slot": "L45+L46",
+      "venue": "AB1-313",
+      "faculty": "ARAVINDKUMAR S"
+    },
+    {
+      "slot": "L27+L28",
+      "venue": "AB3-202",
+      "faculty": "MANAS RANJAN PRUSTY"
+    },
+    {
+      "slot": "L15+L16",
+      "venue": "AB1-506A",
+      "faculty": "ARAVINDKUMAR S"
+    },
+    {
+      "slot": "L27+L28",
+      "venue": "AB3-302",
+      "faculty": "DEEPIKA R"
+    },
+    {
+      "slot": "L29+L30",
+      "venue": "AB3-302",
+      "faculty": "RATHNA"
+    },
+    {
+      "slot": "L29+L30",
+      "venue": "AB3 - 402",
+      "faculty": "INDIRA B"
+    },
+    {
+      "slot": "L43+L44",
+      "venue": "AB1-313",
+      "faculty": "PANKAJA LAKSHMI P"
+    },
+    {
+      "slot": "L45+L46",
+      "venue": "AB1-506A",
+      "faculty": "RAJA M"
+    }
+  ]
+}
 ]
