@@ -164,46 +164,69 @@ function transformCourseData(rawCourses) {
         const category = raw.category || "";
         const slots = raw.slots || [];
         
-        // Determine course type based on category or title
-        let courseType = "Theory";
-        const titleLower = courseTitle.toLowerCase();
-        const catLower = category.toLowerCase();
-        if (catLower.includes("lab") || titleLower.includes("lab")) {
-            courseType = "Lab";
-        } else if (catLower.includes("project") || titleLower.includes("project")) {
-            courseType = "Project";
-        }
-        
-        // If no slots defined, create a placeholder
-        if (slots.length === 0) {
-            transformed.push({
-                code: courseCode,
-                title: courseTitle,
-                credits: credits,
-                category: category,
-                slot: "",
-                faculty: "TBA",
-                venue: "TBA",
-                type: courseType,
-            });
-            continue;
-        }
-        
-        // Create one entry per slot option
         for (const slotOption of slots) {
             const slotStr = slotOption.slot || "";
+            const slotStrLower = slotStr.toLowerCase();
+            const venueStr = slotOption.venue || "";
+            const facultyStr = slotOption.faculty || "";
+            
+            // Skip metadata/header slots
+            if (slotStrLower.includes("theory only") || 
+                slotStrLower.includes("lab only") || 
+                slotStrLower.includes("online course") ||
+                facultyStr.toLowerCase().includes("theory only") ||
+                facultyStr.toLowerCase().includes("lab only") ||
+                facultyStr.toLowerCase().includes("online course")) {
+                continue;
+            }
+            
+            if (/^\d+\s+\d+\s+\d+\s+\d+\s+\d+(\.\d+)?$/.test(venueStr.trim()) || 
+                /^\d+\s+\d+\s+\d+\s+\d+\s+\d+(\.\d+)?\n/.test(venueStr.trim()) || 
+                /^\d+\s+\d+\s+\d+\s+\d+\s+\d+(\.\d+)?\r?\n/.test(venueStr.trim())) {
+                continue;
+            }
+            
             const faculty = slotOption.faculty || "TBA";
             const venue = slotOption.venue || "TBA";
             
+            // Check if slot name indicates it is a Lab slot (starts with L, e.g., L25+L26)
+            const slotsList = slotStr.split("+").map(s => s.trim().toUpperCase());
+            const isLabSlot = slotsList.length > 0 && slotsList.every(s => s.startsWith("L") && s !== "LUNCH");
+            
+            let finalCode = courseCode;
+            let finalTitle = courseTitle;
+            let finalType = "Theory";
+            let finalCredits = credits;
+            
+            if (isLabSlot) {
+                // If it is a lab slot, transform code to end with P if it currently ends with L
+                if (courseCode.endsWith("L")) {
+                    finalCode = courseCode.slice(0, -1) + "P";
+                }
+                finalTitle = courseTitle.toLowerCase().includes("lab") ? courseTitle : courseTitle + " Lab";
+                finalType = "Lab";
+                // Labs are typically 1 credit if the parent is a mixed course
+                if (courseCode.endsWith("L")) {
+                    finalCredits = 1;
+                }
+            } else {
+                // For non-lab slots
+                if (category.toLowerCase().includes("project") || courseTitle.toLowerCase().includes("project")) {
+                    finalType = "Project";
+                } else {
+                    finalType = "Theory";
+                }
+            }
+            
             transformed.push({
-                code: courseCode,
-                title: courseTitle,
-                credits: credits,
+                code: finalCode,
+                title: finalTitle,
+                credits: finalCredits,
                 category: category,
                 slot: slotStr,
                 faculty: faculty,
                 venue: venue,
-                type: courseType,
+                type: finalType,
             });
         }
     }
@@ -240,7 +263,7 @@ function parseSlots(slotString) {
 }
 
 function getUnknownSlots(slotString) {
-    return parseSlots(slotString).filter((slot) => !SLOT_MAP[slot]);
+    return parseSlots(slotString).filter((slot) => slot !== "NIL" && !SLOT_MAP[slot]);
 }
 
 function getSlotTimings(slotString) {
