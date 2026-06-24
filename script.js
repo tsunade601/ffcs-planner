@@ -171,18 +171,11 @@ function transformCourseData(rawCourses) {
             const facultyStr = slotOption.faculty || "";
             
             // Skip metadata/header slots
-            if (slotStrLower.includes("theory only") || 
-                slotStrLower.includes("lab only") || 
-                slotStrLower.includes("online course") ||
-                facultyStr.toLowerCase().includes("theory only") ||
-                facultyStr.toLowerCase().includes("lab only") ||
-                facultyStr.toLowerCase().includes("online course")) {
+            if (SKIP_KEYWORDS.some(kw => slotStrLower.includes(kw) || facultyStr.toLowerCase().includes(kw))) {
                 continue;
             }
             
-            if (/^\d+\s+\d+\s+\d+\s+\d+\s+\d+(\.\d+)?$/.test(venueStr.trim()) || 
-                /^\d+\s+\d+\s+\d+\s+\d+\s+\d+(\.\d+)?\n/.test(venueStr.trim()) || 
-                /^\d+\s+\d+\s+\d+\s+\d+\s+\d+(\.\d+)?\r?\n/.test(venueStr.trim())) {
+            if (VENUE_NOISE_RE.test(venueStr.trim())) {
                 continue;
             }
             
@@ -190,7 +183,7 @@ function transformCourseData(rawCourses) {
             const venue = slotOption.venue || "TBA";
             
             // Check if slot name indicates it is a Lab slot (starts with L, e.g., L25+L26)
-            const slotsList = slotStr.split("+").map(s => s.trim().toUpperCase());
+            const slotsList = parseSlots(slotStr);
             const isLabSlot = slotsList.length > 0 && slotsList.every(s => s.startsWith("L") && s !== "LUNCH");
             
             let finalCode = courseCode;
@@ -255,6 +248,42 @@ function escapeHTML(value = "") {
     }[char]));
 }
 
+function nlToBr(text) {
+    return text.replace(/\n/g, '<br>');
+}
+
+function getCourseType(course) {
+    return String(course.type || "").toLowerCase();
+}
+
+function courseDisplay(course) {
+    return {
+        code: course.code || "",
+        title: course.title || "Untitled",
+        faculty: course.faculty || "TBA",
+        slot: course.slot || "N/A",
+        credits: course.credits || 0,
+        venue: course.venue || "TBA",
+    };
+}
+
+function renderEmptyState(icon, message, hint, extraClass = "") {
+    const cls = extraClass ? `empty-state ${extraClass}` : "empty-state";
+    return `
+        <div class="${cls}">
+            <i class="fas fa-${escapeHTML(icon)}"></i>
+            <p>${escapeHTML(message)}</p>
+            <span>${escapeHTML(hint)}</span>
+        </div>`;
+}
+
+function dismissAllToasts() {
+    document.querySelectorAll(".toast-notification").forEach((toast) => toast.remove());
+}
+
+const VENUE_NOISE_RE = /^\d+\s+\d+\s+\d+\s+\d+\s+\d+(\.\d+)?\s*$/m;
+const SKIP_KEYWORDS = ["theory only", "lab only", "online course"];
+
 function parseSlots(slotString) {
     return String(slotString || "")
         .split("+")
@@ -290,8 +319,7 @@ function getFilteredCourses() {
     const filtered = allCourses.filter((course) => {
         const searchText = `${course.code} ${course.title || ""} ${course.faculty || ""} ${course.slot || ""} ${course.type || ""}`.toLowerCase();
         const matchesSearch = !term || searchText.includes(term);
-        const type = String(course.type || "").toLowerCase();
-        const matchesType = currentTypeFilter === "all" || type.includes(currentTypeFilter.toLowerCase());
+        const matchesType = currentTypeFilter === "all" || getCourseType(course).includes(currentTypeFilter.toLowerCase());
         return matchesSearch && matchesType;
     });
 
@@ -304,21 +332,41 @@ function getFilteredCourses() {
 }
 
 async function loadCourses() {
+    const courseListEl = document.getElementById("courseList");
+    if (!courseListEl) {
+        console.error("courseList element not found in DOM.");
+        return;
+    }
+
     try {
         const response = await fetch("data/data.json");
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const rawData = await response.json();
-        // Transform the raw data from data.json format to flat course entries
-        allCourses = Array.isArray(rawData) ? transformCourseData(rawData) : transformCourseData(rawData.courses || []);
+        if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+
+        let rawData;
+        try {
+            rawData = await response.json();
+        } catch (parseError) {
+            throw new Error("Course data is not valid JSON: " + parseError.message);
+        }
+
+        const courseArray = Array.isArray(rawData) ? rawData : (rawData && Array.isArray(rawData.courses) ? rawData.courses : null);
+        if (!courseArray) {
+            throw new Error("Unexpected data format: expected an array or an object with a \"courses\" array.");
+        }
+
+        allCourses = transformCourseData(courseArray);
+        if (!allCourses.length && courseArray.length) {
+            console.warn("Course data was loaded but produced no valid entries after transformation.");
+        }
         renderCourseList();
     } catch (error) {
         console.error("Failed to load courses:", error);
-        document.getElementById("courseList").innerHTML = `
-            <div class="empty-state">
-                <i class="fas fa-triangle-exclamation"></i>
-                <p>Failed to load courses.</p>
-                <span>Run this through a local server so the data file can be fetched.</span>
-            </div>`;
+        const detail = error.message || "Unknown error";
+        courseListEl.innerHTML = renderEmptyState(
+            "triangle-exclamation",
+            "Failed to load courses.",
+            escapeHTML(detail) + "<br>Make sure you are running this through a local server."
+        );
     }
 }
 
@@ -357,12 +405,11 @@ function renderCourseList() {
     document.getElementById("courseCount").textContent = `${filtered.length} courses`;
 
     if (!filtered.length) {
-        container.innerHTML = `
-            <div class="empty-state">
-                <i class="fas fa-magnifying-glass"></i>
-                <p>No matching courses found.</p>
-                <span>Try a code, faculty name, or slot like A1.</span>
-            </div>`;
+        container.innerHTML = renderEmptyState(
+            "magnifying-glass",
+            "No matching courses found.",
+            "Try a code, faculty name, or slot like A1."
+        );
         return;
     }
 
@@ -381,14 +428,15 @@ function renderCourseList() {
             : conflict
                 ? `Conflicts with ${escapeHTML(conflict.course.code)}`
                 : "Add";
+        const d = courseDisplay(course);
 
         return `
             <button class="course-card ${statusClass}" onclick="addCourseById('${encodedCourseId}')" ${isAdded || sameCodeSelected ? "disabled" : ""}>
                 <span class="course-card-top">
-                    <span class="course-code">${escapeHTML(course.code)}</span>
-                    <span class="course-slot-label">${escapeHTML(course.slot || "N/A")}</span>
+                    <span class="course-code">${escapeHTML(d.code)}</span>
+                    <span class="course-slot-label">${escapeHTML(d.slot)}</span>
                 </span>
-                <span class="course-title">${escapeHTML(course.title || "Untitled")}</span>
+                <span class="course-title">${escapeHTML(d.title)}</span>
                 <span class="course-meta">
                     <span><i class="fas fa-user-tie"></i>${escapeHTML(course.faculty || "TBA")}</span>
                     <span><i class="fas fa-location-dot"></i>${escapeHTML(course.venue || "TBA")}</span>
@@ -403,7 +451,12 @@ function renderCourseList() {
 function addCourseById(encodedCourseId) {
     const courseId = decodeURIComponent(encodedCourseId);
     const course = allCourses.find((item) => getCourseId(item) === courseId);
-    if (course) addCourse(course);
+    if (!course) {
+        console.warn("Course not found for id:", courseId);
+        showToast("Course not found. The course list may have changed.", "warning");
+        return;
+    }
+    addCourse(course);
 }
 
 function checkConflict(course) {
@@ -447,6 +500,11 @@ function addCourse(course) {
 }
 
 function removeCourse(index) {
+    if (index < 0 || index >= selectedCourses.length) {
+        console.error("Invalid course index:", index);
+        showToast("Could not remove course: invalid selection.", "error");
+        return;
+    }
     const removed = selectedCourses.splice(index, 1)[0];
     selectedCourses.forEach((course, courseIndex) => {
         course.colorIndex = courseIndex;
@@ -479,12 +537,12 @@ function renderTimetable() {
     html += '<tr class="tt-header-row">';
     html += '<td class="tt-corner"><b>THEORY<br>HOURS</b></td>';
     THEORY_PERIODS.forEach(p => {
-        html += `<td class="tt-theory-header">${p.label.replace(/\n/g, '<br>')}</td>`;
+        html += `<td class="tt-theory-header">${nlToBr(p.label)}</td>`;
     });
     html += '<td class="tt-empty-header"></td>';
     html += '<td class="tt-lunch" rowspan="7"><b>L<br>U<br>N<br>C<br>H</b></td>';
     AFTERNOON_PERIODS.forEach(p => {
-        html += `<td class="tt-theory-header">${p.label.replace(/\n/g, '<br>')}</td>`;
+        html += `<td class="tt-theory-header">${nlToBr(p.label)}</td>`;
     });
     html += '<td class="tt-empty-header"></td>';
     html += '</tr>';
@@ -493,10 +551,10 @@ function renderTimetable() {
     html += '<tr class="tt-header-row">';
     html += '<td class="tt-corner"><b>LAB<br>HOURS</b></td>';
     LAB_AM_TIMES.forEach(t => {
-        html += `<td class="tt-lab-header">${t.replace(/\n/g, '<br>')}</td>`;
+        html += `<td class="tt-lab-header">${nlToBr(t)}</td>`;
     });
     LAB_PM_TIMES.forEach(t => {
-        html += `<td class="tt-lab-header">${t.replace(/\n/g, '<br>')}</td>`;
+        html += `<td class="tt-lab-header">${nlToBr(t)}</td>`;
     });
     html += '</tr>';
 
@@ -516,6 +574,7 @@ function renderTimetable() {
 
     // Fill in selected courses
     selectedCourses.forEach((course, courseIndex) => {
+        const d = courseDisplay(course);
         getSlotTimings(course.slot).forEach((timing) => {
             const cell = container.querySelector(`[data-cell="${timing.cell}"]`);
             if (!cell) return;
@@ -542,12 +601,12 @@ function focusSelectedCourse(index) {
 function renderSelectedCourses() {
     const container = document.getElementById("selectedCourses");
     if (!selectedCourses.length) {
-        container.innerHTML = `
-            <div class="empty-state compact-empty">
-                <i class="fas fa-calendar-plus"></i>
-                <p>No courses added yet.</p>
-                <span>Pick from the list above to build your timetable.</span>
-            </div>`;
+        container.innerHTML = renderEmptyState(
+            "calendar-plus",
+            "No courses added yet.",
+            "Pick from the list above to build your timetable.",
+            "compact-empty"
+        );
         return;
     }
 
@@ -555,20 +614,21 @@ function renderSelectedCourses() {
         const colorClass = getCourseColor(index);
         const timings = getSlotTimings(course.slot);
         const meetingText = timings.map(formatCourseTime).join(", ") || "No mapped timings";
+        const d = courseDisplay(course);
 
         return `
             <div class="selected-card" data-selected-index="${index}">
                 <div class="selected-accent bg-gradient-to-b ${colorClass}"></div>
                 <div class="selected-content">
                     <div class="selected-title-row">
-                        <span class="course-code">${escapeHTML(course.code)}</span>
-                        <span class="course-slot-label">${escapeHTML(course.slot || "N/A")}</span>
+                        <span class="course-code">${escapeHTML(d.code)}</span>
+                        <span class="course-slot-label">${escapeHTML(d.slot)}</span>
                     </div>
                     <div class="selected-title">${escapeHTML(course.title || "Untitled")}</div>
                     <div class="selected-meta">${escapeHTML(course.faculty || "TBA")} | ${escapeHTML(course.venue || "TBA")} | ${escapeHTML(course.credits || 0)} credits</div>
                     <div class="selected-time">${escapeHTML(meetingText)}</div>
                 </div>
-                <button class="icon-button danger" onclick="removeCourse(${index})" title="Remove ${escapeHTML(course.code)}">
+                <button class="icon-button danger" onclick="removeCourse(${index})" title="Remove ${escapeHTML(d.code)}">
                     <i class="fas fa-xmark"></i>
                 </button>
             </div>`;
@@ -578,8 +638,8 @@ function renderSelectedCourses() {
 function updateStats() {
     const totalCredits = selectedCourses.reduce((sum, course) => sum + (Number(course.credits) || 0), 0);
     const busyCells = selectedCourses.reduce((sum, course) => sum + getSlotTimings(course.slot).length, 0);
-    const labCount = selectedCourses.filter((course) => String(course.type || "").toLowerCase().includes("lab")).length;
-    const theoryCount = selectedCourses.filter((course) => String(course.type || "").toLowerCase().includes("theory")).length;
+    const labCount = selectedCourses.filter((course) => getCourseType(course).includes("lab")).length;
+    const theoryCount = selectedCourses.filter((course) => getCourseType(course).includes("theory")).length;
 
     document.getElementById("selectedCount").textContent = selectedCourses.length;
     document.getElementById("totalCredits").textContent = totalCredits;
@@ -591,17 +651,55 @@ function updateStats() {
 }
 
 function saveToLocal() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(selectedCourses));
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(selectedCourses));
+    } catch (error) {
+        console.error("Failed to save timetable to localStorage:", error);
+        showToast("Could not save your timetable. Storage may be full or unavailable.", "warning");
+    }
+}
+
+function isValidCourse(course) {
+    return (
+        typeof course === "object" &&
+        course !== null &&
+        typeof course.code === "string" &&
+        course.code.length <= 20 &&
+        typeof course.slot === "string" &&
+        course.slot.length <= 50 &&
+        (course.faculty === undefined || typeof course.faculty === "string") &&
+        (course.title === undefined || typeof course.title === "string") &&
+        (course.credits === undefined || typeof course.credits === "number") &&
+        (course.type === undefined || typeof course.type === "string")
+    );
 }
 
 function loadFromLocal() {
-    const saved = localStorage.getItem(STORAGE_KEY) || localStorage.getItem("ffcs_timetable_v2");
+    let saved;
+    try {
+        saved = localStorage.getItem(STORAGE_KEY) || localStorage.getItem("ffcs_timetable_v2");
+    } catch (error) {
+        console.error("Failed to read from localStorage:", error);
+        selectedCourses = [];
+        return;
+    }
     if (!saved) return;
 
     try {
-        selectedCourses = JSON.parse(saved).map((course, index) => ({ ...course, colorIndex: index }));
+        const parsed = JSON.parse(saved);
+        if (!Array.isArray(parsed)) {
+            throw new Error("Saved timetable data is not an array");
+        }
+        selectedCourses = parsed
+            .filter(isValidCourse)
+            .map((course, index) => ({ ...course, colorIndex: index }));
+        if (parsed.length !== selectedCourses.length) {
+            console.warn("Some saved courses were invalid and were skipped.");
+        }
     } catch (error) {
+        console.error("Saved timetable data is corrupt, resetting:", error);
         selectedCourses = [];
+        showToast("Saved timetable data was corrupt and has been reset.", "warning", 5000);
     }
 }
 
@@ -626,7 +724,18 @@ function clearTimetable() {
 }
 
 async function exportTimetable() {
+    if (typeof html2canvas !== "function") {
+        console.error("html2canvas library is not loaded.");
+        showToast("Export unavailable: the html2canvas library failed to load.", "error");
+        return;
+    }
+
     const timetableEl = document.getElementById("timetable");
+    if (!timetableEl) {
+        console.error("Timetable element not found in DOM.");
+        showToast("Export failed: timetable element not found.", "error");
+        return;
+    }
 
     try {
         const canvas = await html2canvas(timetableEl, {
@@ -643,7 +752,7 @@ async function exportTimetable() {
         showToast("Timetable exported as PNG.", "success");
     } catch (error) {
         console.error("Export failed:", error);
-        showToast("Export failed. Please try again.", "error");
+        showToast(`Export failed: ${error.message || "unknown error"}. Please try again.`, "error");
     }
 }
 
@@ -661,7 +770,7 @@ function showToast(message, type = "info", duration = 3000) {
         info: "circle-info",
     };
 
-    document.querySelectorAll(".toast-notification").forEach((toast) => toast.remove());
+    dismissAllToasts();
 
     const toast = document.createElement("div");
     toast.className = `toast-notification ${colors[type] || colors.info}`;
@@ -678,7 +787,7 @@ function showToast(message, type = "info", duration = 3000) {
 
 document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
-        document.querySelectorAll(".toast-notification").forEach((toast) => toast.remove());
+        dismissAllToasts();
     }
 
     if (event.ctrlKey && event.key.toLowerCase() === "f") {
@@ -688,9 +797,14 @@ document.addEventListener("keydown", (event) => {
 });
 
 window.addEventListener("DOMContentLoaded", () => {
-    loadFromLocal();
-    renderTimetable();
-    renderSelectedCourses();
-    updateStats();
+    try {
+        loadFromLocal();
+        syncUI();
+    } catch (error) {
+        console.error("Error during initialization:", error);
+        selectedCourses = [];
+        showToast("An error occurred while loading your saved data. Starting fresh.", "error", 5000);
+        syncUI();
+    }
     loadCourses();
 });
