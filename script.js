@@ -332,19 +332,40 @@ function getFilteredCourses() {
 }
 
 async function loadCourses() {
+    const courseListEl = document.getElementById("courseList");
+    if (!courseListEl) {
+        console.error("courseList element not found in DOM.");
+        return;
+    }
+
     try {
         const response = await fetch("data/data.json");
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const rawData = await response.json();
-        // Transform the raw data from data.json format to flat course entries
-        allCourses = Array.isArray(rawData) ? transformCourseData(rawData) : transformCourseData(rawData.courses || []);
+        if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+
+        let rawData;
+        try {
+            rawData = await response.json();
+        } catch (parseError) {
+            throw new Error("Course data is not valid JSON: " + parseError.message);
+        }
+
+        const courseArray = Array.isArray(rawData) ? rawData : (rawData && Array.isArray(rawData.courses) ? rawData.courses : null);
+        if (!courseArray) {
+            throw new Error("Unexpected data format: expected an array or an object with a \"courses\" array.");
+        }
+
+        allCourses = transformCourseData(courseArray);
+        if (!allCourses.length && courseArray.length) {
+            console.warn("Course data was loaded but produced no valid entries after transformation.");
+        }
         renderCourseList();
     } catch (error) {
         console.error("Failed to load courses:", error);
-        document.getElementById("courseList").innerHTML = renderEmptyState(
+        const detail = error.message || "Unknown error";
+        courseListEl.innerHTML = renderEmptyState(
             "triangle-exclamation",
             "Failed to load courses.",
-            "Run this through a local server so the data file can be fetched."
+            escapeHTML(detail) + "<br>Make sure you are running this through a local server."
         );
     }
 }
@@ -429,7 +450,12 @@ function renderCourseList() {
 function addCourseById(encodedCourseId) {
     const courseId = decodeURIComponent(encodedCourseId);
     const course = allCourses.find((item) => getCourseId(item) === courseId);
-    if (course) addCourse(course);
+    if (!course) {
+        console.warn("Course not found for id:", courseId);
+        showToast("Course not found. The course list may have changed.", "warning");
+        return;
+    }
+    addCourse(course);
 }
 
 function checkConflict(course) {
@@ -473,6 +499,11 @@ function addCourse(course) {
 }
 
 function removeCourse(index) {
+    if (index < 0 || index >= selectedCourses.length) {
+        console.error("Invalid course index:", index);
+        showToast("Could not remove course: invalid selection.", "error");
+        return;
+    }
     const removed = selectedCourses.splice(index, 1)[0];
     selectedCourses.forEach((course, courseIndex) => {
         course.colorIndex = courseIndex;
@@ -619,7 +650,12 @@ function updateStats() {
 }
 
 function saveToLocal() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(selectedCourses));
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(selectedCourses));
+    } catch (error) {
+        console.error("Failed to save timetable to localStorage:", error);
+        showToast("Could not save your timetable. Storage may be full or unavailable.", "warning");
+    }
 }
 
 function isValidCourse(course) {
@@ -638,20 +674,31 @@ function isValidCourse(course) {
 }
 
 function loadFromLocal() {
-    const saved = localStorage.getItem(STORAGE_KEY) || localStorage.getItem("ffcs_timetable_v2");
+    let saved;
+    try {
+        saved = localStorage.getItem(STORAGE_KEY) || localStorage.getItem("ffcs_timetable_v2");
+    } catch (error) {
+        console.error("Failed to read from localStorage:", error);
+        selectedCourses = [];
+        return;
+    }
     if (!saved) return;
 
     try {
         const parsed = JSON.parse(saved);
         if (!Array.isArray(parsed)) {
-            selectedCourses = [];
-            return;
+            throw new Error("Saved timetable data is not an array");
         }
         selectedCourses = parsed
             .filter(isValidCourse)
             .map((course, index) => ({ ...course, colorIndex: index }));
+        if (parsed.length !== selectedCourses.length) {
+            console.warn("Some saved courses were invalid and were skipped.");
+        }
     } catch (error) {
+        console.error("Saved timetable data is corrupt, resetting:", error);
         selectedCourses = [];
+        showToast("Saved timetable data was corrupt and has been reset.", "warning", 5000);
     }
 }
 
@@ -676,7 +723,18 @@ function clearTimetable() {
 }
 
 async function exportTimetable() {
+    if (typeof html2canvas !== "function") {
+        console.error("html2canvas library is not loaded.");
+        showToast("Export unavailable: the html2canvas library failed to load.", "error");
+        return;
+    }
+
     const timetableEl = document.getElementById("timetable");
+    if (!timetableEl) {
+        console.error("Timetable element not found in DOM.");
+        showToast("Export failed: timetable element not found.", "error");
+        return;
+    }
 
     try {
         const canvas = await html2canvas(timetableEl, {
@@ -693,7 +751,7 @@ async function exportTimetable() {
         showToast("Timetable exported as PNG.", "success");
     } catch (error) {
         console.error("Export failed:", error);
-        showToast("Export failed. Please try again.", "error");
+        showToast(`Export failed: ${error.message || "unknown error"}. Please try again.`, "error");
     }
 }
 
@@ -738,7 +796,14 @@ document.addEventListener("keydown", (event) => {
 });
 
 window.addEventListener("DOMContentLoaded", () => {
-    loadFromLocal();
-    syncUI();
+    try {
+        loadFromLocal();
+        syncUI();
+    } catch (error) {
+        console.error("Error during initialization:", error);
+        selectedCourses = [];
+        showToast("An error occurred while loading your saved data. Starting fresh.", "error", 5000);
+        syncUI();
+    }
     loadCourses();
 });
