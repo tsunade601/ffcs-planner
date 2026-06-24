@@ -593,12 +593,34 @@ function saveToLocal() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(selectedCourses));
 }
 
+function isValidCourse(course) {
+    return (
+        typeof course === "object" &&
+        course !== null &&
+        typeof course.code === "string" &&
+        course.code.length <= 20 &&
+        typeof course.slot === "string" &&
+        course.slot.length <= 50 &&
+        (course.faculty === undefined || typeof course.faculty === "string") &&
+        (course.title === undefined || typeof course.title === "string") &&
+        (course.credits === undefined || typeof course.credits === "number") &&
+        (course.type === undefined || typeof course.type === "string")
+    );
+}
+
 function loadFromLocal() {
     const saved = localStorage.getItem(STORAGE_KEY) || localStorage.getItem("ffcs_timetable_v2");
     if (!saved) return;
 
     try {
-        selectedCourses = JSON.parse(saved).map((course, index) => ({ ...course, colorIndex: index }));
+        const parsed = JSON.parse(saved);
+        if (!Array.isArray(parsed)) {
+            selectedCourses = [];
+            return;
+        }
+        selectedCourses = parsed
+            .filter(isValidCourse)
+            .map((course, index) => ({ ...course, colorIndex: index }));
     } catch (error) {
         selectedCourses = [];
     }
