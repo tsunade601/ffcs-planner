@@ -607,14 +607,16 @@ button {
 }
 
 .slot-name,
-.slot-faculty {
+.slot-faculty,
+.slot-venue {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     font-size: 0.66rem;
 }
 
-.slot-faculty {
+.slot-faculty,
+.slot-venue {
     opacity: 0.82;
 }
 

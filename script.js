@@ -391,6 +391,7 @@ function renderCourseList() {
                 <span class="course-title">${escapeHTML(course.title || "Untitled")}</span>
                 <span class="course-meta">
                     <span><i class="fas fa-user-tie"></i>${escapeHTML(course.faculty || "TBA")}</span>
+                    <span><i class="fas fa-location-dot"></i>${escapeHTML(course.venue || "TBA")}</span>
                     <span><i class="fas fa-award"></i>${escapeHTML(course.credits || 0)} cr</span>
                 </span>
                 ${unknownSlots.length ? `<span class="course-warning"><i class="fas fa-circle-exclamation"></i> Unmapped: ${escapeHTML(unknownSlots.join(", "))}</span>` : ""}
@@ -521,10 +522,10 @@ function renderTimetable() {
 
             const colorClass = getCourseColor(courseIndex);
             cell.innerHTML = `
-                <button class="course-slot bg-gradient-to-br ${colorClass}" onclick="focusSelectedCourse(${courseIndex})" title="${escapeHTML(course.title || "")} | ${escapeHTML(course.faculty || "TBA")} | ${escapeHTML(timing.slotName)}">
+                <button class="course-slot bg-gradient-to-br ${colorClass}" onclick="focusSelectedCourse(${courseIndex})" title="${escapeHTML(course.title || "")} | ${escapeHTML(course.faculty || "TBA")} | ${escapeHTML(course.venue || "TBA")} | ${escapeHTML(timing.slotName)}">
                     <span class="slot-code">${escapeHTML(course.code)}</span>
                     <span class="slot-name">${escapeHTML(timing.slotName)}</span>
-                    <span class="slot-faculty">${escapeHTML(course.faculty || "TBA")}</span>
+                    <span class="slot-venue">${escapeHTML(course.venue || "TBA")}</span>
                 </button>`;
         });
     });
@@ -564,7 +565,7 @@ function renderSelectedCourses() {
                         <span class="course-slot-label">${escapeHTML(course.slot || "N/A")}</span>
                     </div>
                     <div class="selected-title">${escapeHTML(course.title || "Untitled")}</div>
-                    <div class="selected-meta">${escapeHTML(course.faculty || "TBA")} | ${escapeHTML(course.credits || 0)} credits</div>
+                    <div class="selected-meta">${escapeHTML(course.faculty || "TBA")} | ${escapeHTML(course.venue || "TBA")} | ${escapeHTML(course.credits || 0)} credits</div>
                     <div class="selected-time">${escapeHTML(meetingText)}</div>
                 </div>
                 <button class="icon-button danger" onclick="removeCourse(${index})" title="Remove ${escapeHTML(course.code)}">
