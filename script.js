@@ -165,22 +165,21 @@ function transformCourseData(rawCourses) {
         const slots = raw.slots || [];
         
         for (const slotOption of slots) {
-            const slotStr = slotOption.slot || "";
+            const slotStr = String(slotOption.slot !== undefined ? slotOption.slot : "");
             const slotStrLower = slotStr.toLowerCase();
-            const venue = slotOption.room_number || slotOption.venue || "TBA";
+            const venue = String(slotOption.room_number !== undefined ? slotOption.room_number : (slotOption.venue !== undefined ? slotOption.venue : "TBA"));
             const venueStr = venue === "TBA" ? "" : venue;
-            const facultyStr = slotOption.faculty || "";
+            const faculty = String(slotOption.faculty !== undefined ? slotOption.faculty : "TBA");
+            const facultyStr = faculty.toLowerCase();
             
             // Skip metadata/header slots
-            if (SKIP_KEYWORDS.some(kw => slotStrLower.includes(kw) || facultyStr.toLowerCase().includes(kw))) {
+            if (SKIP_KEYWORDS.some(kw => slotStrLower.includes(kw) || facultyStr.includes(kw))) {
                 continue;
             }
             
             if (VENUE_NOISE_RE.test(venueStr.trim())) {
                 continue;
             }
-            
-            const faculty = slotOption.faculty || "TBA";
             
             // Check if slot name indicates it is a Lab slot (starts with L, e.g., L25+L26)
             const slotsList = parseSlots(slotStr);
@@ -235,7 +234,7 @@ function getCourseId(course) {
  * Check if any section of a course (by code) is already selected.
  */
 function isCourseCodeSelected(course) {
-    return selectedCourses.some((selected) => selected.code === course.code);
+    return selectedCourses.some((selected) => selected.code === course.code && selected.type === course.type);
 }
 
 function escapeHTML(value = "") {
