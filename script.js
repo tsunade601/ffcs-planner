@@ -167,7 +167,8 @@ function transformCourseData(rawCourses) {
         for (const slotOption of slots) {
             const slotStr = slotOption.slot || "";
             const slotStrLower = slotStr.toLowerCase();
-            const venueStr = slotOption.venue || "";
+            const venue = slotOption.room_number || slotOption.venue || "TBA";
+            const venueStr = venue === "TBA" ? "" : venue;
             const facultyStr = slotOption.faculty || "";
             
             // Skip metadata/header slots
@@ -180,7 +181,6 @@ function transformCourseData(rawCourses) {
             }
             
             const faculty = slotOption.faculty || "TBA";
-            const venue = slotOption.venue || "TBA";
             
             // Check if slot name indicates it is a Lab slot (starts with L, e.g., L25+L26)
             const slotsList = parseSlots(slotStr);
@@ -292,7 +292,7 @@ function parseSlots(slotString) {
 }
 
 function getUnknownSlots(slotString) {
-    return parseSlots(slotString).filter((slot) => slot !== "NIL" && !SLOT_MAP[slot]);
+    return parseSlots(slotString).filter((slot) => slot !== "NIL" && /\d/.test(slot) && !SLOT_MAP[slot]);
 }
 
 function getSlotTimings(slotString) {
@@ -317,7 +317,7 @@ function formatCourseTime(timing) {
 function getFilteredCourses() {
     const term = currentFilter.toLowerCase();
     const filtered = allCourses.filter((course) => {
-        const searchText = `${course.code} ${course.title || ""} ${course.faculty || ""} ${course.slot || ""} ${course.type || ""}`.toLowerCase();
+        const searchText = `${course.code} ${course.title || ""} ${course.faculty || ""} ${course.slot || ""} ${course.venue || ""} ${course.type || ""}`.toLowerCase();
         const matchesSearch = !term || searchText.includes(term);
         const matchesType = currentTypeFilter === "all" || getCourseType(course).includes(currentTypeFilter.toLowerCase());
         return matchesSearch && matchesType;
@@ -358,7 +358,16 @@ async function loadCourses() {
         if (!allCourses.length && courseArray.length) {
             console.warn("Course data was loaded but produced no valid entries after transformation.");
         }
-        renderCourseList();
+        // Sync selected courses with latest details from data.json
+        if (selectedCourses.length > 0) {
+            selectedCourses = selectedCourses.map((sel) => {
+                const fresh = allCourses.find((c) => c.code === sel.code && c.slot === sel.slot && c.faculty === sel.faculty);
+                return fresh ? { ...fresh, colorIndex: sel.colorIndex } : sel;
+            });
+            syncUI();
+        } else {
+            renderCourseList();
+        }
     } catch (error) {
         console.error("Failed to load courses:", error);
         const detail = error.message || "Unknown error";
